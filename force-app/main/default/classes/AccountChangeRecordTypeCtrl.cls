@@ -11,7 +11,7 @@
 public class AccountChangeRecordTypeCtrl {
 
     @testVisible
-    private static String ACCOUNT = 'Account';
+    private static String aCCOUNT = 'Account';
 
     @testVisible
     private static String RT_PERSON_AMBASSADOR = 'PersonAmbassador';
