@@ -1,0 +1,74 @@
+<apex:page standardController="TrainingAttendance__c" showHeader="false" sidebar="false" renderAs="PDF" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false"> 
+    <apex:stylesheet value="{!URLFOR($Resource.training, 'training.css')}" /> 
+        <table class="table">
+            <tr>
+                <th class="usHeader" width="80%">Certificate of Completion</th>
+                <th class="logoUS"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/sonnenlogo.png')}"/></th>
+            </tr>
+            <tr>
+                <td colspan="2" height="20px"></td>
+            </tr>
+        </table>
+        <table class="table">
+            <tr>
+                <th colspan="2" class="top">
+                    certification-ID: {!TrainingAttendance__c.Contact__r.TopMCertificationId__c}
+                </th>
+            </tr>
+            <tr>
+                <td colspan="2" height="30px"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="usNormal">
+                    This certifies that
+                </td> 
+            </tr>
+            <tr>
+                <td colspan="2" height="10px"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="usNormal">
+                    {!TrainingAttendance__c.Contact__r.FirstName} {!TrainingAttendance__c.Contact__r.LastName}
+                </td>
+            </tr>
+            <tr>
+                    <td colspan="2" height="10px"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="usNormal">
+                    has completed the
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="10px"></td>
+            </tr>
+            <tr>        
+                <td colspan="2" class="usBig">
+                    sonnenBatterie Installation Course
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="60px"></td>
+            </tr>
+            <tr>
+                <td class="usSigLeft">
+                    This course is worth<apex:outputText value=" {!FLOOR(TrainingAttendance__c.Training__r.NABCEPHours__c)}"/> NABCEP credits.     
+                </td>
+                <td class="usSigRight">
+                    Date of Training: <apex:outputText value=" {0,date,long}"><apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText><br/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="20px"></td>
+            </tr>
+            <tr>
+                <td class="usSigLeft">
+                    <apex:image width="35%" url="{!URLFOR($Resource.training, 'images/NABCEP.png')}"/>
+                </td>
+                <td class="usSigRight">
+                    <apex:image width="75%" url="{!URLFOR($Resource.training, 'images/signature_US.png')}"/>
+                </td>
+            </tr>          
+        </table>
+        <div class="footer"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/cert_US.png')}"/></div>  
+</apex:page>

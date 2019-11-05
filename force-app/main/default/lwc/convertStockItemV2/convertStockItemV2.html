@@ -1,0 +1,162 @@
+<!--
+ - Created by m.muchow on 11.06.2019.
+ -->
+
+<!-- New Test -->
+<template>
+    <lightning-card>
+        <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} onsubmit={handleSubmit} onsuccess={handleSuccess} onerror={handleError}>
+            <div class="slds-p-around_medium">
+                <div class="slds-grid slds-grid_vertical">
+                    <div class="slds-col">
+                        <template if:false={converted}>
+                            <template if:true={spinner}>
+                                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                            </template>
+                            <template if:true={hasJSON}>
+                                <div class="jsonText">
+                                    Stock Item was updated by Data from Commissioning Assistant! <br>
+                                    Please check all provided information.
+                                </div>
+                            </template>
+                            <template if:false={hasJSON}>
+                                <div class="jsonNoText">
+                                    No data from Commissioning Assistant! <br>
+                                    Please provide all needed information.
+                                </div>
+                            </template>
+                            <lightning-radio-group name="newOrChangeRadioGroup" label="New Asset or Change?" type="button" options={optionsInst} value={valueInst} onchange={handleRadioInst} class="newRadio"></lightning-radio-group>
+                            <template if:true={radioCheckInst}>
+                                <template if:true={radioCheckNew}>
+                                    <lightning-radio-group name="singleOrCascadingRadioGroup" label="Single or Cascading System?" type="button" options={optionsSys} value={valueSys} onchange={handleRadioSys} class="singleRadio"></lightning-radio-group>
+                                </template>
+                                <template if:false={radioCheckNew}>
+                                    <template if:true={hasJSON}>
+                                        <lightning-radio-group name="singleOrCascadingRadioGroup" label="Single or Cascading System?" type="button" options={optionsSys} value={valueSys} onchange={handleRadioSys} class="singleRadio"></lightning-radio-group>
+                                    </template>
+                                    <template if:false={hasJSON}>
+                                        <div class="jsonNoText">
+                                            No data from Commissioning Assistant! <br>
+                                            Change of Electric Unit is only with Data from Commissioning Assistant possible!
+                                        </div>
+                                    </template>
+                                </template>
+                                <template if:true={radioCheckSys}>
+                                    <template if:true={radioCheckSingle}>
+                                        <lightning-output-field field-name={serialNumber}></lightning-output-field>
+                                        <template if:true={changeOld}>
+                                            <lightning-input label="Serial Number of old Asset/Electric Unit" value={oldSerial} onblur={onBlurOldSerial} class="inputFormOld oldText" type="text" pattern="\d+"></lightning-input>
+                                        </template>
+                                        <lightning-input-field field-name={salutation} value={salutationInput} class="inputForm"></lightning-input-field>
+                                        <lightning-input-field field-name={firstName} value={firstNameInput} class="inputForm"></lightning-input-field>
+                                        <lightning-input-field field-name={lastName} value={lastNameInput} class="inputForm"></lightning-input-field>
+                                        <lightning-input-field field-name={email} value={emailInput} class="inputForm"></lightning-input-field>
+                                        <lightning-input-field field-name={phone} value={phoneInput} class="inputForm"></lightning-input-field>
+                                        <lightning-input-field field-name={street} value={streetInput} class="inputForm"></lightning-input-field>
+                                        <lightning-input-field field-name={postal} value={postalInput} class="inputForm"></lightning-input-field>
+                                        <lightning-input-field field-name={city} value={cityInput} class="inputForm"></lightning-input-field>
+                                        <lightning-input-field field-name={country} value={countryInput} class="inputForm"></lightning-input-field>
+                                        <template if:true={submitCheck}>
+                                            <div class="slaveText">
+                                                Please fill all fields!
+                                            </div>
+                                        </template>
+                                    </template>
+                                    <template if:false={radioCheckSingle}>
+                                        <lightning-radio-group name="masterOrSlaveRadioGroup" label="Is the current Stock Item the Master or Slave?" type="button" options={optionsType} value={valueType} onchange={handleRadioType}></lightning-radio-group>
+                                        <template if:true={radioCheckType}>
+                                            <template if:true={radioCheckMaster}>
+                                                <lightning-combobox name="amountOfSlaves" label="Amount of Slaves" placeholder="Select amount of Slaves" options={optionsSlaves} onchange={handleComboSlaves} value={comboValues}></lightning-combobox>
+                                                <template for:each={valueSlaves} for:item='slave'>
+                                                    <selSlave key={slave.id}>
+                                                        <lightning-input label={slave.label} key={slave.id} value={slave.value} class="inputSlave" type="text" pattern="\d+"></lightning-input>
+                                                    </selSlave>
+                                                </template>
+                                                <template if:true={nextBtnCheck}>
+                                                    <div class="slaveText">
+                                                        Please enter the Serialnumbers of all Slaves!
+                                                    </div>
+                                                </template>
+                                            </template>
+                                            <template if:false={radioCheckMaster}>
+                                                <template if:false={isChange}>
+                                                    <div class="jsonNoText">
+                                                        Conversion to Slave is not possible! <br>
+                                                        Please search and convert the Master!
+                                                    </div>
+                                                </template>
+                                            </template>
+                                        </template>
+                                        <template if:true={slaveCheck}>
+                                            <lightning-output-field field-name={serialNumber}></lightning-output-field>
+                                            <template if:true={slaveChange}>
+                                                Master Serial <br>
+                                                {masterSerial}
+                                            </template>
+                                            <template if:true={changeOld}>
+                                                <lightning-input label="Serial Number of old Asset/Electric Unit" value={oldSerial} class="inputFormOld oldText" type="text" pattern="\d+"></lightning-input>
+                                            </template>
+                                            <lightning-input-field field-name={salutation} value={salutationInput} class="inputForm"></lightning-input-field>
+                                            <lightning-input-field field-name={firstName} value={firstNameInput} class="inputForm"></lightning-input-field>
+                                            <lightning-input-field field-name={lastName} value={lastNameInput} class="inputForm"></lightning-input-field>
+                                            <lightning-input-field field-name={email} value={emailInput} class="inputForm"></lightning-input-field>
+                                            <lightning-input-field field-name={phone} value={phoneInput} class="inputForm"></lightning-input-field>
+                                            <lightning-input-field field-name={street} value={streetInput} class="inputForm"></lightning-input-field>
+                                            <lightning-input-field field-name={postal} value={postalInput} class="inputForm"></lightning-input-field>
+                                            <lightning-input-field field-name={city} value={cityInput} class="inputForm"></lightning-input-field>
+                                            <lightning-input-field field-name={country} value={countryInput} class="inputForm"></lightning-input-field>
+                                            <template if:true={submitCheck}>
+                                                <div class="slaveText">
+                                                    Please fill all fields!
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </template>
+                            </template>
+                            <div class="slds-col slds-p-top_medium">
+                                <template if:true={convertBtn}>
+                                    <lightning-button type="submit" label="Convert" variant="brand" data-id="convertBtn" class="slds-p-right_x-small"></lightning-button>
+                                </template>
+                                <template if:true={nextBtn}>
+                                    <lightning-button label="Next" variant="brand" onclick={handleNextBtn} data-id="nextBtn" class="slds-p-right_x-small"></lightning-button>
+                                </template>
+                                <lightning-button label="Cancel" variant="destructive" onclick={handleCancelBtn} disabled data-id="cancelBtn"></lightning-button>
+                            </div>
+                        </template>
+                        <template if:true={converted}>
+                            <div class="jsonText">
+                                Stock Item is already converted!
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </lightning-record-edit-form>
+    </lightning-card>
+    <template if:true={showModal}>
+        <div style="height: 640px;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">No Asset or Component was found</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <center>
+                            <p>Please check the Serialnumber of the old Asset or Component.</p><br>
+                            <p>An Asset or a Component with the Serialnumber <b>{oldSerialModal}</b> was not found!</p>
+                        </center>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="OK" variant="neutral" onclick={closeModal}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

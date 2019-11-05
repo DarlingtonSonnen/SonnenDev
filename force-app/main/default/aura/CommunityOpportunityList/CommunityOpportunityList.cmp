@@ -1,0 +1,121 @@
+<!--
+
+Community Opportunity List
+
+Custom component to display opportunity list within Community pages
+
+-->
+<aura:component controller="CommunityOpportunityListController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+				access="global" >
+    <aura:attribute name="labels" type="CommunityOpportunityListController.CommunityOpportunityListLabels" />
+    <aura:attribute name="lstOpportunity" type="CommonWrapperClass.OpportunityCommunityWrapper[]" />
+    <aura:attribute name="userLocale" type="string" />
+    <aura:attribute name="componentTitle" type="String" />
+    <aura:attribute name="modalDialogTitle" type="String" />
+    <aura:attribute name="modalDialogCustomTitle" type="String" />
+    <aura:attribute name="rejectingOppIndex" type="String" />
+    <aura:attribute name="rejectingOppRecId" type="String" />
+
+    <!-- Register that a component may fire an event defined in the OpportunityAcceptEvent.evt resource -->
+    <!--aura:registerEvent name="opportunityAcceptEvent" type="c:OpportunityAcceptEvent"/-->
+
+    <!--- on initialization of component init event will fire and doInit action will execute-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+
+    <div class="forceCommunityRecordListStandard forceCommunityObjectHome">
+        <h2 class="listTitle">
+            <aura:if isTrue="{!empty(v.componentTitle)}">
+                {!$Label.c.Community_Opportunity_List_My_Inbox}
+            </aura:if>
+            <aura:if isTrue="{!!empty(v.componentTitle)}">
+                <ui:outputText value="{!v.componentTitle}"></ui:outputText>
+            </aura:if>
+        </h2>
+
+        <aura:if isTrue="{!empty(v.lstOpportunity)}">
+                {!$Label.c.Community_Opportunity_List_Empty_List}
+        </aura:if>
+
+        <!-- TO Check if list is not empty-->
+        <aura:if isTrue="{!!empty(v.lstOpportunity)}">
+        <div class="forceBaseListView">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{!$Label.c.Community_Opportunity_List_Header_Name}</th>
+                    <th>{!$Label.c.Community_Opportunity_List_Header_City_ZIP}</th>
+                    <th>{!$Label.c.Community_Opportunity_List_Header_Interests}</th>
+                    <th>{!$Label.c.Community_Opportunity_List_Header_EnergyCons}</th>
+                    <th>{!$Label.c.Community_Opportunity_List_Header_Roof_Size}</th>
+                    <th>{!$Label.c.Community_Opportunity_List_Header_Actions}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.lstOpportunity}" var="oppRow" indexVar="i">
+				<tr>
+                    <td>{!oppRow.name}</td>
+                    <td>{!oppRow.postalCodeContact + ' ' + oppRow.cityContact}</td>
+                    <td>{!oppRow.productInterests}</td>
+                    <td>{!oppRow.energyConsumption}</td>
+                    <td>{!oppRow.roofSize}</td>
+                    <td>
+                        <button type="button" class="slds-button slds-button--neutral" onclick="{!c.opportunityRejectButtonClick}" data-recId="{!oppRow.id}" data-index="{!i}" data-recname="{!oppRow.name}" data-partnerId="{!oppRow.partnerId}" data-partnerOwnerId="{!oppRow.partnerOwnerId}">
+                            {!$Label.c.Community_Opportunity_List_Reject_Oppty}
+                        </button>
+                        <!--ui:button press="{!c.opportunityAcceptUIButtonClick}" aura:id="{!oppRow.title}">Accept</ui:button-->
+                        <button type="button" class="slds-button slds-button--brand" onclick="{!c.opportunityAcceptButtonClick}" data-recId="{!oppRow.id}" data-index="{!i}">
+                            {!$Label.c.Community_Opportunity_List_Accept_Oppty}
+                        </button>
+                    </td>
+				</tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+        </div>
+		</aura:if>
+
+        <!--ui:button class="btn btn-default" press="{!c.onBulkOperationClick}">Bulk Operation</ui:button-->
+
+        <div class="slds">
+            <div aria-hidden="true" role="dialog" class="slds-modal slds-modal--prompt slds-fade-in-hide" aura:id="modaldialog">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--info">
+                        <button class="slds-button slds-button--icon-inverse slds-notify__close" onclick="{!c.onHidePopupClick}">
+                            <!-- SVG tag not supported in Lightning Components, hence the workaround with a custom SVG component -->
+							<!--svg class="slds-button__icon slds-button__icon- -large" aria-hidden="true">
+                              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                            </svg-->
+                            <c:SVG aria-hidden="false" class="slds-button__icon slds-button__icon--large" svgPath="{!$Resource.SLDS110 + '/assets/icons/action-sprite/svg/symbols.svg#close'}">
+                            </c:SVG>
+
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <aura:if isTrue="{!empty(v.modalDialogCustomTitle)}">
+                            <h2 class="slds-text-heading--medium">{!v.modalDialogTitle}</h2>
+                        </aura:if>
+                        <aura:if isTrue="{!!empty(v.modalDialogCustomTitle)}">
+                            <h2 class="slds-text-heading--medium">{!v.modalDialogCustomTitle}</h2>
+                        </aura:if>
+
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <p>{!$Label.c.Community_Opportunity_List_Modal_Reject_Text}:</p>
+                            <ui:inputSelect aura:id="InputSelectDynamic">
+                            </ui:inputSelect>
+                        </div>
+                    </div>
+                    <div class="slds-modal__footer">
+						<button class="slds-button slds-button--neutral" onclick="{!c.onHidePopupClick}">{!$Label.c.Community_Opportunity_List_Modal_Reject_Cancel}</button>
+						<button class="slds-button slds-button--destructive" onclick="{!c.opportunityRejectConfirmedButtonClick}">{!$Label.c.Community_Opportunity_List_Modal_Reject_Confirm}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--hide" aura:id="backdrop">
+        </div>
+
+    </div>
+
+</aura:component>

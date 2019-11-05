@@ -1,0 +1,52 @@
+.standardBackground {
+  background-color: #FFFFFF;
+}
+@page {
+  size: A4 landscape;
+}
+@bottom-right {
+  content: "Page " counter(page) " of " counter(pages);
+}
+.header {
+  font-size: 30px;
+  font-family: 'Arial Unicode MS';
+  text-align: left;
+}
+.logo {
+  vertical-align: top;
+  text-align: right;
+  width: 50%;
+}
+table.gridtable {
+  font-family: 'Arial Unicode MS';
+  font-size:8px;
+  border-width: 1px;
+  border-color: #000000;
+  border-collapse: collapse;
+  }
+table.gridtable th {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #000000;
+  font-weight:bold;
+  border-collapse: collapse;
+  }
+table.gridtable td {
+ border-width: 1px;
+ padding: 4px;
+ border-style: solid;
+ border-color: #000000;
+ border-collapse: collapse;
+}
+.subHeader {
+  display: inline-block;
+}
+.listHeader {
+  font-family: 'Arial Unicode MS';
+  font-size:12px;
+  font-weight: bold;
+}
+.filled {
+  background-color: #C0C0C0;
+}

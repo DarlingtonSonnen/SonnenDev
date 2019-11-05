@@ -1,0 +1,73 @@
+<apex:page standardController="TrainingAttendance__c" extensions="certificationExtension" showHeader="false" sidebar="false" renderAs="PDF" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false">
+    <apex:stylesheet value="{!URLFOR($Resource.training, 'training.css')}" /> 
+        <table class="table">
+            <tr>
+                <th class="header" width="80%">Certificato</th>
+                <th class="logo"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/sonnenlogo.png')}"/></th>
+            </tr>
+            <tr>
+                <td colspan="2" height="20x"></td>
+            </tr>
+    	</table>
+    	<table class="table">
+            <tr>
+                <td colspan="2" class="top">
+                    <div class="bold">Installatore sonnenBatterie</div><br/>
+                    Installatore numero {!TrainingAttendance__c.Contact__r.TopMCertificationId__c}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="30px"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="salu">
+                    Si attesta che {!TrainingAttendance__c.Contact__r.SalutationCertificate__c} ha ottenuto, in data <apex:outputText value=" {0,date,dd.MM.yyy}"> <apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText> la certificazione per l’installazione del sistema di accumulo eco 9.43 e hybrid 9.53.
+                </td> 
+            </tr>
+            <tr>
+                <td colspan="2" height="20px"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="listUp">
+                    Il partecipante è pertanto autorizzato a eseguire le seguenti attività relative ai sistemi di accumulo sonnenBatterie:
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="px"></td>
+            </tr>
+            <tr>        
+                <td colspan="2" class="list">
+                    <ul class="listMain">
+                        <li class="listMain">Dimensionamento, installazione e messa in servizio della sonnenBatterie eco 9.43 e hybrid 9.53</li>
+                        <li class="listMain">Firma certificato di messa in servizio SB</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="10px"></td>
+            </tr>
+            <tr> 
+                <td colspan="2" class="footText">
+                    Il presente certificate è valido fino al <apex:outputText value=" {0,date,dd.MM.yyy}"><apex:param value="{!endDate}"/></apex:outputText>.
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="5x"></td>
+            </tr>
+            <tr>
+                <td colspan="2" height="10px"></td>
+            </tr>
+            <tr>
+                <td colspan="2" height="5px"></td>
+            </tr>
+            <tr>
+                <td class="botText">
+                    {!TrainingAttendance__c.Training__r.Trainings_Location__r.BillingCity}, il <apex:outputText value=" {0,date,dd.MM.yyy}"><apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText>
+                </td>
+                <td class="signature">
+                    <apex:image width="50%" url="{!URLFOR($Resource.training, 'images/signature_IT.png')}"/>
+                </td>
+            </tr>
+            <div class="footer"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/cert_IT.png')}"/></div>          
+        </table>
+</apex:page>

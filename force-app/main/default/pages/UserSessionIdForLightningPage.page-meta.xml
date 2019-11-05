@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>34.0</apiVersion>
+    <availableInTouch>false</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>Used in CloseCaseWithTagsCtrl
+Workarund for getting session id from lightning component. For now we cannot simply use UserInfo.getSessionId() due to security &amp; bug issues. They say it&#39;s fixed on Winter&#39;18, but it&#39;s already Summer&#39;18 and still nothing =(</description>
+    <label>UserSessionIdForLightningPage</label>
+</ApexPage>

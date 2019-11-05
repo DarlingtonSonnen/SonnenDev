@@ -1,0 +1,20 @@
+<apex:page standardController="PostalCodeArea__c" recordSetVar="r" extensions="PostalCodeAreaChangePartnerController" title="Change Assigned Partner">
+
+    <apex:sectionHeader title="Change Assigned Partner" subtitle="{!sectionHeaderSubtitle}" />
+    
+    <apex:form >
+        <apex:pageBlock title="Select New Partner">
+            <apex:pageMessages />
+            
+            <apex:pageBlockSection collapsible="false">
+            <apex:inputField value="{!selectedPostalCodeArea.AssignedPartner__c}"/>
+            </apex:pageBlockSection>
+        
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Save" action="{!doSave}"/>
+                <apex:commandButton value="Cancel" action="{!doCancel}"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+
+</apex:page>

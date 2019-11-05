@@ -1,0 +1,9 @@
+<design:component label="Lightning Maps">
+	<design:attribute name="visualforcePath" label="Visualforce Domain" default="https://sonnen--dev--c.cs88.visual.force.com" description="Salesforce Domain of visualforce page"/>
+	<design:attribute name="mapHeight" label="Map Height" default="400px"/>
+	<design:attribute name="mapWidth" label="Map Width" default="100%"/>
+	<design:attribute name="useMarkerImage" label="Custom marker image" description="You can define an own marker image that is used by the map"/>
+	<design:attribute name="markerImage" label="Marker Image" default=""/>
+	<design:attribute name="markerImageAnchorX" label="X Anchor coordinate" default="0" description="X coordinate of the anchor"/>
+	<design:attribute name="markerImageAnchorY" label="Y Anchor coordinate" default="0" description="Y coordinate of the anchor"/>
+</design:component>

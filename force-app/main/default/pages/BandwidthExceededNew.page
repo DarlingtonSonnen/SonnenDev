@@ -1,0 +1,74 @@
+<!--
+- Created by a.romero on 27/06/2019.
+
+https://my.sonnen.de/forgot-password
+-->
+
+<apex:page id="BandwidthExceededNew" cache="false" docType="html-5.0" showHeader="false" title="{!$Label.site.bandwidth_limit_exceeded}" sidebar="false" standardStylesheets="false" applyHtmlTag="false">
+    <html>
+        <head>
+            <apex:slds />
+            <style>
+                @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Medium.ttf')}");
+                font-weight: 500;
+                font-style: normal;
+                }
+                @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Regular.ttf')}");
+                font-weight: 400;
+                font-style: normal;
+                }
+                @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-RegularItalic.ttf')}");
+                font-weight: 400;
+                font-style: italic;
+                }
+                @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Light.ttf')}");
+                font-weight: 300;
+                font-style: normal;
+                }
+                body{
+                background-image: url("{!URLFOR($Resource.pageMaster, 'images/background.jpg')}");
+                background-repeat: no-repeat;
+                background-size: cover;
+                margin: 0;
+                }
+            </style>
+            <apex:stylesheet value="{!URLFOR($Resource.pageMaster, 'css/master.css')}"/>
+        </head>
+        <body>
+            <div class="slds-scope">
+                <div class="slds-grid slds-p-around_medium slds-grid_frame slds-grid_vertical-align-center">
+                    <div class="slds-container_x-large slds-container_center">
+                        <div class="slds-grid">
+                            <div class="slds-box box-black" style="background-color:#181a27; border-color: black">
+                            	<apex:image width="20%" height="20%" url="{!URLFOR($Resource.pageMaster, 'images/logo.svg')}"/>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-box box-grey slds-text-align_center" style="background-color:#f6f6f7">
+                            <apex:define name="error">
+                                <apex:outputText styleClass="title" value="{!$Label.site.limit_exceeded}"/>
+                                <br/>
+                                <br/>
+                                <apex:outputText value="{!$Label.site.sorry_for_inconvenience}"/>
+                                <apex:outputText escape="false" value=" {!$Label.site.get_in_touch}">
+                                    <apex:param value="mailto:{!$Site.AdminEmailAddress}"/>
+                                    <apex:param value="{!$Label.site.email_us}"/>
+                                </apex:outputText>
+                            </apex:define>
+                        </div>
+                        <div class="slds-docked-form-footer footer_style">
+                            &copy; sonnen GmbH
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </body>
+    </html>
+</apex:page>

@@ -1,0 +1,130 @@
+<!--
+ - Created by m.muchow on 28.08.2019.
+ -->
+
+<!-- Escalate Case Modal -->
+<template>
+    <lightning-card>
+        <template if:true={isEscalated}>
+            <div class="slds-text-heading_large slds-text-color_destructive slds-align_absolute-center slds-m-bottom_small">Case is escalated!</div>
+        </template>
+        <lightning-button variant="destructive" label={openModalLabel} title="Open Modal" onclick={openEscalateModal} class="slds-align_absolute-center"></lightning-button>
+        <template if:true={isDeescalated}>
+            <div class="slds-align_absolute-center slds-m-top_medium">
+                Formerly escalated Case was deescalated.<br>
+                Click on the button below to show the escalation values.
+            </div>
+            <lightning-button variant="brand" label="Show deescalation values" title="Show deescalation values" onclick={openDeescalateModal} class="slds-align_absolute-center slds-m-top_small"></lightning-button>
+        </template>
+            <template if:true={showEscalateModal}>
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <template if:true={spinner}>
+                            <lightning-spinner class="slds-is-relative" alternative-text="Loading"></lightning-spinner>
+                        </template>
+                        <header class="slds-modal__header">
+                            <lightning-button-icon class="slds-modal__close" icon-name="utility:close" alternative-text="Close" variant="bare-inverse" size="large" onclick={closeEscalateModal}></lightning-button-icon>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{escalateHeader}</h2>
+                        </header>
+                        <template if:false={deescalateHelper}>
+                            <template if:false={isEscalated}>
+                                <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} onsubmit={handleSubmit} onsuccess={handleSuccess} onerror={handleError}>
+                                    <lightning-messages></lightning-messages>
+                                    <lightning-input-field field-name={escalate} class="slds-hide"></lightning-input-field>
+                                    <lightning-input-field field-name={escalatedHidden} class="slds-hide"></lightning-input-field>
+                                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                        <label for="incidentField">Who reported the incident?</label>
+                                        <lightning-input-field field-name={incident} class="inputForm" variant="label-hidden" aura:id="incidentField"></lightning-input-field>
+                                        <div class="slds-m-top_medium">
+                                            <label for="damageField">Is high damage/loss expected?</label>
+                                            <lightning-input-field field-name={damage} class="inputForm" variant="label-hidden" aura:id="damageField"></lightning-input-field>
+                                        </div>
+                                        <div class="slds-m-top_medium">
+                                            <label for="exposureField" class="slds-m-top_medium">Is the incident subject to public exposure, legal measures or consumer protection involvement?</label>
+                                            <lightning-input-field field-name={exposure} class="inputForm" variant="label-hidden" aura:id="exposureField"></lightning-input-field>
+                                        </div>
+                                        <template if:true={submitCheck}>
+                                            <div class="inputMissing">
+                                                Please fill all fields!
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <footer class="slds-modal__footer">
+                                        <lightning-button variant="neutral" label="Cancel" title="Cancel" onclick={closeEscalateModal}></lightning-button>
+                                        <lightning-button variant="destructive" label="Escalate" title="Escalate" type="submit" class="slds-m-left_x-small"></lightning-button>
+                                    </footer>
+                                </lightning-record-edit-form>
+                            </template>
+                            <template if:true={isEscalated}>
+                                <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName} onsubmit={handleSubmit} onsuccess={handleSuccess} onerror={handleError}>
+                                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                                        <template if:true={hasPermission}>
+                                            <lightning-messages></lightning-messages>
+                                            <lightning-input-field field-name={escalate} class="slds-hide escalateField"></lightning-input-field>
+                                            <lightning-input-field field-name={escalatedHidden} class="slds-hide escalateHiddenField"></lightning-input-field>
+                                            <label for="incidentField">Who reported the incident?</label>
+                                            <lightning-input-field field-name={incident} class="inputForm" variant="label-hidden" aura:id="incidentField"></lightning-input-field>
+                                            <div class="slds-m-top_medium">
+                                                <label for="damageField">Is high damage/loss expected?</label>
+                                                <lightning-input-field field-name={damage} class="inputForm" variant="label-hidden" aura:id="damageField"></lightning-input-field>
+                                            </div>
+                                            <div class="slds-m-top_medium">
+                                                <label for="exposureField">Is the incident subject to public exposure, legal measures or consumer protection involvement?</label>
+                                                <lightning-input-field field-name={exposure} class="inputForm" variant="label-hidden" aura:id="exposureField"></lightning-input-field>
+                                            </div>
+                                            <template if:true={submitCheck}>
+                                                <div class="inputMissing">
+                                                    Please fill all fields!
+                                                </div>
+                                            </template>
+                                        </template>
+                                        <template if:false={hasPermission}>
+                                            <label for="incidentField" class="labelStyle">Who reported the incident?</label>
+                                            <lightning-output-field field-name={incident} class="inputForm" variant="label-hidden" aura:id="incidentField"></lightning-output-field>
+                                            <div class="slds-m-top_medium">
+                                                <label for="damageField" class="labelStyle">Is high damage/loss expected?</label>
+                                                <lightning-output-field field-name={damage} class="inputForm" variant="label-hidden" aura:id="damageField"></lightning-output-field>
+                                            </div>
+                                            <div class="slds-m-top_medium">
+                                                <label for="exposureField" class="labelStyle">Is the incident subject to public exposure, legal measures or consumer protection involvement?</label>
+                                                <lightning-output-field field-name={exposure} class="inputForm" variant="label-hidden" aura:id="exposureField"></lightning-output-field>
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <footer class="slds-modal__footer">
+                                        <lightning-button variant="neutral" label="Close" title="Close" onclick={closeEscalateModal}></lightning-button>
+                                        <template if:true={hasPermission}>
+                                            <lightning-button variant="success" label="Deescalate Case" title="Deescalate Case" onclick={handleDeescalate} class="slds-m-left_x-small"></lightning-button>
+                                            <lightning-button variant="destructive" label="Change Values" title="Change Values" type="submit" class="slds-m-left_x-small"></lightning-button>
+                                        </template>
+                                    </footer>
+                                </lightning-record-edit-form>
+                            </template>
+                        </template>
+                        <template if:true={isDeescalated}>
+                            <template if:true={deescalateHelper}>
+                                <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName}>
+                                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                                        <label for="incidentField" class="labelStyle">Who reported the incident?</label>
+                                        <lightning-output-field field-name={incident} class="inputForm" variant="label-hidden" aura:id="incidentField"></lightning-output-field>
+                                        <div class="slds-m-top_medium">
+                                            <label for="damageField" class="labelStyle">Is high damage/loss expected?</label>
+                                            <lightning-output-field field-name={damage} class="inputForm" variant="label-hidden" aura:id="damageField"></lightning-output-field>
+                                        </div>
+                                        <div class="slds-m-top_medium">
+                                            <label for="exposureField" class="labelStyle">Is the incident subject to public exposure, legal measures or consumer protection involvement?</label>
+                                            <lightning-output-field field-name={exposure} class="inputForm" variant="label-hidden" aura:id="exposureField"></lightning-output-field>
+                                        </div>
+                                    </div>
+                                    <footer class="slds-modal__footer">
+                                        <lightning-button variant="neutral" label="Close" title="Close" onclick={closeEscalateModal}></lightning-button>
+                                    </footer>
+                                </lightning-record-edit-form>
+                            </template>
+                        </template>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+    </lightning-card>
+</template>

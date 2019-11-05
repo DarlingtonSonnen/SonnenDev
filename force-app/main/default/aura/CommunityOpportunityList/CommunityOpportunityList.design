@@ -1,0 +1,4 @@
+<design:component >
+    <design:attribute name="componentTitle" label="Component Title" description="Extended title to decorate the component" />
+    <design:attribute name="modalDialogCustomTitle" label="Modal Dialog Custom Title" description="Custom title for the Opportunity Reject Modal Dialog" />
+</design:component>

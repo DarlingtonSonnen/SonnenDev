@@ -1,0 +1,34 @@
+.required{
+    font-size: 12px !important;
+    color: #c23934 !important;
+}
+@media (min-width: 768px) {
+    .small_media {
+        display: none !important
+    }
+}
+@media (max-width: 767px) {
+    .visble-tabs {
+        display: none !important
+    }
+}
+.small_button{
+    display: block;
+    width: 100%;
+}
+a:hover, a:visited, a:link, a:active{
+    text-decoration: none !important;
+}
+tr{
+    vertical-align: top;
+}
+.c_box_p-top{
+    padding-top: 5px !important;
+    width: 24px !important;
+}
+.c_box_abbr{
+    width: 15px !important;
+}
+.subText{
+    font-size: 16px !important;
+}

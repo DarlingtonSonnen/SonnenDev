@@ -1,0 +1,19 @@
+<apex:page standardcontroller="Bonus__c" title="Bonus can't be created" extensions="ControllerExtension_VoucherCheck" action="{!checkForVoucherRT}">
+    <apex:form >
+        <apex:pageBlock title="This bonus type needs to be created from contract">
+            <apex:pageBlockSection >
+                <apex:pageBlockSectionItem >
+                Bonus of record type Energy or Other need to be created from related contract. Only Bonus of record type Voucher could be created on this way. Data quality will thank you.
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockButtons location="bottom" >
+                
+                <apex:commandButton value="Back to Bonus List" action="{!BackToBonus}"/>
+                <apex:commandButton value="Create a Voucher" action="{!CreateVoucher}"/>
+                <apex:commandButton value="Cancel" action="{!BackToBonus}"/>
+                
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

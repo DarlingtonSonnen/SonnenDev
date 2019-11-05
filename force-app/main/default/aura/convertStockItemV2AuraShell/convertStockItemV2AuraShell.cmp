@@ -1,0 +1,9 @@
+<!--
+ - Created by m.muchow on 18.06.2019.
+ - Aura Component working as Shell for Lightning Web Component convertStockItemV2 to force refresh the view
+ -->
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" description="convertStockItemV2AuraShell">
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="sObjectName" type="String"/>
+    <c:convertStockItemV2 onrecordChange="{!c.refreshView}" recordId="{!v.recordId}" objectApiName="{!v.sObjectName}"/>
+</aura:component>

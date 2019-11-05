@@ -1,0 +1,62 @@
+<!--
+ - Created by m.muchow on 29.01.2019.
+ -->
+
+<aura:component description="SendAutoEmails" implements="flexipage:availableForRecordHome,force:hasRecordId" controller="sendAutoEmailsManually">
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="options" type="List"/>
+    <aura:attribute name="tempDevName" type="String"/>
+    <aura:attribute name="tempSub" type="String"/>
+    <aura:attribute name="tempDesc" type="String"/>
+    <aura:attribute name="metaMap" type="Map"/>
+    <aura:attribute name="selected" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:if isTrue="{!not(empty(v.options))}">
+        <lightning:card title="Send AutoEmails manually" iconName="standard:email_chatter">
+            <div class="slds-form-element slds-hide slds-m-top_medium slds-is-relative" aura:id="busySpinner">
+                <lightning:spinner variant="brand" size="medium"/>
+            </div>
+            <div class="slds-p-around_small">
+                <lightning:combobox aura:id="selectBox" label="Email Template" options="{!v.options}" onchange="{!c.onChangeHandler}"/>
+                <aura:if isTrue="{!v.selected}">
+                    <div class="slds-p-top_small">
+                        <div class="slds-text-title_bold">
+                            Subject:
+                        </div>
+                        <div class="slds-truncate">
+                            {!v.tempSub}
+                        </div>
+                    </div>
+                    <div class="slds-p-top_small">
+                        <div class="slds-text-title_bold">
+                            Template Description:
+                        </div>
+                    </div>
+                    <div class="slds-truncate">
+                        {!v.tempDesc}
+                    </div>
+                    <div class="slds-p-top_small slds-grid">
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-title_bold">
+                                Send to:
+                            </div>
+                            {!v.metaMap.EmailToAddress}
+                            <div class="slds-p-top_small">
+                                <lightning:button class="slds-button_brand" onclick="{!c.sendEmailClick}">Send Email</lightning:button>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-text-title_bold">
+                                Send from:
+                            </div>
+                            {!v.metaMap.EmailFromAddress}
+                            <div class="slds-p-top_small">
+                                <lightning:button class="slds-button_destructive" onclick="{!c.clearClick}">Cancel/Clear</lightning:button>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+            </div>
+        </lightning:card>
+    </aura:if>
+</aura:component>

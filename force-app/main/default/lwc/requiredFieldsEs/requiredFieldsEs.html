@@ -1,0 +1,66 @@
+<!--
+ - Created by m.muchow on 22.03.2019.
+ -->
+
+<!-- Required Fields ES -->
+<template>
+    <template if:false={visibleSwitch}>
+        <lightning-card>
+            <lightning-accordion allow-multiple-sections-open>
+                <lightning-accordion-section name="Required Fields" label="Required Fields">
+                    <template if:true={spinner}>
+                        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                    </template>
+                    <div class="slds-m-around_medium">
+                        <lightning-record-edit-form object-api-name={objectApiName} record-id={recordId} onsubmit={handleSpinner} onsuccess={handleSuccess} onerror={handleError}>
+                            <div style="display:none">
+                                <lightning-input-field field-name={name}></lightning-input-field>
+                            </div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col">
+                                    <lightning-input-field if:false={switchField.awarenessSource} field-name={awarenessSource}></lightning-input-field>
+                                    <!--div if:false={switchField.consumption} class="slds-box slds-m-top_small">
+                                        <lightning-input-field field-name={numberOfResidents}></lightning-input-field>
+                                        <lightning-input-field field-name={energyConsumption}></lightning-input-field>
+                                    </div-->
+                                    <div if:false={switchField.phone} class="slds-box slds-m-top_small">
+                                        <lightning-input-field field-name={phone}></lightning-input-field>
+                                        <lightning-input-field field-name={mobilePhone}></lightning-input-field>
+                                    </div>
+                                    <!--lightning-input-field if:false={switchField.productInterest} field-name={productInterest}></lightning-input-field-->
+                                </div>
+                                <div class="slds-col slds-p-left_small">
+                                    <div if:false={switchField.address} class="slds-box slds-m-top_small">
+                                        <lightning-input-field field-name={address}></lightning-input-field>
+                                    </div>
+                                    <!--lightning-input-field if:false={switchField.otherOffersAvailable} field-name={otherOffersAvailable} onchange={otherOffersAvailableChange}></lightning-input-field>
+                                    <template if:false={switchField.otherOffersDetails}>
+                                        <lightning-input-field if:true={otherOffersAvailableSwitch} field-name={otherOffersDetails}></lightning-input-field>
+                                    </template>
+                                    <lightning-input-field if:false={switchField.motivation} field-name={motivation}></lightning-input-field-->
+                                </div>
+                                <div class="slds-col slds-p-left_small">
+                                    <lightning-input-field if:false={switchField.salutation} field-name={salutation}></lightning-input-field>
+                                    <lightning-input-field if:false={switchField.lastName} field-name={lastName}></lightning-input-field>
+                                    <lightning-input-field if:false={switchField.email} field-name={email}></lightning-input-field>
+                                    <!--lightning-input-field if:false={switchField.purchasingTimeFrame} field-name={purchasingTimeFrame}></lightning-input-field>
+                                    <lightning-input-field if:false={switchField.isHomeOwner} field-name={isHomeOwner}></lightning-input-field>
+                                    <lightning-input-field if:false={switchField.hasPvPlant} field-name={hasPvPlant} onchange={hasPvPlantChange}></lightning-input-field>
+                                    <template if:false={switchField.pvPlantInstallationDate}>
+                                        <lightning-input-field if:true={hasPvPlantSwitch} field-name={pvPlantInstallationDate}></lightning-input-field>
+                                    </template>
+                                    <template if:false={switchField.powerPvPlant}>
+                                        <lightning-input-field if:true={hasPvPlantSwitch} field-name={powerPvPlant}></lightning-input-field>
+                                    </template-->
+                                </div>
+                            </div>
+                            <div class="slds-m-top_medium">
+                                <lightning-button variant="brand" type="submit" name="save" label="Save"></lightning-button>
+                            </div>
+                        </lightning-record-edit-form>
+                    </div>
+                </lightning-accordion-section>
+            </lightning-accordion>
+        </lightning-card>
+    </template>
+</template>

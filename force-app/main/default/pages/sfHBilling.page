@@ -1,0 +1,365 @@
+<apex:page docType="html-5.0" language="{!language}" controller="sFhBillingController" showHeader="false" sidebar="false" standardStylesheets="false" applyHtmlTag="false">
+    <apex:messages />
+    <html lang="{!language}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head>
+            <apex:slds />
+            <style>
+                @font-face{
+                    font-family: 'Brandon Text';
+                    src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Medium.ttf')}");
+                    font-weight: 500;
+                    font-style: normal;
+                }
+                @font-face{
+                    font-family: 'Brandon Text';
+                    src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Regular.ttf')}");
+                    font-weight: 400;
+                    font-style: normal;
+                }
+                @font-face{
+                    font-family: 'Brandon Text';
+                    src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-RegularItalic.ttf')}");
+                    font-weight: 400;
+                    font-style: italic;
+                }
+                @font-face{
+                    font-family: 'Brandon Text';
+                    src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Light.ttf')}");
+                    font-weight: 300;
+                    font-style: normal;
+                }
+                @font-face {
+                    font-family: 'fontello';
+                    src: url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.eot')}");
+                    src: url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.eot')}") format('embedded-opentype'),
+                         url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.woff')}") format('woff'),
+                         url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.ttf')}") format('truetype'),
+                         url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.svg#fontello')}") format('svg');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                body{
+                    background-image: url("{!URLFOR($Resource.pageMaster, 'images/background.jpg')}");
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                	margin: 0;
+                }
+            </style>
+            <apex:stylesheet value="{!URLFOR($Resource.pageMaster, 'css/master.css')}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.pageMaster, 'scripts/jQueryUi/jquery-ui.min.css')}"/>
+        </head>
+        <body>
+            <div class="slds-scope body_style">
+            	<div class="slds-grid slds-p-around_medium slds-grid_frame slds-grid_vertical-align-center">
+                    <div class="slds-container_center">
+						<div class="slds-grid">
+                            <div class="slds-col slds-box box_black">
+                            	<apex:image styleClass="sonnen_icon" url="{!URLFOR($Resource.pageMaster, 'images/logo.svg')}"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-grid_vertical-stretch slds-wrap">
+                            <div class="slds-col slds-size_1-of-1 slds-box box_success box_white" id="inProgress">
+                                <div class="text_box">
+                                    <div class="slds-grid">
+                                        <div class="slds-col">
+                                            <apex:outputText value="{!$Label.sFhBillingInProgress}" escape="false" />
+                                        </div>
+                                        <div class="slds-col slds-is-relative spinner_box">
+                                            <div role="status" class="slds-spinner slds-spinner_medium spinner_color">
+                                                <span class="slds-assistive-text">Loading</span>
+                                                <div class="slds-spinner__dot-a spinner_color"></div>
+                                                <div class="slds-spinner__dot-b spinner_color"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-box box_success box_white" id="success">
+                                <div class="slds-grid">
+                                    <div class="slds-col">
+                                        <div class="text_box">
+                                            <apex:outputText value="{!$Label.sFhBillingSuccess}" escape="false"/>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-align-middle">
+                                        <span class="slds-icon_container">
+                                            <svg aria-hidden="true" class="slds-icon icon_color_success">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#check')}"></use>
+                                            </svg>
+                                            <span class="slds-assistive-text">Success</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-box box_success box_white" id="failed">
+                                <div class="slds-grid">
+                                    <div class="slds-col">
+                                        <div class="text_box">
+                                            <apex:outputText value="{!$Label.sFhBillingFailed}" escape="false" />
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-align-middle">
+                                        <span class="slds-icon_container">
+                                            <svg aria-hidden="true" class="slds-icon icon_color_failed">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                            </svg>
+                                            <span class="slds-assistive-text">Error</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-box box_success box_white" id="confirmed">
+                                <div class="text_box">
+                                    <apex:outputText value="{!$Label.sFhBillingConfirmed}" escape="false" />
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-7 slds-box slds-text-align_left box_white" id="box_1">
+                                <div class="title_box slds-text-heading_large">
+                                    {!$Label.sFhBillingTitle}
+                                </div>
+                                <div class="subtitle_box slds-text-heading_medium slds-p-top_large">
+                                    {!$Label.sFhBillingSubTitle1}
+                                </div>
+                                <div class="text_box slds-p-top_small">
+                                    <apex:outputText value="{!$Label.sFhBillingText1}" escape="false" />
+                                </div>
+                                <div class="show_yes subtitle_box slds-text-heading_medium slds-p-top_large">
+                                    {!$Label.sFhBillingSubTitle2}
+                                </div>
+                                <div class="show_yes text_box slds-p-top_small">
+                                    <apex:outputText value="{!$Label.sFhBillingText2}" escape="false" />
+                                </div>
+                                <div class="show_yes show_no subtitle_box slds-text-heading_medium slds-p-top_large">
+                                    {!$Label.sFhBillingSubTitle3}
+                                </div>
+                                <div class="show_yes show_no text_box slds-p-top_small">
+                                    {!$Label.sFhBillingText3}
+                                </div>
+                                <div class="show_yes show_no subtitle_box slds-text-heading_medium slds-p-top_large">
+                                    {!$Label.sFhBillingSubTitle4}
+                                </div>
+                                <div class="show_yes show_no text_box slds-p-top_small">
+                                    {!$Label.sFhBillingText4}
+                                </div>
+                                <div class="subtitle_box slds-text-heading_medium slds-p-top_large">
+                                    {!$Label.sFhBillingSubTitle5}
+                                </div>
+                                <div class="text_box slds-p-top_small">
+                                    <apex:outputText value="{!$Label.sFhBillingText5}" escape="false" />
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-7 slds-box slds-text-align_center box_grey" id="box_2">
+                                <div class="title_box_2">
+                                </div>
+                                <apex:form styleclass="form_style">
+                                	<div class="input_item">
+                                        <apex:selectList label="select_list" id="select_list" size="1" styleclass="select_style" value="{!accWrapper.subjectToVat}">
+                                            <apex:selectOptions value="{!items}"/>
+                                            <label class="label_style float_select" id="select_label">{!$Label.sFhBillingSelect}</label>
+                                        </apex:selectList>
+                                    </div>
+                                    <div class="input_item show_yes">
+                                        <apex:input label="input_1" id="input_1" type="text" styleclass="select_style" value="{!accWrapper.vatId}" html-placeholder=" " required="false"/>
+                                        <label for="input_1" class="label_style">{!$Label.sFhBillingInput1}</label>
+                                    </div>
+                                    <div class="input_item show_yes show_no">
+                                        <apex:input label="input_2" id="input_2" type="text" styleclass="select_style" value="{!assetWrapper.datePV}" html-placeholder=" " required="true"/>
+                                        <label for="input_2" class="label_style">{!$Label.sFhBillingInput2}</label>
+                                        <apex:inputHidden value="{!assetWrapper.newDatePV}" id="newDatePV"/>
+                                    </div>
+                                    <div class="input_item show_yes show_no">
+                                        <apex:input label="input_3"  id="input_3" type="number" styleclass="select_style" value="{!assetWrapper.pvSize}" html-placeholder=" " required="true" html-step="0.01"/>
+                                        <label for="input_3" class="label_style">{!$Label.sFhBillingInput3}</label>
+                                    </div>
+                                    <div class="button_position">
+                                        <apex:actionStatus id="complete" onstart="inProgress()" onstop="complete()"/>
+                                        <apex:commandbutton id="confirmButton" action="{!confirm}" status="complete" styleclass="button_style" value="{!$Label.sFhBillingConfirmButton}" rerender="rerenderjs"/>
+                                    </div>
+                                </apex:form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-p-around_large slds-grid_align-space slds-docked-form-footer footer_style">
+                        <div class="slds-col copy_footer ">
+                            &copy; {!$Label.masterPageCopyright}
+                        </div>
+                        <div class="slds-col dropdown lang_dropdown">
+                            <button class="lang_button dropdown_arrow lang_dropdown_trigger">
+                                Deutsch
+                            </button>
+                            <div class="lang_selector lang_list_content">
+                                <ul class="lang_list">
+                                    <li class="lang_list_item">
+                                        <a class="lang_link script_ger" data-lang="de" href="">Deutsch</a>
+                                    </li>
+<!--                                <li class="lang_list_item">
+                                        <a class="lang_link script_en" data-lang="en" href="">English</a>
+                                    </li>
+                              	    <li class="lang_list_item">
+                                        <a class="lang_link script_it" data-lang="it" href="">Italiano</a>
+                                    </li>
+	                                <li class="lang_list_item">
+                                        <a class="lang_link script_fr" data-lang="fr" href="">Français</a>
+                                   </li>
+-->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="{!URLFOR($Resource.pageMaster, 'scripts/jQuery/jquery-3.2.1.min.js')}"></script>
+            <script src="{!URLFOR($Resource.pageMaster, 'scripts/jQueryUi/jquery-ui.min.js')}"></script>
+            <script src="{!URLFOR($Resource.pageMaster, 'scripts/jQueryUi/jquery-ui-i18n.min.js')}"></script>
+			<script>
+                var j$ = jQuery.noConflict();
+
+                var currentLanguageCode = j$('html').attr('lang'),
+                    defaultLanguageCode = 'de',
+                    check = 'true',
+                    confirmed = {!confirmed},
+					dtoCreated = {!dtoCreated};
+            
+               if(j$('[id$=select_list]').val() == 'Yes') {
+                    j$('.show_yes').show();
+                   j$('[id$=input_1]').prop('required', true);
+                }
+                else if(j$('[id$=select_list]').val() == 'No') {
+                        j$('.show_yes').hide();
+                        j$('.show_no').show();
+                        j$('[id$=input_1]').prop('required', false);
+                }
+                else {
+                    j$('.show_yes').hide()
+                    j$('.show_no').hide()
+                };
+
+				if(j$('[id$=select_list]').val() == '') {
+                    j$('[id$=select_label]').removeClass('float_select');
+                    j$('[id$=confirmButton]').hide();
+                };
+
+                if(j$('[id$=input_2]').val() == '') {
+                    j$('[id$=input_2]').attr('type', 'text');
+                }
+
+            	j$(document).ready(function() {
+
+            	    j$(function() {
+            	       j$.datepicker.setDefaults(j$.datepicker.regional[currentLanguageCode]);
+            	        j$( '[id$=input_2]' ).datepicker({
+            	            altFormat: "yy-mm-dd",
+            	            altField: "[id$=newDatePV]",
+                            changeMonth: true,
+                            changeYear: true,
+                            yearRange: "c-20:c+0"
+                         });
+                    });
+
+                    j$('[id$=success]').hide();
+                    j$('[id$=confirmed]').hide();
+                    j$('[id$=inProgress]').hide();
+                    j$('[id$=failed]').hide();
+
+                    if(confirmed == true){
+                        j$('[id$=box_1]').hide();
+                        j$('[id$=box_2]').hide();
+                        j$('[id$=confirmed]').show();
+                        j$('[id$=confirmButton]').hide();
+                    }
+                        
+                    j$('[id$=select_list]').change(function() {
+                        if(j$('[id$=select_list]').val() != '') {
+                            j$('[id$=select_label]').addClass('float_select');
+                        }
+                        else {
+                            j$('[id$=select_label]').removeClass('float_select');
+                   		}
+                     });
+
+                    j$('[id$=select_list]').change(function() {
+                        if(j$('[id$=select_list]').val() == 'Yes') {
+                            j$('.show_yes').show();
+                            j$('[id$=confirmButton]').show();
+                            j$('[id$=input_1]').prop('required', true);
+                        }
+                        else if(j$('[id$=select_list]').val() == 'No') {
+                            j$('.show_yes').hide();
+                            j$('.show_no').show();
+                            j$('[id$=confirmButton]').show();
+                            j$('[id$=input_1]').prop('required', false);
+                        }
+                        else {
+                            j$('.show_yes').hide()
+                            j$('.show_yno').hide()
+                            j$('[id$=confirmButton]').hide();
+                        }
+                   });
+
+                    j$('.lang_dropdown_trigger').click(function() {
+                        j$('.lang_dropdown').addClass('lang_active');
+                    });
+
+                    j$(document).click(function (e) {
+                        if (j$(e.target).closest('.lang_dropdown').length === 0) {
+                            j$('.lang_dropdown').removeClass('lang_active');
+                        }
+                     });
+
+                     if(!currentLanguageCode) {
+                        var _lang = localStorage.getItem("lang") ? localStorage.getItem("lang") : defaultLanguageCode;
+                        j$(location).attr("href").replace(/[?&]language=[^&;]*/, "");
+                        j$(location).attr("href", j$(location).attr("href") + "&language=" + _lang);
+                        j$(location).reload();
+                        } else {
+                            localStorage.setItem("lang", currentLanguageCode );
+                     }
+
+                    var thisURL = j$(location).attr("href").replace(/&language=[^&;]*/, "");
+                        j$('.script_ger').attr("href", thisURL + "&language=de");
+//                      j$('.script_en').attr("href", thisURL + "&language=en");
+//                      j$('.script_it').attr("href", thisURL + "&language=it");
+//                      j$('.script_fr').attr("href", thisURL + "&language=fr");
+
+                    j$("[data-item='link']").each(function() {
+                        var link = j$(this).attr("href").replace(/&lang=[^&;]*/, "");
+                        j$(this).attr("href", link + "?lang=" + currentLanguageCode);
+                    });
+
+                    j$('.lang_dropdown_trigger').html(j$("[data-lang=" + currentLanguageCode + "]").html());
+
+                });
+            </script>
+            <apex:pageBlock id="rerenderjs">
+                <script>
+                	var j$ = jQuery.noConflict();
+                	var dtoCreated = {!dtoCreated};
+                
+                	function inProgress() {
+                        j$('[id$=box_1]').hide();
+                        j$('[id$=box_2]').hide();
+                        j$('[id$=confirmButton]').hide();
+                        j$('[id$=inProgress]').show();
+                    };
+                        
+                    function complete(){                   
+                        if(dtoCreated) {
+                            j$('[id$=box_1]').hide();
+                            j$('[id$=box_2]').hide();
+                            j$('[id$=confirmButton]').hide();
+                            j$('[id$=inProgress]').hide();
+                            j$('[id$=success]').show();
+                        }
+                        else {
+                            j$('[id$=box_1]').hide();
+                            j$('[id$=box_2]').hide();
+                            j$('[id$=confirmButton]').hide();
+                            j$('[id$=inProgress]').hide();
+                            j$('[id$=failed]').show();
+                        } 
+                    };
+                </script>
+        	</apex:pageBlock>
+        </body>
+    </html>
+</apex:page>

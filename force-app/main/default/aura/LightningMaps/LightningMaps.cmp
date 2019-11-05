@@ -1,0 +1,37 @@
+<!--
+@author Florian Gümbel <florian@die-interaktiven.de>
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+	
+	<!-- Record Id attribute -->
+	<aura:attribute name="recordId" type="Id" />
+
+	<!-- Attributes -->
+	<aura:attribute name="mapHeight" type="String" default="400px"/>
+	<aura:attribute name="mapWidth" type="String" default="100%"/>
+	<aura:attribute name="markerImage" type="String" default=""/>
+	<aura:attribute name="useMarkerImage" type="Boolean" default="false"/>
+	<aura:attribute name="markerImageAnchorX" type="Integer" default="0"/>
+	<aura:attribute name="markerImageAnchorY" type="Integer" default="0"/>
+	<aura:attribute name="visualforcePath" type="String" default="https://sonnen--dev--c.cs88.visual.force.com"/>
+
+	<aura:attribute name="iframeSource" type="String" default=""/>
+
+	<!-- onload handler -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+	<style>
+		.iframe-viewport {
+			height: {!v.mapHeight};
+			width: {!v.mapWidth}
+		}
+	</style>
+
+	<div>
+		<div class="iframe-viewport">
+			<iframe aura:id="mapFrame" src="{!v.iframeSource}" id="lightningMapComponentFrame"/>
+		</div>
+	</div>
+	
+
+</aura:component>

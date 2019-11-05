@@ -1,0 +1,66 @@
+<apex:page StandardController="Training__c" extensions="attendanceListController" showHeader="false" sidebar="false" renderAs="PDF"  standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false">
+	<apex:stylesheet value="{!URLFOR($Resource.attendance, 'attendance.css')}" />
+        <table width="100%">
+            <tr>
+                <th class="header" colspan="2" rowspan="2">Attendance List</th>
+                <th class="logo"><apex:image width="15%" url="{!URLFOR($Resource.attendance, 'images/sonnenlogo.png')}"/></th>
+            </tr>
+        </table>
+        <table width="100%" class="subHeader">
+            <tr>
+                <td></td>
+                <!-- <td width="20%">Date:<apex:outputText value=" {0,date,dd.MM.yyy}"> <apex:param value="{!Training__c.StartDate__c}"/></apex:outputText></td> -->
+                <td width="20%">Date:&nbsp;<apex:outputField value="{!Training__c.StartDate__c}"/></td>
+                <td width="5%"></td>
+                <td width="40%">Installation Training {!Training__c.Trainings_Location__r.BillingCity}</td>
+                <td width="5%"></td>
+                <td>{!Training__c.TechnicalTrainer__r.FirstName} {!Training__c.TechnicalTrainer__r.LastName}</td>
+            </tr>
+            <tr>
+                <td height="18px" colspan="16"></td>
+            </tr>
+        </table>
+        <table width="100%" class="gridtable">
+            <tr class="listHeader">
+                <th>Att. No.</th>
+                <th>Salu.</th>
+                <th>Name</th>
+                <th>Firstname</th>
+                <th>Company</th>
+                <th>Title</th>
+                <th>Email</th>
+                <th>Mobil</th>
+                <th>Phone</th>
+                <th>Street</th>
+                <th>ZIP Code</th>
+                <th>City</th>
+                <th>Country</th>
+                <th>Signature</th>
+                <th>Tax ID</th>
+                <th>Note</th>
+            </tr>
+            <tr class="filled">
+                <td height="18px" colspan="16"></td>
+            </tr>
+            <apex:repeat value="{!attList}" var="att">
+                    <tr>
+                        <td><apex:outputText value="{!att.Name}"/></td>
+                        <td><apex:outputField value="{!att.Contact__r.Salutation}"/></td>
+                        <td><apex:outputText value="{!att.Contact__r.Lastname}"/></td>
+                        <td><apex:outputText value="{!att.Contact__r.Firstname}"/></td>
+                        <td><apex:outputText value="{!att.Account__c}"/></td>
+                        <td><apex:outputText value="{!att.Contact__r.Title}"/></td>
+                        <td><apex:outputText value="{!att.Contact__r.Email}"/></td>
+                        <td><apex:outputText value="{!att.Contact__r.MobilePhone}"/></td>
+                        <td><apex:outputText value="{!att.Contact__r.Phone}"/></td>
+                        <td><apex:outputText value="{!att.Contact__r.MailingStreet}"/></td>
+                        <td><apex:outputText value="{!att.Contact__r.MailingPostalCode}"/></td>
+                        <td><apex:outputText value="{!att.Contact__r.MailingCity}"/></td>
+                        <td><apex:outputField value="{!att.Contact__r.MailingCountryCode}"/></td>
+                        <td></td>
+                        <td><apex:outputText value="{!att.TaxId__c}"/></td>
+                        <td></td>
+                    </tr>
+        </apex:repeat>
+        </table>
+</apex:page>

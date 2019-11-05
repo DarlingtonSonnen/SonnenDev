@@ -1,0 +1,133 @@
+<!--
+Assign partners to selected opportunities
+
+@since 2016-11-22
+@author Marko Schmalenbach <marko@die-interaktiven.de>
+@see https://interaktiv.jira.com/browse/SOBCRM-681
+-->
+<apex:page standardController="Opportunity" extensions="OpportunityAssignPartnerController" recordSetVar="opportunities"  title="Assign Partners">
+
+    <apex:stylesheet value="{!$Resource.OpportunityAssignPartnerStyles}" />
+
+    <apex:includeScript value="//code.jquery.com/jquery-2.2.4.min.js" />
+    <apex:includeScript value="{!$Resource.OpportunityAssignPartnerScript}" />
+
+    <apex:sectionHeader title="Confirm recommended or set new Sales Partner(s)"/>
+
+    <apex:form >
+        <apex:pageBlock >
+
+            <apex:pageMessages />
+
+            <button class="btn" type="button" id="opportunity-accept-all-button" style="display: none;">Accept all</button>
+
+            <apex:pageBlockTable styleClass="opportunity-table" value="{!listOpportunityWrappers}" var="opportunityWrapper" rendered="{!listOpportunityWrappers.size > 0}">
+                <apex:column styleClass="opportunity-column-opportunity-name" headerValue="Opportunity Name">
+                    <apex:outputLink value="/{!opportunityWrapper.opportunity}" target="_blank">
+                        <apex:outputText >{!opportunityWrapper.opportunity.Name}</apex:outputText>
+                    </apex:outputLink>
+                </apex:column>
+                <apex:column styleClass="opportunity-column-address" headerValue="Address">
+                    {!opportunityWrapper.opportunity.Account.BillingStreet},
+                    {!opportunityWrapper.opportunity.Account.BillingPostalCode}
+                    {!opportunityWrapper.opportunity.Account.BillingCity}
+                    ({!opportunityWrapper.opportunity.Account.BillingCountry})
+                </apex:column>
+                <apex:column headerClass="opportunity-column-recommended-partner" styleClass="opportunity-column-recommended-partner" headerValue="Recommended Partner">
+
+                    <apex:outputLink value="/{!opportunityWrapper.opportunity.RecommendedPartner__c}" target="_blank">
+                        <apex:outputText >{!opportunityWrapper.opportunity.RecommendedPartner__r.Name}</apex:outputText>
+                    </apex:outputLink>
+
+                    <!-- BUTTON: Confirm -->
+                    <apex:outputPanel styleClass="action-confirm-wrapper" rendered="{!!ISBLANK(opportunityWrapper.opportunity.RecommendedPartner__c)}">
+                        <button type="button" class="btn action-confirm" data-partner-name="{!opportunityWrapper.opportunity.RecommendedPartner__r.Name}" data-partner-id="{!opportunityWrapper.opportunity.RecommendedPartner__c}">Accept</button>
+                    </apex:outputPanel>
+
+                </apex:column>
+                <apex:column styleClass="opportunity-column-assigned-partner" html-data-partner-name="{!opportunityWrapper.initiallyAssignedPartnerName}" html-data-partner-id="{!opportunityWrapper.initiallyAssignedPartnerId}" headerValue="Assigned Partner">
+
+                    <apex:inputField styleClass="assigned-partner-lookup" value="{!opportunityWrapper.opportunity.ProposedSBC__c}" />
+
+                    <div class="direct-sales-select-wrapper" style="display: none;">
+                        <apex:selectList styleClass="direct-sales-team-select" id="team-select" value="{!opportunityWrapper.directDirectSalesTeam}" multiselect="false" size="1">
+                            <apex:selectOptions value="{!teamSelections}"/>
+                        </apex:selectList>
+                        <span class="direct-sales-ambassador-select-wrapper" style="display: none;">
+                            <apex:selectList styleClass="direct-sales-ambassador-select" id="owner-select" value="{!opportunityWrapper.directDirectSalesAmbassador}" multiselect="false" size="1">
+                                <apex:selectOptions value="{!ambassadorSelections}" />
+                            </apex:selectList>
+                        </span>
+                    </div>
+                    <!--
+                    <apex:outputLink value="/{!opportunityWrapper.opportunity.ProposedSBC__c}" target="_blank">
+                        <apex:outputText>{!opportunityWrapper.opportunity.ProposedSBC__r.Name}</apex:outputText>
+                    </apex:outputLink>
+                    -->
+                </apex:column>
+                <apex:column styleClass="opportunity-column-actions" headerValue="Actions">
+
+                    <!-- BUTTON: Show best proposals -->
+                    <apex:outputPanel rendered="{!opportunityWrapper.proposedPartners.size > 0}">
+                        <button type="button" data-status="hidden" class="btn action-show-proposals">
+                            <span class="label-show">Show proposals</span>
+                            <span class="label-hide" style="display: none;">Hide proposals</span>
+                        </button>
+                    </apex:outputPanel>
+                    <apex:outputPanel rendered="{!opportunityWrapper.proposedPartners.size = 0}">
+                        <button type="button" disabled="disabled" class="btnDisabled action-show-proposals no-proposals">
+                            <span class="label-show">Show proposals</span>
+                        </button>
+                    </apex:outputPanel>
+
+                    <!-- <button type="button" class="btn action-assign-direct-sales">Assign "Direct Sales"</button> -->
+                    <span class="assign-direct-sales-wrapper">
+                        <apex:inputCheckbox html-data-initial-value="{!opportunityWrapper.initialAssignedToDirectSales}" html-data-id="assign-direct-sales-{!opportunityWrapper.opportunity.Id}" value="{!opportunityWrapper.assignToDirectSales}" styleClass="checkbox-assign-direct-sales" /> <label>Direct Sales</label>
+                    </span>
+
+                    <!-- BUTTON: Revert changes -->
+                    <button type="button" class="btn action-revert-changes" style="display: none;">Revert changes</button>
+                    <apex:inputHidden html-data-type="hasChange" value="{!opportunityWrapper.hasChanges}" />
+
+                    <div class="partner-proposals-wrapper" style="display: none;">
+                        <table class="partner-proposals">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Method</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <apex:repeat value="{!opportunityWrapper.proposedPartners}" var="proposedPartner">
+                                    <tr data-partner-name="{!proposedPartner.account.Name}" data-partner-id="{!proposedPartner.account.Id}">
+                                        <td>
+                                            <a target="_blank" href="/{!proposedPartner.account.Id}">{!proposedPartner.account.Name}</a>
+                                        </td>
+                                        <td>{!proposedPartner.street}, {!proposedPartner.city} ({!proposedPartner.countryCode})</td>
+                                        <td>
+                                            <apex:outputPanel rendered="{!proposedPartner.method = 'postalCodeArea'}">
+                                                Postal Code Area "<a href="/{!proposedPartner.postalCodeArea.Id}" target="_blank">{!proposedPartner.postalCodeArea.ExtId__c}</a>"
+                                            </apex:outputPanel>
+                                            <apex:outputPanel rendered="{!proposedPartner.method = 'nearby'}">
+                                                {!proposedPartner.distance} km
+                                            </apex:outputPanel>
+                                        </td>
+                                    </tr>
+                                </apex:repeat>
+                            </tbody>
+                        </table>
+                    </div>
+                </apex:column>
+
+            </apex:pageBlockTable>
+
+            <div class="command-button-wrapper">
+                <apex:commandButton styleClass="btn command-button command-save" action="{!save}" value="Confirm all changes" rendered="{!!hasStopError}" />
+                <apex:commandLink styleClass="command-button command-cancel" action="{!cancel}" onClick="return opportunityAssignPartnerConfirmCancel();" value="Cancel" immediate="true" />
+            </div>
+
+        </apex:pageBlock>
+    </apex:form>
+
+</apex:page>

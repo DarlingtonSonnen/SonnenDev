@@ -1,0 +1,76 @@
+<apex:page standardController="TrainingAttendance__c" showHeader="false" sidebar="false" renderAs="PDF" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false">
+    <apex:stylesheet value="{!URLFOR($Resource.training, 'training.css')}" />
+    <table class="table">
+        <tr>
+            <th class="header" width="80%">Certificat</th>
+            <th class="logo"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/sonnenlogo.png')}"/></th>
+        </tr>
+        <tr>
+            <td colspan="2" height="20px"></td>
+        </tr>
+    </table>
+    <table class="table">
+        <tr>
+            <td colspan="2" class="top">
+                sonnenBatterie Installateur<br/>
+                Certification No.: {!TrainingAttendance__c.Contact__r.TopMCertificationId__c}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="30px"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="salu">
+                {!TrainingAttendance__c.Contact__r.SalutationCertificate__c} a obtenu le statut d’installateur certifié pour les batteries sonnen eco 9 lors de la formation du <apex:outputText value=" {0,date,dd.MM.yyy}"> <apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText> conduite par {!TrainingAttendance__c.Training__r.TechnicalTrainer__r.FirstName} {!TrainingAttendance__c.Training__r.TechnicalTrainer__r.LastName}.
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="20px"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="listUp">
+                Le participant est par la présente autorisé à la réaliser les activités suivantes, en lien avec les batteries sonnen:
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="10px"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="list">
+                <ul class="listMain">
+                    <li class="listMain">Planification, installation et mise en service des batteries eco 9</li>
+                    <li class="listMain">Signature des protocoles de mise en service des batteries sonnen</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="10px"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="footText">
+                Le système de stockage doit obligatoirement être installé et mis en service par des électriciens autorisés. Les électriciens autorisés répondent aux critères suivants:
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="10px"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="footText">
+                <ul class="ListUS">
+                    <li class="ListUS">L’entreprise dans laquelle l’électricien travaille doit être certifiée par sonnen</li>
+                    <li class="ListUS">L’électricien doit être reconnu capable de réaliser des installations électriques conformes aux normes de sécurité en vigueur dans son pays, et notamment être enregistré auprès des autorités compétentes.</li>
+                    <li class="ListUS">L’électricien doit avoir reçu la formation certifiante sonnen sur le produit qu’il installe.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td class="botText">
+                Wildpoldsried, <apex:outputText value=" {0,date,dd.MM.yyy}"> <apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText>
+            </td>
+            <td class="signature">
+                <apex:image width="50%" url="{!URLFOR($Resource.training, 'images/signature_FR.png')}"/>
+            </td>
+        </tr>
+    </table>
+    <div class="footer"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/cert_DE.png')}"/></div>
+</apex:page>

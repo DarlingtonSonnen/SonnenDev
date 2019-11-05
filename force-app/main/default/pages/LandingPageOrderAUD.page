@@ -1,0 +1,378 @@
+<!--
+ - Created by m.muchow on 23.10.2018.
+ -->
+
+<apex:page id="LandingPageOrderAUD" language="en" docType="html-5.0" showHeader="false" sidebar="false" standardStylesheets="false" applyHtmlTag="false" controller="LandingPageOrderAUDController">
+    <html lang="en" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <apex:variable value="{!contentList[0]}" var="att0"/>
+    <apex:variable value="{!contentList[1]}" var="att1"/>
+    <head>
+        <apex:slds />
+        <style>
+            @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Medium.ttf')}");
+                font-weight: 500;
+                font-style: normal;
+            }
+            @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Regular.ttf')}");
+                font-weight: 400;
+                font-style: normal;
+            }
+            @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-RegularItalic.ttf')}");
+                font-weight: 400;
+                font-style: italic;
+            }
+            @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Light.ttf')}");
+                font-weight: 300;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'fontello';
+                src: url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.eot')}");
+                src: url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.eot')}") format('embedded-opentype'),
+                     url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.woff')}") format('woff'),
+                     url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.ttf')}") format('truetype'),
+                     url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.svg#fontello')}") format('svg');
+                font-weight: normal;
+                font-style: normal;
+            }
+            body{
+                background-image: url("{!URLFOR($Resource.pageMaster, 'images/background.jpg')}");
+                background-repeat: no-repeat;
+                background-size: cover;
+                margin: 0;
+            }
+        </style>
+        <apex:stylesheet value="{!URLFOR($Resource.pageMaster, 'css/master.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.LPOAUD)}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.pageMaster, 'scripts/jQueryUi/jquery-ui.min.css')}"/>
+    </head>
+    <body>
+        <div class="slds-scope body_style">
+            <div class="slds-grid slds-p-around_medium slds-grid_frame slds-grid_vertical-align-center">
+                <div class="slds-container_center">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-box box_black">
+                            <apex:image styleClass="sonnen_icon" url="{!URLFOR($Resource.pageMaster, 'images/logo.svg')}"/>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-grid_vertical-stretch slds-wrap">
+                        <div class="slds-col slds-size_1-of-1 slds-box box_success box_white" id="inProgress">
+                            <div class="text_box">
+                                <div class="slds-grid">
+                                    <div class="slds-col">
+                                        Your information is being sent to sonnen.<br/>
+                                        Please wait a moment.
+                                    </div>
+                                    <div class="slds-col slds-is-relative spinner_box">
+                                        <div role="status" class="slds-spinner slds-spinner_medium spinner_color">
+                                            <span class="slds-assistive-text">Loading</span>
+                                            <div class="slds-spinner__dot-a spinner_color"></div>
+                                            <div class="slds-spinner__dot-b spinner_color"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-box box_success box_white" id="success">
+                            <div class="slds-grid">
+                                <div class="slds-col">
+                                    <div class="text_box">
+                                        Thank you!<br/>
+                                        Your information has been successfully sent.
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-align-middle">
+                                    <span class="slds-icon_container">
+                                        <svg aria-hidden="true" class="slds-icon icon_color_success">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#check')}"></use>
+                                        </svg>
+                                        <span class="slds-assistive-text">Success</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-box box_success box_white" id="failed">
+                            <div class="slds-grid">
+                                <div class="slds-col">
+                                    <div class="text_box">
+                                        Your information could not be sent.<br/>
+                                        Please reload the webpage and enter your data again.<br/>
+                                        In case of any problems, please contact us via mail: <a href="mailto:orders@sonnen.com.au">orders@sonnen.com.au</a>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-align-middle">
+                                    <span class="slds-icon_container">
+                                        <svg aria-hidden="true" class="slds-icon icon_color_failed">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                        </svg>
+                                        <span class="slds-assistive-text">Error</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-box box_success box_white" id="confirmed">
+                            <div class="text_box">
+                                Your information has already been sent to us.<br/>
+                                If you want to change your settings, please contact us via mail: <a href="mailto:orders@sonnen.com.au">orders@sonnen.com.au</a>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-box slds-text-align_left box_grey" id="box_1">
+                            <apex:form styleclass="form_style" id="regForm">
+                                <div class="title_box slds-p-bottom_x-large">
+                                    Summary
+                                </div>
+                                <div class="table text_box">
+                                    <div class="row row_line">
+                                        <div class="cell">Product</div>
+                                        <div class="cell_spacing"></div>
+                                        <div class="cell slds-text-align_right">{!oppWrapper.ProductName}</div>
+                                    </div>
+                                    <div class="row_spacing"></div>
+                                    <div class="row">
+                                        <div class="cell">Total Price</div>
+                                        <div class="cell_spacing"></div>
+                                        <div class="cell slds-text-align_right">AUD {!oppWrapper.Price}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="cell">Financing Option</div>
+                                        <div class="cell_spacing"></div>
+                                        <div class="cell slds-text-align_right">{!oppWrapper.Financing}</div>
+                                    </div>
+                                    <div class="row" id="payment">
+                                        <div class="cell">Down Payment</div>
+                                        <div class="cell_spacing"></div>
+                                        <div class="cell slds-text-align_right">AUD {!oppWrapper.Payment}</div>
+                                    </div>
+                                    <div class="row_spacing"></div>
+                                    <div class="row">
+                                        <div class="cell">sonnenBatterie</div>
+                                        <div class="cell_spacing"></div>
+                                        <div class="cell slds-text-align_right">Capacity: {!oppWrapper.Capacity} kWh</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="cell">Full installation</div>
+                                        <div class="cell_spacing"></div>
+                                        <div class="cell slds-text-align_right">{!oppWrapper.OderType}</div>
+                                    </div>
+                                    <div class="row_spacing"></div>
+                                    <div class="row" id="additional">
+                                        <div class="cell">Installation Address</div>
+                                        <div class="cell_spacing"></div>
+                                        <div class="cell slds-text-align_right">{!oppWrapper.ShippingAdditional}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="cell" id="noAdd">Installation Address</div>
+                                        <div class="cell" id="additional"></div>
+                                        <div class="cell_spacing"></div>
+                                        <div class="cell slds-text-align_right">{!oppWrapper.StreetNo} {!oppWrapper.Street}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="cell"></div>
+                                        <div class="cell_spacing"></div>
+                                        <div class="cell slds-text-align_right">{!oppWrapper.City} {!oppWrapper.State} {!oppWrapper.PostalCode}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="cell"></div>
+                                        <div class="cell_spacing"></div>
+                                        <div class="cell slds-text-align_right">{!oppWrapper.CountryLabel}</div>
+                                    </div>
+                                    <div class="row_spacing"></div>
+                                    <div class="caption">
+                                        <div class="slds-form-element slds-p-top_x-large slds-text-align_left">
+                                            <div class="slds-form-element__control">
+                                                <span class="slds-checkbox">
+                                                    <input type="checkbox" id="c_Box_0" class="c_box" required="true" oninvalid="this.setCustomValidity('Please click this box to confirm our conditions.')" oninput="this.setCustomValidity('')"/>
+                                                    <label class="slds-checkbox__label" for="c_Box_0">
+                                                        <div class="table_checkbox">
+                                                            <div class="row">
+                                                                <div class="cell c_box_abbr"><abbr class="slds-required text_box" title="required">*</abbr></div>
+                                                                <div class="cell c_box_p-top"><span class="slds-checkbox_faux checkbox_faux"/></div>
+                                                                <div class="cell"><span class="slds-form-element__label text_box">I agree with the <a href="{!URLFOR($Action.Attachment.Download, att0.Id)}" target="_blank">Terms and Conditions</a> and <a href="{!URLFOR($Action.Attachment.Download, att1.Id)}" target="_blank">Manufacture Guarantee</a> of sonnen Australia Pty Ltd</span></div>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Checkbox if PV Installer TnC is necessary
+                                    <div class="caption" id="noPV">
+                                        <div class="slds-form-element slds-p-top_x-large slds-text-align_left">
+                                            <div class="slds-form-element__control">
+                                                <span class="slds-checkbox">
+                                                    <input type="checkbox" id="c_Box_1" class="c_box" required="true"/>
+                                                    <label class="slds-checkbox__label" for="c_Box_1">
+                                                        <div class="table_checkbox">
+                                                            <div class="row">
+                                                                <div class="cell c_box_abbr"><abbr class="slds-required text_box" title="required">*</abbr></div>
+                                                                <div class="cell c_box_p-top"><span class="slds-checkbox_faux checkbox_faux"/></div>
+                                                                <div class="cell"><span class="slds-form-element__label text_box">I agree with the <a href="//{!accWrapper.Website}" target="_blank">Terms and Conditions</a> of {!accWrapper.PartnerName}</span></div>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    -->
+                                </div>
+                                <div class="slds-text-align_center slds-p-top_xx-large">
+                                    <apex:actionStatus id="complete" onstart="inProgress()" onstop="complete()"/>
+                                    <apex:commandbutton id="confirmButton" action="{!confirm}" status="complete" styleclass="button_style button_submit" value="Submit" rerender="rerenderjs"/>
+                                </div>
+                            </apex:form>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-p-around_large slds-grid_align-space slds-docked-form-footer footer_style">
+                    <div class="slds-col copy_footer ">
+                        &copy; {!$Label.masterPageCopyright}
+                    </div>
+                    <div class="slds-col dropdown lang_dropdown">
+                        <button class="lang_button dropdown_arrow lang_dropdown_trigger">
+                            Deutsch
+                        </button>
+                        <div class="lang_selector lang_list_content">
+                            <ul class="lang_list">
+                                <!--
+                                <li class="lang_list_item">
+                                    <a class="lang_link script_ger" data-lang="de" href="">Deutsch</a>
+                                </li>
+                                -->
+                                <li class="lang_list_item">
+                                    <a class="lang_link script_en" data-lang="en" href="">English</a>
+                                </li>
+                                <!--
+                                <li class="lang_list_item">
+                                    <a class="lang_link script_it" data-lang="it" href="">Italiano</a>
+                                </li>
+                                <li class="lang_list_item">
+                                    <a class="lang_link script_fr" data-lang="fr" href="">Français</a>
+                                </li>
+                                -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="{!URLFOR($Resource.pageMaster, 'scripts/jQuery/jquery-3.2.1.min.js')}"></script>
+        <script src="{!URLFOR($Resource.pageMaster, 'scripts/jQueryUi/jquery-ui.min.js')}"></script>
+        <script src="{!URLFOR($Resource.pageMaster, 'scripts/jQueryUi/jquery-ui-i18n.min.js')}"></script>
+        <script>
+            var j$ = jQuery.noConflict();
+
+            var currentLanguageCode = j$('html').attr('lang'),
+                defaultLanguageCode = 'en',
+                check = 'true',
+                confirmed = {!confirmed},
+                dataReceived = {!dataReceived},
+                add = '{!oppWrapper.ShippingAdditional}',
+                pv = '{!oppWrapper.OderType}',
+                payment = '{!oppWrapper.Financing}';
+
+                if(add == '') {
+                    j$('[id$=additional]').hide();
+                    j$('[id$=noAdd]').show();
+                } else {
+                    j$('[id$=additional]').show();
+                    j$('[id$=noAdd]').hide();
+                };
+/* jQuery Logic if PV Installer Checkbox is necessary
+                if(pv == 'sonnenBatterie in house') {
+                    j$('[id$=noPV]').hide();
+                } else {
+                    j$('[id$=noPV]').show();
+                };
+*/
+                if(payment == 'No Financing') {
+                    j$('[id$=payment]').hide();
+                } else {
+                    j$('[id$=payment]').show();
+                }
+
+                j$('[id$=success]').hide();
+                j$('[id$=confirmed]').hide();
+                j$('[id$=inProgress]').hide();
+                j$('[id$=failed]').hide();
+
+                if(confirmed == true){
+                    j$('[id$=box_1]').hide();
+                    j$('[id$=confirmed]').show();
+                    j$('[id$=confirmButton]').hide();
+                };
+
+            j$(document).ready(function() {
+
+                j$('.lang_dropdown_trigger').click(function() {
+                    j$('.lang_dropdown').addClass('lang_active');
+                });
+
+                j$(document).click(function (e) {
+                    if (j$(e.target).closest('.lang_dropdown').length === 0) {
+                        j$('.lang_dropdown').removeClass('lang_active');
+                    }
+                 });
+
+                 if(!currentLanguageCode) {
+                    var _lang = localStorage.getItem("lang") ? localStorage.getItem("lang") : defaultLanguageCode;
+                    j$(location).attr("href").replace(/[?&]language=[^&;]*/, "");
+                    j$(location).attr("href", j$(location).attr("href") + "&language=" + _lang);
+                    j$(location).reload();
+                    } else {
+                        localStorage.setItem("lang", currentLanguageCode );
+                 }
+
+                var thisURL = j$(location).attr("href").replace(/&language=[^&;]*/, "");
+    //                j$('.script_ger').attr("href", thisURL + "&language=de");
+                          j$('.script_en').attr("href", thisURL + "&language=en");
+    //                      j$('.script_it').attr("href", thisURL + "&language=it");
+    //                      j$('.script_fr').attr("href", thisURL + "&language=fr");
+
+                j$("[data-item='link']").each(function() {
+                    var link = j$(this).attr("href").replace(/&lang=[^&;]*/, "");
+                    j$(this).attr("href", link + "?lang=" + currentLanguageCode);
+                });
+
+                j$('.lang_dropdown_trigger').html(j$("[data-lang=" + currentLanguageCode + "]").html());
+
+            });
+        </script>
+        <apex:pageBlock id="rerenderjs">
+            <script>
+                var j$ = jQuery.noConflict();
+                var dataReceived = {!dataReceived};
+
+                function inProgress() {
+                    j$('[id$=box_1]').hide();
+                    j$('[id$=confirmButton]').hide();
+                    j$('[id$=inProgress]').show();
+                };
+
+                function complete(){
+                    if(dataReceived) {
+                        j$('[id$=box_1]').hide();
+                        j$('[id$=confirmButton]').hide();
+                        j$('[id$=inProgress]').hide();
+                        j$('[id$=success]').show();
+                    }
+                    else {
+                        j$('[id$=box_1]').hide();
+                        j$('[id$=confirmButton]').hide();
+                        j$('[id$=inProgress]').hide();
+                        j$('[id$=failed]').show();
+                    }
+                };
+            </script>
+        </apex:pageBlock>
+    </body>
+    </html>
+</apex:page>

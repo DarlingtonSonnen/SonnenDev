@@ -1,0 +1,64 @@
+<apex:page showHeader="true" standardController="Opportunity" extensions="DirectSalesToOpportunityController" recordSetVar="opportunities" >
+    
+	<script src="//code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>    
+    <script type="text/javascript">    
+        jQuery(document).ready(function() {
+        
+        	var $teamSelect = jQuery('select[id$=":team-select"]'),
+                $ownerSelectContainer = jQuery('select[id$=":owner-select"]').closest('tr');
+        
+        	function onChangeTeamSelect() {
+                var selectedTeam = $teamSelect.val();
+                selectedTeam == 'Ambassador' ? $ownerSelectContainer.show() : $ownerSelectContainer.hide();                     
+            }
+        
+        	$teamSelect.on('change', onChangeTeamSelect);
+        	onChangeTeamSelect();
+        });    	
+    </script>
+    
+    <style>
+		.bPageBlock .detailList tr td, 
+		.bPageBlock .detailList tr th, 
+        .hoverDetail .bPageBlock .detailList tr td, 
+        .hoverDetail .bPageBlock .detailList tr th {
+        	border: none !important;
+        }
+    </style>
+    
+	<apex:sectionHeader title="Assign a team or area manager"/>
+    
+  	<apex:form >		
+        
+      	<apex:pageBlock >
+          
+			<apex:pageMessages />          
+            
+			<apex:pageBlockButtons location="bottom">
+				<apex:commandButton action="{!save}" value="Assign" rendered="{!!hasStopError}"/>
+				<apex:commandButton action="{!cancel}" value="Cancel"/>
+			</apex:pageBlockButtons>
+          
+            <apex:pageBlockSection columns="1" collapsible="false" rendered="{!!hasStopError}">
+    
+                <apex:pageBlockSectionItem > 
+                	<apex:outputLabel >Team</apex:outputLabel>                                    
+                    <apex:selectList id="team-select" value="{!teamSelect}" multiselect="false" size="1">
+                        <apex:selectOptions value="{!teamSelections}"/>
+                    </apex:selectList>
+				</apex:pageBlockSectionItem>
+                                    
+                <apex:pageBlockSectionItem html-style="display: none;"> 
+                	<apex:outputLabel >Area Manager</apex:outputLabel>
+                    <apex:selectList id="owner-select" value="{!ambassdorSelect}" multiselect="false" size="1">
+                        <apex:selectOptions value="{!ambassadorSelections}" />
+                    </apex:selectList>   
+                </apex:pageBlockSectionItem>
+                
+              </apex:pageBlockSection>
+                   
+      </apex:pageBlock>
+      
+  </apex:form>
+
+</apex:page>

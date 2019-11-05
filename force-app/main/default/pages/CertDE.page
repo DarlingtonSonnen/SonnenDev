@@ -1,0 +1,67 @@
+<apex:page standardController="TrainingAttendance__c" showHeader="false" sidebar="false" renderAs="PDF" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false">
+    <apex:stylesheet value="{!URLFOR($Resource.training, 'training.css')}" />
+    <table class="table">
+        <tr>
+            <th class="header" width="80%">Zertifikat</th>
+            <th class="logo"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/sonnenlogo.png')}"/></th>
+        </tr>
+        <tr>
+            <td colspan="2" height="20px"></td>
+        </tr>
+    </table>
+    <table class="table">
+        <tr>
+            <td colspan="2" class="top">
+                sonnenBatterie Installateur<br/>
+                Zertifizierungsnr.: {!TrainingAttendance__c.Contact__r.TopMCertificationId__c}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="30px"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="salu">
+                {!TrainingAttendance__c.Contact__r.SalutationCertificate__c} wurde am<apex:outputText value=" {0,date,dd.MM.yyy}"> <apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText> von Senior Trainer Europe {!TrainingAttendance__c.Training__r.TechnicalTrainer__r.FirstName} {!TrainingAttendance__c.Training__r.TechnicalTrainer__r.LastName}, sonnen GmbH, für die sonnenBatterie eco 8.0, sonnenBatterie hybrid 8.1 und sonnenBatterie pro 2.0 zertifiziert.
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="20px"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="listUp">
+                Der Teilnehmer ist hiermit befugt, folgende Tätigkeiten im Zusammenhang mit der sonnenBatterie durchzuführen:
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="10px"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="list">
+                <ul class="listMain">
+                    <li class="listMain">Planung, Installation und Inbetriebnahme der sonnenBatterie eco 8.0, sonnenBatterie hybrid 8.1 und sonnenBatterie pro 2.0</li>
+                    <li class="listMain">Unterzeichnung von sonnenBatterie-Inbetriebnahmeprotokollen</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="20px"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="footText">
+                Um den elektrischen Anschluss, sowie die Inbetriebnahme durchzuführen, ist eine erfolgreich abgeschlossene Ausbildung zur Elektrofachkraft gemäß DGUV-Vorschrift 3 Voraussetzung.
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="40px"></td>
+        </tr>
+        <tr>
+            <td class="botText">
+                Wildpoldsried, <apex:outputText value=" {0,date,dd.MM.yyy}"> <apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText>
+            </td>
+            <td class="signature">
+                <apex:image width="50%" url="{!URLFOR($Resource.training, 'images/signature.png')}"/>
+            </td>
+        </tr>
+    </table>
+    <div class="footer"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/cert_DE.png')}"/></div>
+</apex:page>

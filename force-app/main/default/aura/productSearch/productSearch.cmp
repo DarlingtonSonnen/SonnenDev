@@ -1,0 +1,51 @@
+<!--
+ - Created by m.muchow on 19.07.2018.
+ -->
+
+<aura:component description="productSearch" implements="flexipage:availableForRecordHome,force:hasRecordId" controller="productSearch">
+    <aura:attribute name="products" type="list"/>
+    <aura:attribute name="oldProducts" type="list"/>
+    <aura:attribute name="types" type="list"/>
+    <aura:attribute name="isActive" type="list"/>
+    <aura:attribute name="selectedProduct" type="string"/>
+    <aura:attribute name="selectedType" type="string"/>
+    <aura:attribute name="selectedIsActive" type="string"/>
+    <aura:attribute name="filterSelected" type="boolean"/>
+    <aura:attribute name="certCreated" type="boolean"/>
+    <aura:attribute name="newCert" type="boolean"/>
+    <aura:attribute name="productPlaceholder" type="string"/>
+    <aura:attribute name="btnDisable" type="boolean"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <lightning:card>
+        <aura:set attribute="title">
+            Attach Product(s) to the Certification Course
+        </aura:set>
+        <div class="slds-p-left_medium slds-p-right_medium">
+            <div class="slds-form-element slds-hide slds-m-top_large" aura:id="busySpinner">
+                <lightning:spinner variant="brand" size="large"/>
+            </div>
+            <aura:if isTrue="{!not(v.filterSelected)}">
+                <div class="slds-grid">
+                <div class="slds-col slds-p-around_xx-small">
+                    <lightning:combobox name="type" label="Type" options="{!v.types}" placeholder="Select a product type" onchange="{!c.saveTypeValue}"/>
+                </div>
+                <div class="slds-col slds-p-around_xx-small">
+                    <lightning:combobox name="active" label="Only active products?" options="{!v.isActive}" onchange="{!c.saveIsActiveValue}"/>
+                </div>
+                </div>
+                    <div class="slds-p-top_xx-small slds-p-left_xx-small">
+                        <lightning:button label="Next" onclick="{!c.productList}"/>
+                    </div>
+            </aura:if>
+            <aura:if isTrue="{!v.filterSelected}">
+                <div class="slds-col slds-p-around_xx-small">
+                    <lightning:combobox name="products" label="Products" options="{!v.products}" placeholder="{!v.productPlaceholder}" onchange="{!c.saveProductValue}"/>
+                </div>
+                <div class="slds-p-top_xx-small slds-p-left_xx-small">
+                    <lightning:button label="Back" onclick="{!c.back}"/>
+                    <lightning:button label="Attach product" onclick="{!c.productSelect}" disabled="{!v.btnDisable}"/>
+                </div>
+            </aura:if>
+        </div>
+    </lightning:card>
+</aura:component>

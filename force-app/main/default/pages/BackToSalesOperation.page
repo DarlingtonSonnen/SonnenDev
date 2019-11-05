@@ -1,0 +1,62 @@
+<apex:page showHeader="true" standardController="Opportunity" extensions="BackToSalesOperationController" >
+        
+	<script src="//code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>    
+    <script type="text/javascript">    
+        jQuery(document).ready(function() {
+        
+        	var $reasonSelect = jQuery('select[id$=":reason-select"]'),
+                $reasonDescriptionContainer = jQuery('textarea[id$=":reason-description"]').closest('tr');
+        
+        	function onChangeReasonSelect() {
+                var selectedReason = $reasonSelect.val();
+                selectedReason == 'Closed Lost - Other' ? $reasonDescriptionContainer.show() : $reasonDescriptionContainer.hide();                     
+            }
+        
+        	$reasonSelect.on('change', onChangeReasonSelect);
+        	onChangeReasonSelect();
+        });    	
+    </script>
+    
+    <style>
+		.bPageBlock .detailList tr td, 
+		.bPageBlock .detailList tr th, 
+        .hoverDetail .bPageBlock .detailList tr td, 
+        .hoverDetail .bPageBlock .detailList tr th {
+        	border: none !important;
+        }
+    </style>    
+    
+	<apex:sectionHeader title="Create a completed task"/>
+            
+    <apex:form >
+                
+        <apex:pageBlock >
+    
+			<apex:pageMessages />          
+            
+			<apex:pageBlockButtons location="bottom">
+				<apex:commandButton action="{!save}" value="Save" rendered="{!!hasStopError}"/>
+				<apex:commandButton action="{!cancel}" value="Cancel" />
+			</apex:pageBlockButtons>
+            
+            <apex:pageBlockSection columns="1" collapsible="false" rendered="{!!hasStopError}">  
+                
+                <apex:pageBlockSectionItem >                
+                    <apex:outputLabel >Reason</apex:outputLabel>                
+                    <apex:selectList id="reason-select" value="{!selection}" size="1" >                  
+                        <apex:selectOptions value="{!reasonSelection}"/>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+                
+                <apex:pageBlockSectionItem html-style="display: none;">
+                    <apex:outputLabel >Description</apex:outputLabel>                
+                    <apex:inputTextarea id="reason-description" value="{!descField}" rows="4" style="width: 500px"/>
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection>
+            
+        </apex:pageBlock>
+             
+     </apex:form>
+
+</apex:page>

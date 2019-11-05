@@ -1,0 +1,14 @@
+.THIS tr {
+	border-bottom: 1px solid #CCCCCC;
+}
+.THIS tr th {
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 2px solid #CCCCCC;
+    padding: 6px 8px 6px 0px;
+}
+.THIS tr td {
+    padding: 9px 8px 9px 0px;
+}
+.THIS tr td button {
+    margin-right: 6px;
+}

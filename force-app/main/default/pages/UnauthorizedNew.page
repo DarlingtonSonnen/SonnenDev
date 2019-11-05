@@ -1,0 +1,80 @@
+<!--
+- Created by a.romero on 27/06/2019.
+
+https://my.sonnen.de/forgot-password
+-->
+
+<apex:page id="UnauthorizedNew" cache="false" docType="html-5.0" showHeader="false" title="{!$Label.site.authorization_required}" sidebar="false" standardStylesheets="false" applyHtmlTag="false">
+    <html>
+        <head>
+            <apex:slds />
+            <style>
+                @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Medium.ttf')}");
+                font-weight: 500;
+                font-style: normal;
+                }
+                @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Regular.ttf')}");
+                font-weight: 400;
+                font-style: normal;
+                }
+                @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-RegularItalic.ttf')}");
+                font-weight: 400;
+                font-style: italic;
+                }
+                @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Light.ttf')}");
+                font-weight: 300;
+                font-style: normal;
+                }
+                body{
+                background-image: url("{!URLFOR($Resource.pageMaster, 'images/background.jpg')}");
+                background-repeat: no-repeat;
+                background-size: cover;
+                margin: 0;
+                }
+            </style>
+            <apex:stylesheet value="{!URLFOR($Resource.pageMaster, 'css/master.css')}"/>
+        </head>
+        <body>
+            <div class="slds-scope">
+                <div class="slds-grid slds-p-around_medium slds-grid_frame slds-grid_vertical-align-center">
+                    <div class="slds-container_x-large slds-container_center">
+                        <div class="slds-grid">
+                            <div class="slds-box box-black" style="background-color:#181a27;">
+                                <apex:image width="20%" height="20%" url="{!URLFOR($Resource.pageMaster, 'images/logo.svg')}"/>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-1 slds-box box-grey slds-text-align_center" style="background-color:#f6f6f7;">
+                            <apex:image url="{!URLFOR($Resource.landingIcons, 'authorization.svg')}" width="10%" height="10%"/>
+                            <apex:panelGroup >
+                                <apex:outputText styleClass="title" value="{!$Label.site.authorization_required}"/>
+                                <br/>
+                                <br/>
+                                <apex:outputText value="{!$Label.site.login_or_register_first}"/>
+                                <br/>
+                                <apex:outputText value="{!$Label.site.click_forget_password}"/>
+                                <br/>
+                                <br/>
+                            </apex:panelGroup>
+                            <apex:outputText value=""/>
+                            <apex:outputText value=""/>
+                            <c:SiteLogin rendered="{!$Site.LoginEnabled && ISPICKVAL($User.UserType,'Guest')}" id="siteLogin"/>
+                            <br/>
+                            <apex:outputLink value="https://my.sonnen.de/forgot-password" id="forgotPassword"> Forgot Password </apex:outputLink>
+                        </div>
+                        <div class="slds-docked-form-footer footer_style">
+                            &copy; sonnen GmbH
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

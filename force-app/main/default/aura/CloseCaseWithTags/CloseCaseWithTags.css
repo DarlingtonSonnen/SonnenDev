@@ -1,0 +1,24 @@
+.THIS {
+    background: white;
+    margin: 0;
+    padding: 0;
+}
+.THIS.wrapper {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+.THIS .send-button {
+    float: right;
+}
+.THIS .clear {
+    clear: both;
+}
+.THIS .mySpinner {
+  position: relative;
+  width: 200px;
+  height: 100px;
+}
+.THIS .slds-badge:hover {
+  cursor: pointer;
+}

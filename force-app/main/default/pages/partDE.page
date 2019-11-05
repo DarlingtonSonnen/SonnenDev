@@ -1,0 +1,69 @@
+<apex:page standardController="TrainingAttendance__c" showHeader="false" sidebar="false" renderAs="PDF" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false"> 
+    <apex:stylesheet value="{!URLFOR($Resource.training, 'training.css')}" /> 
+        <table class="table">
+            <tr>
+                <th class="header" width="80%">Bestätigung</th>
+                <th class="logo"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/sonnenlogo.png')}"/></th>
+            </tr>
+            <tr>
+                <td colspan="2" height="18px"></td>
+            </tr>
+    	</table>
+    	<table class="table">
+            <tr>
+                <td colspan="2" class="top">
+                    über die Teilnahme an der Installationsschulung
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="18px"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="salu">
+                    {!TrainingAttendance__c.Contact__r.SalutationCertificate__c} hat am<apex:outputText value=" {0,date,dd.MM.yyy}"> <apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText> an der Installationsschulung sonnenBatterie eco 8.0 und sonnenBatterie hybrid 8.1 durchgeführt von Senior Trainer Europe {!TrainingAttendance__c.Training__r.TechnicalTrainer__r.FirstName} {!TrainingAttendance__c.Training__r.TechnicalTrainer__r.LastName}, sonnen GmbH teilgenommen.
+                </td> 
+            </tr>
+            <tr>
+                <td colspan="2" height="18px"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="listUp">
+                    Dem Teilnehmer wurden folgende Kenntnisse vermittelt:
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="6px"></td>
+            </tr>
+            <tr>        
+                <td colspan="2" class="list">
+                    <ul class="listPart">
+                        <li class="listPart">Planung, Installation und Inbetriebnahme der sonnenBatterie eco 8.0 und sonnenBatterie hybrid 8.1</li>
+                        <li class="listPart">Produktkenntnisse sonnenBatterie eco 8.0 und sonnenBatterie hybrid 8.1 </li>
+                        <li class="listPart">Aufbau und Wirkungsweise der sonnenBatterie eco 8.0 und sonnenBatterie hybrid 8.1</li>
+                        <li class="listPart">Kennenlernen der Einsatzmöglichkeiten der sonnenBatterie eco 8.0 und sonnenBatterie hybrid 8.1</li>
+                        <li class="listPart">Dimensionierung einer sonnenBatterie</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="18px"></td>
+            </tr>
+            <tr> 
+                <td colspan="2" class="footText">
+                    Voraussetzung für die Berechtigung zur Installation einer sonnenBatterie ist eine spezielle Zertifizierung und Schulung.
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="30px"></td>
+            </tr>
+            <tr>
+                <td class="botText">
+                    Wildpoldsried, den<apex:outputText value=" {0,date,dd.MM.yyy}"> <apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText>
+                </td>
+                <td class="signature">
+                    <apex:image width="50%" url="{!URLFOR($Resource.training, 'images/signature.png')}"/>
+                </td>
+            </tr>          
+        </table>
+        <div class="footer"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/part_DE.png')}"/></div>  
+</apex:page>

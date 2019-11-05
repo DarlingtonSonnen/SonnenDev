@@ -1,0 +1,132 @@
+body {
+    margin-right: 10px;
+}
+h1 {
+    display: block !important;
+}
+td.pbTitle {
+    width: 40% !important;
+}
+div.pbSubheader {
+    background-color: #424b50 !important;
+}
+div.pbSubheader h3 {
+    color: white !important;
+}
+
+#toggle-accept-checkbox {
+    margin: 0 10px;
+}
+
+.status-dependent-container {
+    display: none;
+}
+
+input[type="text"], select, textarea {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 4px;
+    color: #000 !important;
+}
+
+textarea.comment-text {
+    background-color: white;
+    border: none;
+    height: 60px;
+    width: 99%;
+}
+
+#funnel-chart {
+	display: none;
+    height:200px !important;
+    width:400px !important;
+    margin-bottom: 20px;
+}
+
+div.table-pagination {
+    text-align: center;
+    padding: 5px;
+}
+
+div.table-pagination a {
+    text-decoration: none !important;
+}
+
+div.table-pagination span.pagination-item {
+    padding-left: 5px;
+    color: #888888;
+}
+
+div.table-pagination span.pagination-item:first-child {
+    padding-left: 0;
+}
+
+div.table-pagination span.pagination-item .active {
+    font-weight: bold;
+    color: #000000;
+}
+
+a.ordering {
+    display: block;
+}
+
+/*
+ If active or inactive and hover
+ (Boolean types reverse because of ja/nein sorting)
+*/
+a.ordering.active.orderDirectionASC:after,
+a.ordering.active.orderOpposite.orderDirectionDESC:after,
+a.ordering.inactive.orderDirectionASC:hover:after,
+a.ordering.inactive.orderOpposite.orderDirectionDESC:hover:after {
+    content: "\25b2"; /* ASC */
+}
+a.ordering.active.orderDirectionDESC:after,
+a.ordering.active.orderOpposite.orderDirectionASC:after,
+a.ordering.inactive.orderDirectionDESC:hover:after,
+a.ordering.inactive.orderOpposite.orderDirectionASC:hover:after {
+    content: "\25bc"; /* DESC */
+}
+
+/*
+ If active and hover
+*/
+a.ordering.active.orderDirectionASC:hover:after,
+a.ordering.active.orderOpposite.orderDirectionDESC:hover:after {
+    content: "\25bc"; /* DESC */
+}
+a.ordering.active.orderDirectionDESC:hover:after,
+a.ordering.active.orderOpposite.orderDirectionASC:hover:after {
+    content: "\25b2"; /* ASC */
+}
+
+div.print {
+    text-align: right;
+}
+div.print a {
+    padding-left: 20px;
+    background-image: url(https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-print.svg);
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+div.print-top {
+    margin-bottom: 5px;
+}
+div.print-bottom {
+    margin-top: 5px;
+}
+
+form.record-filter {
+    margin-bottom: 5px;
+}
+
+button.record-filter-button {
+    cursor: pointer;
+}
+
+@media print {
+
+    .no-print {
+        display: none;
+    }
+}

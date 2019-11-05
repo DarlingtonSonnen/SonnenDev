@@ -1,0 +1,68 @@
+<!--
+ - Created by m.muchow on 31.07.2018.
+ -->
+
+<apex:page standardController="TrainingAttendance__c" showHeader="false" sidebar="false" renderAs="PDF" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false">
+    <apex:stylesheet value="{!URLFOR($Resource.training, 'training.css')}" />
+    <table class="table">
+        <tr>
+            <th class="header" width="80%">Zertifikat</th>
+            <th class="logo"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/sonnenlogo.png')}"/></th>
+        </tr>
+        <tr>
+            <td colspan="2" height="20px"></td>
+        </tr>
+    </table>
+    <table class="table">
+        <tr>
+            <td colspan="2" class="top">
+                sonnenBatterie Installateur<br/>
+                Zertifizierungs-Nr.: {!TrainingAttendance__c.Contact__r.TopMCertificationId__c}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="30px"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="salu">
+                {!TrainingAttendance__c.Contact__r.SalutationCertificate__c} wurde am<apex:outputText value=" {0,date,dd.MM.yyy}"> <apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText> von Senior Trainer Europe {!TrainingAttendance__c.Training__r.TechnicalTrainer__r.FirstName} {!TrainingAttendance__c.Training__r.TechnicalTrainer__r.LastName}, sonnen GmbH, für die folgenden sonnen Produkte zertifiziert:
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="list">
+                <ul class="listMain2">
+                    <li class="listMain2">sonnenBatterie Systeme mit den sonnen Modulen 2500 </li>
+                    <li class="listMain2">sonnenBackup-Box</li>
+                    <li class="listMain2">sonnenCharger</li>
+                    <li class="listMain2">sonnenHeater</li>
+                    <li class="listMain2">Inbetriebnahme Assistent 2.0</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="listUp">
+                {!TrainingAttendance__c.Contact__r.SalutationCertificate__c} ist hiermit befugt, die Planung, Installation und Inbetriebnahme im Zusammenhang mit der sonnenBatterie durchzuführen und sonnenBatterie-Inbetriebnahmeprotokolle zu unterzeichnen.
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="20px"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="footText">
+                Um den elektrischen Anschluss, sowie die Inbetriebnahme durchzuführen, ist eine erfolgreich abgeschlossene Ausbildung zur Elektrofachkraft gemäß DGUV-Vorschrift 3 Voraussetzung.
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" height="10px"></td>
+        </tr>
+        <tr>
+            <td class="botText">
+                Wildpoldsried, <apex:outputText value=" {0,date,dd.MM.yyy}"> <apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText>
+            </td>
+            <td class="signature">
+                <apex:image width="50%" url="{!URLFOR($Resource.training, 'images/signature.png')}"/>
+            </td>
+        </tr>
+    </table>
+    <div class="footer"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/cert_DE.png')}"/></div>
+</apex:page>

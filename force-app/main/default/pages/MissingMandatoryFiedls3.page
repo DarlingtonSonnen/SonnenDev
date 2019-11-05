@@ -1,0 +1,31 @@
+<apex:page showHeader="true" sidebar="true" standardController="Lead" lightningStylesheets="true">
+	
+		<apex:outputPanel rendered="{!lead.RecordType.Name == 'Customer' && lead.TargetCountry__c == 'IT'}">
+			<apex:include pageName="MissingMandatoryFieldLead_PageIT"/>
+		</apex:outputPanel>
+
+		<apex:outputPanel rendered="{!lead.RecordType.Name == 'Customer' && lead.TargetCountry__c != 'ES' && lead.TargetCountry__c != 'IT' && lead.TargetCountry__c != 'AU' && lead.ProductInterest__c != 'Charger' && lead.LeadSource != 'Lead Partner'}">
+			<apex:include pageName="MissingMandatoryFieldLead_DACHPage"/>
+		</apex:outputPanel>
+    
+		<apex:outputPanel rendered="{!lead.RecordType.Name == 'Customer' && lead.TargetCountry__c != 'ES' && lead.TargetCountry__c != 'IT' && lead.TargetCountry__c != 'AU' && lead.ProductInterest__c == 'Charger'}">
+			<apex:include pageName="MissingMandatoryFieldLead_Charger"/>
+		</apex:outputPanel>
+
+		<apex:outputPanel rendered="{!lead.RecordType.Name == 'Customer' && lead.TargetCountry__c == 'ES'}">
+			<apex:include pageName="MissingMandatoryFieldLead_ESPage"/>
+		</apex:outputPanel>
+
+		<apex:outputPanel rendered="{!lead.RecordType.Name == 'Customer' && lead.TargetCountry__c == 'AU'}">
+			<apex:include pageName="MissingMandatoryFieldLead_AUPage"/>
+		</apex:outputPanel>
+
+		<apex:outputPanel rendered="{! lead.RecordType.Name == 'Partner Acquisition' && lead.Country == 'USA'}">
+			<apex:include pageName="MissingMandatoryFIeldLead_USPage"/>
+		</apex:outputPanel>	
+
+		<apex:outputPanel rendered="{! lead.RecordType.Name == 'Partner Acquisition' && lead.Country != 'USA'}">
+			<apex:include pageName="MissingMandatoryFieldLead_PartnerNonUS"/>
+		</apex:outputPanel>	
+
+</apex:page>

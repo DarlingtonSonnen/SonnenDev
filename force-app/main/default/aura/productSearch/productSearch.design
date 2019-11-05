@@ -1,0 +1,9 @@
+<!--
+ - Created by m.muchow on 24.07.2018.
+ -->
+
+<design:component label="Attach product to certifcation">
+    <sfdc:objects>
+        <sfdc:object>Certification__c</sfdc:object>
+    </sfdc:objects>
+</design:component>

@@ -1,0 +1,691 @@
+<!--
+ - Created by m.muchow on 24.09.2018.
+ -->
+
+<apex:page id="LandingPageDirectMarketing" language="de" docType="html-5.0" showHeader="false" sidebar="false" standardStylesheets="false" applyHtmlTag="false" controller="LandingPageDirectMarketingController">
+    <html lang="{!language}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <apex:variable value="{!contentList[0]}" var="att0"/>
+    <apex:variable value="{!contentList[1]}" var="att1"/>
+    <apex:variable value="{!contentList[2]}" var="att2"/>
+    <apex:variable value="{!contentList[3]}" var="att3"/>
+    <head>
+        <apex:slds />
+        <style>
+            @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Medium.ttf')}");
+                font-weight: 500;
+                font-style: normal;
+            }
+            @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Regular.ttf')}");
+                font-weight: 400;
+                font-style: normal;
+            }
+            @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-RegularItalic.ttf')}");
+                font-weight: 400;
+                font-style: italic;
+            }
+            @font-face{
+                font-family: 'Brandon Text';
+                src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Light.ttf')}");
+                font-weight: 300;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'fontello';
+                src: url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.eot')}");
+                src: url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.eot')}") format('embedded-opentype'),
+                     url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.woff')}") format('woff'),
+                     url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.ttf')}") format('truetype'),
+                     url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.svg#fontello')}") format('svg');
+                font-weight: normal;
+                font-style: normal;
+            }
+            body{
+                background-image: url("{!URLFOR($Resource.pageMaster, 'images/background.jpg')}");
+                background-repeat: no-repeat;
+                background-size: cover;
+                margin: 0;
+            }
+        </style>
+        <apex:stylesheet value="{!URLFOR($Resource.pageMaster, 'css/master.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.LPDirectMarketing, 'css/lpdm.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.pageMaster, 'scripts/jQueryUi/jquery-ui.min.css')}"/>
+    </head>
+    <body>
+    <div class="slds-scope body_style">
+        <div class="slds-grid slds-p-around_medium slds-grid_frame slds-grid_vertical-align-center">
+            <div class="slds-container_center">
+                <div class="slds-grid">
+                    <div class="slds-col slds-box box_black">
+                        <apex:image styleClass="sonnen_icon" url="{!URLFOR($Resource.pageMaster, 'images/logo.svg')}"/>
+                    </div>
+                </div>
+                <div class="slds-grid slds-grid_vertical-stretch slds-wrap">
+                    <div class="slds-col slds-size_1-of-1 slds-box box_success box_white" id="inProgress">
+                            <div class="text_box">
+                                <div class="slds-grid">
+                                    <div class="slds-col">
+                                        <apex:outputText value="{!$Label.sFhBillingInProgress}" escape="false" />
+                                    </div>
+                                    <div class="slds-col slds-is-relative spinner_box">
+                                        <div role="status" class="slds-spinner slds-spinner_medium spinner_color">
+                                            <span class="slds-assistive-text">Loading</span>
+                                            <div class="slds-spinner__dot-a spinner_color"></div>
+                                            <div class="slds-spinner__dot-b spinner_color"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="slds-col slds-size_1-of-1 slds-box box_success box_white" id="success">
+                        <div class="slds-grid">
+                            <div class="slds-col">
+                                <div class="text_box">
+                                    <apex:outputText value="{!$Label.sFhBillingSuccess}" escape="false"/>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-align-middle">
+                                <span class="slds-icon_container">
+                                    <svg aria-hidden="true" class="slds-icon icon_color_success">
+                                        <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#check')}"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Success</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-box box_success box_white" id="failed">
+                        <div class="slds-grid">
+                            <div class="slds-col">
+                                <div class="text_box">
+                                    <apex:outputText value="{!$Label.sFhBillingFailed}" escape="false" />
+                                </div>
+                            </div>
+                            <div class="slds-col slds-align-middle">
+                                <span class="slds-icon_container">
+                                    <svg aria-hidden="true" class="slds-icon icon_color_failed">
+                                        <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Error</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-box box_success box_white" id="confirmed">
+                        <div class="text_box">
+                            <apex:outputText value="{!$Label.sFhBillingConfirmed}" escape="false" />
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-box slds-text-align_left box_grey" id="box_1">
+                        <apex:form styleclass="form_style" id="regForm">
+                            <div class="title_box">
+                                sonnen Direktvermarktung
+                            </div>
+                            <div class="tab" id="page_1">
+                                <div class="slds-text-align_center subtitle_box slds-p-top_xx-large slds-p-bottom_xx-large">
+                                    Tarifdetails
+                                </div>
+                                <div class="table">
+                                    <div class="row">
+                                        <div class="cell_tab_1 text_box">> Bekommen Sie mehr für Ihren eingespeisten Strom mit dem sonnenBonus</div>
+                                        <div class="cell_tab_1 text_box">sonnenBonus</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="cell_tab_1 text_box">> Teilen Sie Ihren Strom mit anderen sonnenCommunity-Mitgliedern</div>
+                                        <div class="cell_tab_1">{!contrDMWrapper.sonnenBonus} ct/kWh auf Ihre bisherige Einspeisevergütung</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="cell_tab_1 text_box">> Intelligente Zähler zur Messung der Energieflüssen in Echtzeit</div>
+                                        <div class="cell_tab_1 text_box">Mindestvertragslaufzeit</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="cell_tab_1 text_box">> Stabilisieren Sie aktiv das Energienetz</div>
+                                        <div class="cell_tab_1">unbegrenzt</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="cell_tab_1 text_box"></div>
+                                        <div class="cell_tab_1 text_box">Kündigungsfrist</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="cell_tab_1 text_box"></div>
+                                        <div class="cell_tab_1">8 Wochen zum Montsende</div>
+                                    </div>
+                                </div>
+                                <div class="slds-text-align_center slds-p-top_xx-large">
+                                    <div class="text_box">
+                                        Leistung Ihrer PV-Anlage
+                                    </div>
+                                    <div>
+                                        in kWp
+                                    </div>
+                                    <div class="input_item slds-p-top_large">
+                                        <apex:input id="input_0" styleClass="input_normal input_tab_1" onfocus="this.className='input_normal input_tab_1'" value="{!assetPVWrapper.sizePV}" type="number" html-placeholder="00,00" html-step="00.01" html-min="0"/>
+                                    </div>
+                                    <div class="text_box slds-p-top_large">
+                                        Ihre bisherige EEG-Einspeisevergütung
+                                    </div>
+                                    <div class="table slds-p-top_large">
+                                        <div class="row">
+                                            <div class="cell_tab_2">
+                                                bis 10 kWp
+                                            </div>
+                                            <div class="cell_tab_2" id="40kWp">
+                                                ab 10 kWp
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2">
+                                                <div class="input_item input_p_tab_1">
+                                                    <apex:input id="input_1" styleClass="input_normal input_tab_1" onfocus="this.className='input_normal input_tab_1'" value="{!assetPVWrapper.FeedInTariff10kWp}" type="number" html-placeholder="00,000" html-step="00.001" html-min="0"/>
+                                                </div>
+                                            </div>
+                                            <div class="cell_tab_2" id="40kWp">
+                                                <div class="input_item input_p_tab_1">
+                                                    <apex:input id="input_2" styleClass="input_normal input_tab_1" onfocus="this.className='input_normal input_tab_1'" value="{!assetPVWrapper.FeedInTariff40kWp}" type="number" html-placeholder="00,000" html-step="00.001" html-min="0"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2">
+                                                in cent/kWh
+                                            </div>
+                                            <div class="cell_tab_2" id="40kWp">
+                                                in cent/kWh
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab" id="page_2">
+                                <div class="subtitle_box slds-p-top_xx-large slds-p-bottom_large">
+                                    Ihre Einspeisevergütung mit sonnenBonus (Werte beispielhaft)
+                                </div>
+                                <div>
+                                    <apex:image styleClass="image_bonus" url="{!URLFOR($Resource.LPDirectMarketing, 'images/sonnenBonus.png')}"/>
+                                </div>
+                                <div class="subtitle_box slds-p-top_xx-large slds-p-bottom_large">
+                                    So setzt sich Ihre neue Einspeisevergütung zusammen (Werte beispielhaft)
+                                </div>
+                                <div>
+                                    <apex:image styleClass="image_bonus" url="{!URLFOR($Resource.LPDirectMarketing, 'images/EEG.png')}"/>
+                                </div>
+                                <div class="subtitle_box slds-p-top_xx-large">
+                                    Folgende Angaben haben wir von Ihnen
+                                </div>
+                                <div class="text_box slds-p-top_medium">
+                                    Falls diese Angaben nicht mehr aktuell sind, bitten wir Sie, diese zu korrigieren.
+                                </div>
+                                <div class="slds-p-top_xx-large">
+                                    <div class="table">
+                                        <div class="row">
+                                            <div class="cell_tab_2">Leistung Ihrer PV-Anlage in kWp</div>
+                                            <div class="cell_tab_2">Inbetriebnahmedatum Ihrer PV-Anlage gemäß BNetzA *</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2 slds-p-top_small slds-p-bottom_large"><apex:input id="input_3" styleClass="input_disabled input_tab_2" type="text" disabled="true"/></div>
+                                            <div class="cell_tab_2 slds-p-top_small slds-p-bottom_large"><apex:input id="input_4" styleClass="input_normal input_tab_2" onfocus="this.className='input_normal input_tab_2'" value="{!assetPVWrapper.datePV}" type="text" html-placeholder="TT.MM.JJJJ"/></div>
+                                                <apex:inputHidden value="{!assetPVWrapper.newDatePV}" id="newDatePV"/>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2">Bisherige Einspeisevergütung bis 10 kWp</div>
+                                            <div class="cell_tab_2" id="40kWp">Bisherige Einspeisevergütung ab 10 kWp</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2 slds-p-top_small slds-p-bottom_large"><apex:input id="input_5" styleClass="input_disabled input_tab_2" type="text" disabled="true"/></div>
+                                            <div class="cell_tab_2 slds-p-top_small slds-p-bottom_large" id="40kWp"><apex:input id="input_6" styleClass="input_disabled input_tab_2" type="text" disabled="true"/></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2">Steuerlicher Status *</div>
+                                            <div class="cell_tab_2"><text class="show">Steuernummer *</text></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2 slds-p-top_small slds-p-bottom_large">
+                                                <apex:selectList label="select_list" id="input_7" size="1" styleClass="input_normal input_tab_2" onfocus="this.className='input_normal input_tab_2'" value="{!accWrapper.subjectToVat}">
+                                                    <apex:selectOptions value="{!items}"/>
+                                                </apex:selectList>
+                                            </div>
+                                            <div class="cell_tab_2 slds-p-top_small slds-p-bottom_large"><apex:input id="input_8" styleClass="input_normal input_tab_2" onfocus="this.className='input_normal input_tab_2'" value="{!accWrapper.vatId}" type="text" html-placeholder=" "/></div>
+                                        </div>
+                                        <div class="text_box slds-p-top_medium slds-p-bottom_medium">
+                                            Anlagenbetreiber
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2">Vorname</div>
+                                            <div class="cell_tab_2">Nachname</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2 slds-p-top_small slds-p-bottom_large"><apex:input id="input_9" styleClass="input_disabled input_tab_2" value="{!contrDMWrapper.FirstName}" type="text" html-placeholder="" disabled="true"/></div>
+                                            <div class="cell_tab_2 slds-p-top_small slds-p-bottom_large"><apex:input id="input_10" styleClass="input_disabled input_tab_2" value="{!contrDMWrapper.LastName}" type="text" html-placeholder="" disabled="true"/></div>
+                                        </div>
+                                        <div class="text_box slds-p-top_medium slds-p-bottom_medium">
+                                            Standort der Anlage
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2">Straße</div>
+                                            <div class="cell_tab_2">Hausnummer</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2 slds-p-top_small slds-p-bottom_large"><apex:input id="input_11" styleClass="input_disabled input_tab_2" value="{!contrDMWrapper.Street}" type="text" html-placeholder="" disabled="true"/></div>
+                                            <div class="cell_tab_2 slds-p-top_small slds-p-bottom_large"><apex:input id="input_12" styleClass="input_disabled input_tab_2" value="{!contrDMWrapper.StreetNumber}" type="text" html-placeholder="" disabled="true"/></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2">Postleitzahl</div>
+                                            <div class="cell_tab_2">Stadt</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="cell_tab_2 slds-p-top_small slds-p-bottom_large"><apex:input id="input_13" styleClass="input_disabled input_tab_2" value="{!contrDMWrapper.PostalCode}" type="text" html-placeholder="" disabled="true"/></div>
+                                            <div class="cell_tab_2 slds-p-top_small slds-p-bottom_large"><apex:input id="input_14" styleClass="input_disabled input_tab_2" value="{!contrDMWrapper.City}" type="text" html-placeholder="" disabled="true"/></div>
+                                        </div>
+                                        <div class="caption">
+                                            Falls Ihr Name oder Ihre Adresse falsch sein sollten, setzen Sie sich bitte mit uns in Verbindung.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab" id="page_3">
+                                <div class="slds-text-align_center subtitle_box slds-p-top_xx-large slds-p-bottom_xx-large">
+                                    Bestellübersicht
+                                </div>
+                                <div class="subtitle_box slds-p-bottom_medium">
+                                    Direktvermarktung
+                                </div>
+                                <div class="text_box">
+                                    <p>Energieart: solar</p>
+                                    <p>sonnenBonus: <text id="sonnenBonus"></text> ct/kWh</p>
+                                    <p>Neue Vergütung durch die Direktvermaktung bis 10 kWp: <text id="storageEEG10New"></text> ct/kWh</p>
+                                    <p id="40kWp">Neue Vergütung durch die Direktvermaktung ab 10 kWp: <text id="storageEEG40New"></text> ct/kWh</p>
+                                    <p>Unbefristete Vertragslaufzeit</p>
+                                    <p>Kündigungsfrist 8 Wochen zu Monatsende</p>
+                                </div>
+                                <div class="subtitle_box slds-p-top_x-large slds-p-bottom_medium">
+                                    Ihre Angaben
+                                </div>
+                                <div class="text_box">
+                                    <p>Leistung Ihrer PV-Anlage: <text id="storagePVkWp"></text> kWp</p>
+                                    <p>Inbetriebnahmedatum Ihrer PV-Anlage gemäß BNetzA: <text id="storagePVDate"></text></p>
+                                    <p>Bisherige EEG-Einspeisevergütung bis 10 kWp: <text id="storageEEG10Old"></text> ct/kWh</p>
+                                    <p id="40kWp">Bisherige EEG-Einspeisevergütung ab 10 kWp: <text id="storageEEG40Old"></text> ct/kWh</p>
+                                    <p>Steuerlicher Status: <text id="storageVAT"></text></p>
+                                    <p id="vat">Steuernummer: <text id="storageVATID"></text></p>
+                                    <p>Anlagenbetreiber: <text id="storageName"></text></p>
+                                    <p>Standort der Anlage: <text id="storageAddress"></text></p>
+                                </div>
+                                <div class="slds-form-element slds-p-top_xx-large slds-text-align_left">
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-checkbox">
+                                            <div>
+                                                <input type="checkbox" id="c_Box_0" class="c_box" required="true"/>
+                                                <label class="slds-checkbox__label" for="c_Box_0">
+                                                    <div class="table_checkbox">
+                                                        <div class="row">
+                                                            <div class="cell_tab_1 c_box_abbr"><abbr class="slds-required checkbox_label" title="required">*</abbr></div>
+                                                            <div class="cell_tab_1 c_box_p-top"><span class="slds-checkbox_faux checkbox_faux"/></div>
+                                                            <div class="cell_tab_1"><span class="slds-form-element__label checkbox_label">Ja, ich stimme den <a href="{!URLFOR($Action.Attachment.Download, att0.Id)}" target="_blank">AGB Direktvermarktung</a> und den <a href="{!URLFOR($Action.Attachment.Download, att1.Id)}" target="_blank">Datenschutzbestimmungen</a> der sonnen eServices GmbH zu.</span></div>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="slds-p-top_medium">
+                                                <input type="checkbox" id="c_Box_1" class="c_box" required="true"/>
+                                                <label class="slds-checkbox__label" for="c_Box_1">
+                                                    <div class="table_checkbox">
+                                                        <div class="row">
+                                                            <div class="cell_tab_1 c_box_abbr"><abbr class="slds-required checkbox_label" title="required">*</abbr></div>
+                                                            <div class="cell_tab_1 c_box_p-top"><span class="slds-checkbox_faux checkbox_faux"/></div>
+                                                            <div class="cell_tab_1"><span class="slds-form-element__label checkbox_label">Ja, ich stimme den <a href="{!URLFOR($Action.Attachment.Download, att2.Id)}" target="_blank">AGB</a> und den <a href="{!URLFOR($Action.Attachment.Download, att3.Id)}" target="_blank">Datenschutzbestimmungen</a> der Solandeo GmbH zu.</span></div>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="slds-p-top_medium">
+                                                <input type="checkbox" id="c_Box_2" class="c_box" required="true"/>
+                                                <label class="slds-checkbox__label" for="c_Box_2">
+                                                    <div class="table_checkbox">
+                                                        <div class="row">
+                                                            <div class="cell_tab_1 c_box_abbr"><abbr class="slds-required checkbox_label" title="required">*</abbr></div>
+                                                            <div class="cell_tab_1 c_box_p-top"><span class="slds-checkbox_faux checkbox_faux"/></div>
+                                                            <div class="cell_tab_1"><span class="slds-form-element__label checkbox_label">Ich habe von dem mir zustehenden Widerrufsrecht Kenntnis genommen.</span></div>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-text-align_center slds-p-top_xx-large">
+                                <button type="button" class="button_style button_margin" id="prevBtn" onclick="nextPrev(-1)">Zurück</button>
+                                <button type="button" class="button_style" id="nextBtn" onclick="nextPrev(1); sessionValues()">Weiter</button>
+                                <apex:actionStatus id="complete" onstart="inProgress()" onstop="complete()"/>
+                                <apex:commandbutton id="confirmButton" action="{!confirm}" status="complete" styleclass="button_style button_submit" value="{!$Label.CommAssistAcceptButton}" rerender="rerenderjs"/>
+                            </div>
+                            <div class="slds-text-align_center slds-p-top_xx-large">
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                            </div>
+                        </apex:form>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-p-around_large slds-grid_align-space slds-docked-form-footer footer_style">
+                <div class="slds-col copy_footer ">
+                    &copy; {!$Label.masterPageCopyright}
+                </div>
+                <div class="slds-col dropdown lang_dropdown">
+                    <button class="lang_button dropdown_arrow lang_dropdown_trigger">
+                        Deutsch
+                    </button>
+                    <div class="lang_selector lang_list_content">
+                        <ul class="lang_list">
+                            <li class="lang_list_item">
+                                <a class="lang_link script_ger" data-lang="de" href="">Deutsch</a>
+                            </li>
+                            <!--                                <li class="lang_list_item">
+                                                                    <a class="lang_link script_en" data-lang="en" href="">English</a>
+                                                                </li>
+                                                                  <li class="lang_list_item">
+                                                                    <a class="lang_link script_it" data-lang="it" href="">Italiano</a>
+                                                                </li>
+                                                                <li class="lang_list_item">
+                                                                    <a class="lang_link script_fr" data-lang="fr" href="">Français</a>
+                                                               </li>
+                            -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{!URLFOR($Resource.pageMaster, 'scripts/jQuery/jquery-3.2.1.min.js')}"></script>
+    <script src="{!URLFOR($Resource.pageMaster, 'scripts/jQueryUi/jquery-ui.min.js')}"></script>
+    <script src="{!URLFOR($Resource.pageMaster, 'scripts/jQueryUi/jquery-ui-i18n.min.js')}"></script>
+    <script>
+        var j$ = jQuery.noConflict();
+        var currentTab = 0; // Current tab is set to be the first tab (0)
+        showTab(currentTab); // Display the current tab
+
+        function showTab(n) {
+              // This function will display the specified tab of the form ...
+              var x = document.getElementsByClassName("tab");
+              x[n].style.display = "block";
+              // ... and fix the Previous/Next buttons:
+              if (n == 0) {
+                document.getElementById("prevBtn").style.display = "none";
+              } else {
+                document.getElementById("prevBtn").style.display = "inline";
+              }
+              if (n == (x.length - 1)) {
+                document.getElementById("nextBtn").innerHTML = "Submit";
+                j$('[id$=nextBtn]').hide();
+                j$('[id$=confirmButton]').show();
+              } else {
+                  j$('[id$=nextBtn]').show();
+                  j$('[id$=confirmButton]').hide();
+                document.getElementById("nextBtn").innerHTML = "Next";
+              }
+              // ... and run a function that displays the correct step indicator:
+              fixStepIndicator(n)
+        }
+
+        function nextPrev(n) {
+              // This function will figure out which tab to display
+              var x = document.getElementsByClassName("tab");
+              // Exit the function if any field in the current tab is invalid:
+              if (n == 1 && !validateForm()) return false;
+              // Hide the current tab:
+              x[currentTab].style.display = "none";
+              // Increase or decrease the current tab by 1:
+              currentTab = currentTab + n;
+              // if you have reached the end of the form... :
+              if (currentTab >= x.length) {
+                //...the form gets submitted:
+                document.getElementById("regForm").submit();
+                return false;
+              }
+              // Otherwise, display the correct tab:
+              showTab(currentTab);
+        }
+
+        function validateForm() {
+              // This function deals with validation of the form fields
+              var x, y, i, valid = true;
+              x = document.getElementsByClassName("tab");
+              //y = x[currentTab].getElementsByTagName("input");
+              y = x[currentTab].getElementsByClassName("input_normal");
+              // A loop that checks every input field in the current tab:
+              for (i = 0; i < y.length; i++) {
+                // If a field is empty...
+                if (isHidden(y[i])) {}
+                else {
+                    if (y[i].value == "") {
+                  // add an "invalid" class to the field:
+                  y[i].className += " invalid";
+                  // and set the current valid status to false:
+                  valid = false;
+                    }
+                }
+              }
+              return valid; // return the valid status
+        }
+
+        function fixStepIndicator(n) {
+              // This function removes the "active" class of all steps...
+              var i, x = document.getElementsByClassName("step");
+              for (i = 0; i < x.length; i++) {
+                x[i].className = x[i].className.replace(" active", "");
+              }
+              //... and adds the "active" class to the current step:
+              x[n].className += " active";
+        }
+
+        function isHidden(el) {
+            var style = window.getComputedStyle(el);
+            return ((style.display === 'none') || (style.visibility === 'hidden'))
+        }
+    </script>
+    <script>
+        var j$ = jQuery.noConflict();
+
+        function sessionValues() {
+            //store session values
+            sessionStorage.setItem("input_0", JSON.stringify(j$('[id$=input_0]').val()));
+            sessionStorage.setItem("input_1", JSON.stringify(j$('[id$=input_1]').val()));
+            sessionStorage.setItem("input_2", JSON.stringify(j$('[id$=input_2]').val()));
+            sessionStorage.setItem("input_4", JSON.stringify(j$('[id$=input_4]').val()));
+            sessionStorage.setItem("input_7", JSON.stringify(j$('[id$=input_7]').val()));
+            sessionStorage.setItem("input_8", JSON.stringify(j$('[id$=input_8]').val()));
+            sessionStorage.setItem("input_9", JSON.stringify(j$('[id$=input_9]').val()));
+            sessionStorage.setItem("input_10", JSON.stringify(j$('[id$=input_10]').val()));
+            sessionStorage.setItem("input_11", JSON.stringify(j$('[id$=input_11]').val()));
+            sessionStorage.setItem("input_12", JSON.stringify(j$('[id$=input_12]').val()));
+            sessionStorage.setItem("input_13", JSON.stringify(j$('[id$=input_13]').val()));
+            sessionStorage.setItem("input_14", JSON.stringify(j$('[id$=input_14]').val()));
+
+            //calculate new value
+            var parseEEG10 = JSON.parse(sessionStorage.input_1);
+            var parseEEG40 = JSON.parse(sessionStorage.input_2);
+            var newEEG10 = parseFloat(parseEEG10) + {!contrDMWrapper.sonnenBonus};
+            var newEEG40 = parseFloat(parseEEG40) + {!contrDMWrapper.sonnenBonus};
+            var bonus = JSON.stringify({!contrDMWrapper.sonnenBonus}).replace('.',',');
+            if((JSON.parse(sessionStorage.input_7)) === 'No') {
+                var VAT = 'nicht Umsatzsteuerpflichtig';
+            } else {
+                var VAT = 'Umsatzsteuerpflichtig';
+            }
+
+            //retrieve session values
+            document.getElementById('sonnenBonus').innerHTML = bonus;
+            j$('[id$=input_3]').val(JSON.parse(sessionStorage.input_0).replace('.',','));
+            j$('[id$=input_5]').val(JSON.parse(sessionStorage.input_1).replace('.',','));
+            j$('[id$=input_6]').val(JSON.parse(sessionStorage.input_2).replace('.',','));
+            document.getElementById('storageEEG10New').innerHTML = JSON.stringify(newEEG10).replace('.',',');
+            document.getElementById('storageEEG40New').innerHTML = JSON.stringify(newEEG40).replace('.',',');
+            document.getElementById('storagePVkWp').innerHTML = JSON.parse(sessionStorage.input_0).replace('.',',');
+            document.getElementById('storagePVDate').innerHTML = JSON.parse(sessionStorage.input_4);
+            document.getElementById('storageEEG10Old').innerHTML = JSON.parse(sessionStorage.input_1).replace('.',',');
+            document.getElementById('storageEEG40Old').innerHTML = JSON.parse(sessionStorage.input_2).replace('.',',');
+            document.getElementById('storageVAT').innerHTML = VAT;
+            document.getElementById('storageVATID').innerHTML = JSON.parse(sessionStorage.input_8);
+            document.getElementById('storageName').innerHTML = JSON.parse(sessionStorage.input_9) +' '+ JSON.parse(sessionStorage.input_10);
+            document.getElementById('storageAddress').innerHTML = JSON.parse(sessionStorage.input_11) +' '+ JSON.parse(sessionStorage.input_12) +', ' + JSON.parse(sessionStorage.input_13) + ' ' + JSON.parse(sessionStorage.input_14);
+        }
+    </script>
+    <script>
+        var j$ = jQuery.noConflict();
+
+        var currentLanguageCode = j$('html').attr('lang'),
+            defaultLanguageCode = 'de',
+            check = 'true',
+            confirmed = {!confirmed},
+            dtoCreated = {!dtoCreated};
+
+            if(j$('[id$=input_7]').val() == 'Yes') {
+                    j$('.show').show();
+                    j$('[id$=input_8]').show();
+                    j$('[id$=vat]').show();
+                }
+                else if(j$('[id$=input_7]').val() == 'No') {
+                        j$('.show').hide();
+                        j$('[id$=input_8]').hide();
+                        j$('[id$=vat]').hide();
+                }
+                else {
+                    j$('.show').hide();
+                    j$('[id$=input_8]').hide();
+            };
+
+            j$('[id$=input_7]').change(function() {
+                    if(j$('[id$=input_7]').val() === 'Yes') {
+                        j$('.show').show();
+                        j$('[id$=input_8]').show();
+                        j$('[id$=vat]').show();
+                    }
+                    else if(j$('[id$=input_7]').val() === 'No') {
+                        j$('.show').hide();
+                        j$('[id$=input_8]').hide();
+                        j$('[id$=vat]').hide();
+                    }
+                    else {
+                        j$('.show').hide();
+                        j$('[id$=input_8]').hide();
+                    }
+            });
+
+           j$('[id$=confirmButton]').hide();
+
+           if(j$('[id$=input_0]').val() >= 10) {
+               j$('[id$=40kWp]').show();
+               j$('[id$=input_2]').show();
+               j$('[id$=input_6]').show();
+           } else {
+               j$('[id$=40kWp]').hide();
+               j$('[id$=input_2]').hide();
+               j$('[id$=input_6]').hide();
+           }
+
+        j$(document).ready(function() {
+
+            j$(function() {
+               j$.datepicker.setDefaults(j$.datepicker.regional[currentLanguageCode]);
+                j$('[id$=input_4]').datepicker({
+                    altFormat: "yy-mm-dd",
+            	    altField: "[id$=newDatePV]",
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: "c-20:c+0"
+                 });
+            });
+
+            j$('[id$=success]').hide();
+            j$('[id$=confirmed]').hide();
+            j$('[id$=inProgress]').hide();
+            j$('[id$=failed]').hide();
+
+            j$('[id$=input_0]').change(function() {
+                if(j$('[id$=input_0]').val() >= 10) {
+                    j$('[id$=40kWp]').show();
+                    j$('[id$=input_2]').show();
+                    j$('[id$=input_6]').show();
+                } else {
+                    j$('[id$=40kWp]').hide();
+                    j$('[id$=input_2]').hide();
+                    j$('[id$=input_6]').hide();
+                }
+            });
+
+            if(confirmed == true){
+                j$('[id$=box_1]').hide();
+                j$('[id$=confirmed]').show();
+                j$('[id$=confirmButton]').hide();
+            };
+
+            j$('.lang_dropdown_trigger').click(function() {
+                j$('.lang_dropdown').addClass('lang_active');
+            });
+
+            j$(document).click(function (e) {
+                if (j$(e.target).closest('.lang_dropdown').length === 0) {
+                    j$('.lang_dropdown').removeClass('lang_active');
+                }
+             });
+
+             if(!currentLanguageCode) {
+                var _lang = localStorage.getItem("lang") ? localStorage.getItem("lang") : defaultLanguageCode;
+                j$(location).attr("href").replace(/[?&]language=[^&;]*/, "");
+                j$(location).attr("href", j$(location).attr("href") + "&language=" + _lang);
+                j$(location).reload();
+                } else {
+                    localStorage.setItem("lang", currentLanguageCode );
+             }
+
+            var thisURL = j$(location).attr("href").replace(/&language=[^&;]*/, "");
+                j$('.script_ger').attr("href", thisURL + "&language=de");
+//                      j$('.script_en').attr("href", thisURL + "&language=en");
+//                      j$('.script_it').attr("href", thisURL + "&language=it");
+//                      j$('.script_fr').attr("href", thisURL + "&language=fr");
+
+            j$("[data-item='link']").each(function() {
+                var link = j$(this).attr("href").replace(/&lang=[^&;]*/, "");
+                j$(this).attr("href", link + "?lang=" + currentLanguageCode);
+            });
+
+            j$('.lang_dropdown_trigger').html(j$("[data-lang=" + currentLanguageCode + "]").html());
+
+        });
+    </script>
+    <apex:pageBlock id="rerenderjs">
+        <script>
+            var j$ = jQuery.noConflict();
+            var dtoCreated = {!dtoCreated};
+
+            function inProgress() {
+                j$('[id$=box_1]').hide();
+                j$('[id$=confirmButton]').hide();
+                j$('[id$=inProgress]').show();
+            };
+
+            function complete(){
+                if(dtoCreated) {
+                    j$('[id$=box_1]').hide();
+                    j$('[id$=confirmButton]').hide();
+                    j$('[id$=inProgress]').hide();
+                    j$('[id$=success]').show();
+                }
+                else {
+                    j$('[id$=box_1]').hide();
+                    j$('[id$=confirmButton]').hide();
+                    j$('[id$=inProgress]').hide();
+                    j$('[id$=failed]').show();
+                }
+            };
+        </script>
+    </apex:pageBlock>
+    </body>
+    </html>
+</apex:page>

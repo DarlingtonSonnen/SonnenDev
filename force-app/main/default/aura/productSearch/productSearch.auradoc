@@ -1,0 +1,12 @@
+<!--
+ - Created by m.muchow on 24.07.2018.
+ -->
+
+<aura:documentation>
+    <aura:description>Documentation for productSearch</aura:description>
+    <aura:example name="productSearch" ref="productSearch" label="productSearch">
+        Lightning Component to attach a product to a certification course
+        search products based on type and active status
+        only usable on the certification record page
+    </aura:example>
+</aura:documentation>

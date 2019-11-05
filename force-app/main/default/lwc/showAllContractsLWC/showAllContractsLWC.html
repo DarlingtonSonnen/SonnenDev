@@ -1,0 +1,25 @@
+<!--
+ - Created by a.romero on 11/09/2019.
+ -->
+
+<!-- Show All Contracts Lwc -->
+<template>
+    <lightning-card title="Contracts related to Account">
+        <template if:true={spinner}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+        <template if:false={noAccount}>
+        <div style="height: auto;">
+            <lightning-datatable
+                    key-field="id"
+                    hide-checkbox-column
+                    data={dataContracts}
+                    columns={columns}>
+            </lightning-datatable>
+        </div>
+        </template>
+        <template if:true={noAccount}>
+            <div class="slds-align_absolute-center slds-m-bottom_small" >No Contracts related to Account</div>
+        </template>
+    </lightning-card>
+</template>

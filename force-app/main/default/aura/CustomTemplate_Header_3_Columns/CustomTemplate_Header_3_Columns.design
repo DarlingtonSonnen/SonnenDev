@@ -1,0 +1,20 @@
+<!--
+ - Created by m.muchow on 25.03.2019.
+ -->
+
+<design:component label="Header, 3 Columns, 1-6, 3-6, 2-6">
+    <flexipage:template>
+        <flexipage:region name="header" defaultWidth="LARGE">
+            <flexipage:formfactor type="MEDIUM" width="SMALL" />
+        </flexipage:region>
+        <flexipage:region name="left" defaultWidth="SMALL">
+            <flexipage:formfactor type="MEDIUM" width="SMALL" />
+        </flexipage:region>
+        <flexipage:region name="center" defaultWidth="MEDIUM">
+            <flexipage:formfactor type="MEDIUM" width="SMALL" />
+        </flexipage:region>
+        <flexipage:region name="right" defaultWidth="SMALL">
+            <flexipage:formfactor type="MEDIUM" width="SMALL" />
+        </flexipage:region>
+    </flexipage:template>
+</design:component>

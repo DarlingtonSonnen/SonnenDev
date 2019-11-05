@@ -1,0 +1,47 @@
+<apex:page showHeader="true" sidebar="false" standardController="Contract" extensions="ControllerExtension_ContractBonus">
+
+    <apex:form id="theForm">
+        <apex:sectionHeader title="Create bonus and associate the recipient with a campaign" subtitle="Add a bonus to this contract"/>
+        <apex:pageBlock >
+            <apex:pageMessages />
+            <!-- <apex:pageMessage severity="info" rendered="{!showMessageContainer}"/> -->
+
+            <apex:pageBlockSection title="Select a bonus campaign" id="inputArea" collapsible="false">
+                <apex:inputField value="{!theBonus.BonusInitiator__c}" required="true">
+                    <apex:actionSupport event="onchange" action="{!filterCampaigns}" reRender="inputArea" />
+                </apex:inputField>
+                <apex:outputText value=""/>
+                <apex:selectList value="{!selectedCampaign}" size="1" label="Selected Campaign">
+                    <apex:selectOptions value="{!currentBonusCampaigns}"/>
+
+                </apex:selectList>
+                <apex:outputText value=""/>
+                <apex:inputField value="{!theBonus.BonusReason__c}" required="true">
+                    <apex:actionSupport event="onchange" reRender="inputArea" action="{!showOtherSwitch}" />
+                </apex:inputField>
+                <apex:inputField value="{!theBonus.OtherReason__c}" rendered="{!showOther}" />
+                <apex:outputText value="" rendered="{!!showOther}" />
+                <apex:inputField value="{!theBonus.StartDate__c}" />
+
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Check bonus data" rendered="{!showDetails}" collapsible="false">
+                <apex:outputField value="{!theCampaign.BonusType__c}"/>
+                <apex:outputField value="{!theCampaign.BonusAmount__c}"/>
+                <apex:outputField value="{!theCampaign.BonusUnit__c}"/>
+                <apex:outputField value="{!theCampaign.BonusApplyTo__c}"/>
+                <apex:outputField value="{!theCampaign.BonusNoOfMonths__c}"/>
+                <apex:outputField value="{!theContract.AccountId}"/>
+                <apex:outputField value="{!theContract.CustomerSignedId}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Select campaign" rendered="{!IF(showDetails = false, true, false)}" action="{!selectCampaign}" rerender="theForm"/>
+                <apex:commandButton value="Update campaign" action="{!selectCampaign}" rendered="{!showDetails}" rerender="theForm"/>
+                <apex:commandButton value="Save bonus" action="{!saveBonus}" rendered="{!showDetails}"/>
+                <apex:commandButton value="Cancel" action="{!cancelAndBack}"/>
+
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+
+</apex:page>

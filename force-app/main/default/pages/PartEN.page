@@ -1,0 +1,69 @@
+<apex:page standardController="TrainingAttendance__c" showHeader="false" sidebar="false" renderAs="PDF" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false"> 
+    <apex:stylesheet value="{!URLFOR($Resource.training, 'training.css')}" /> 
+        <table class="table">
+            <tr>
+                <th class="header" width="80%">Confirmation</th>
+                <th class="logo"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/sonnenlogo.png')}"/></th>
+            </tr>
+            <tr>
+                <td colspan="2" height="18px"></td>
+            </tr>
+    	</table>
+    	<table class="table">
+            <tr>
+                <td colspan="2" class="top">
+                    <div class="bold">for participation at the installation training</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="18px"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="salu">
+                    {!TrainingAttendance__c.Contact__r.SalutationCertificate__c} took part in the training by Senior Trainer Europe {!TrainingAttendance__c.Training__r.TechnicalTrainer__r.FirstName} {!TrainingAttendance__c.Training__r.TechnicalTrainer__r.LastName}, sonnen GmbH of installing a sonnenBatterie eco 8.0 and sonnenBatterie hybrid 8.1 at the <apex:outputText value=" {0,date,dd.MM.yyy}"> <apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText>.
+                </td> 
+            </tr>
+            <tr>
+                <td colspan="2" height="18px"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="listUp">
+                    The attendee acquired the following knowledge:
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="6px"></td>
+            </tr>
+            <tr>        
+                <td colspan="2" class="list">
+                    <ul class="listPart">
+                        <li class="listPart">planning, installing and commissioning of the sonnenBatterie eco 8.0 and sonnenBatterie hybrid eco 8.1</li>
+                        <li class="listPart">knowledge about the product sonnenBatterie eco 8.0 and sonnenBatterie hybrid 8.1</li>
+                        <li class="listPart">construction and operation of the sonnenBatterie eco 8.0 and sonnenBatterie hybrid 8.1</li>
+                        <li class="listPart">to become acquainted with the capabillities of the sonnenBatterie eco 8.0 and sonnenBatterie hybrid 8.1</li>
+                        <li class="listPart">dimensioning of a sonnenBatterie</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="18px"></td>
+            </tr>
+            <tr> 
+                <td colspan="2" class="footText">
+                    For the authorization to install a sonnenBatterie a special certification and training at and by sonnen is required.
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="30px"></td>
+            </tr>
+            <tr>
+                <td class="botText">
+                    Wildpoldsried, <apex:outputText value=" {0,date,dd.MM.yyy}"> <apex:param value="{!TrainingAttendance__c.Training__r.StartDate__c}"/></apex:outputText>
+                </td>
+                <td class="signature">
+                    <apex:image width="50%" url="{!URLFOR($Resource.training, 'images/signature.png')}"/>
+                </td>
+            </tr>          
+        </table>
+        <div class="footer"><apex:image width="100%" url="{!URLFOR($Resource.training, 'images/part_EN.png')}"/></div>  
+</apex:page>

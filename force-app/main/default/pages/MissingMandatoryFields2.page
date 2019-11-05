@@ -1,0 +1,228 @@
+<apex:page showHeader="true" sidebar="false" standardController="Lead" standardStylesheets="false" >
+
+    <apex:pageBlock rendered="{!lead.RecordType.Name == 'Customer' && lead.TargetCountry__c != 'ES'}">
+
+        <apex:pageBlockSection columns="3" showHeader="false" collapsible="true">   
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.AwarenessSource__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" title="Awareness source" />
+                <apex:outputText value=" Awareness source" />
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.NumberOfResidents__c == null && (lead.EnergyConsumption__c == null || lead.EnergyConsumption__c == 0), 
+                "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Number of residents" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Phone == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Phone" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.MobilePhone == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" MobilePhone" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Salutation == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Salutation" /><br/>
+            </apex:outputPanel>
+
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.LastName == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Last name" /><br/>
+            </apex:outputPanel>
+
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Street == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Street" /><br/>
+            </apex:outputPanel>
+
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Postalcode == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Postal code" /><br/>
+            </apex:outputPanel>
+
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.City == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" City" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Country == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Country" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Email == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Email" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.ProductInterest__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Product interest" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.PurchasingTimeframe__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Purchasing time frame" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.IsHomeOwner__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Is home owner?" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.HasPvPlant__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Has PV plant?" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.PvPlantInstallationDate__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" rendered="{! If(lead.HasPvPlant__c == 'Yes', true, false)}" />
+                <apex:outputText value=" PV plant installation date" rendered="{! If(lead.HasPvPlant__c == 'Yes', true, false)}" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.PowerPvPlant__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Power PV plant" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Motivation__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Motivation" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.OtherOffersAvailable__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Other offers available?" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.OtherOffersDetails__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" rendered="{! If(lead.OtherOffersAvailable__c == 'Yes', true, false)}" />
+                <apex:outputText value=" Other offers details" rendered="{! If(lead.OtherOffersAvailable__c == 'Yes', true, false)}" /><br/>
+            </apex:outputPanel>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+
+    <apex:pageBlock rendered="{!lead.RecordType.Name == 'Customer' && lead.TargetCountry__c == 'ES'}">
+        <apex:pageBlockSection columns="3" showHeader="false" collapsible="true">
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.AwarenessSource__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" title="Awareness source" />
+                <apex:outputText value=" Awareness source" />
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Phone == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Phone" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.MobilePhone == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" MobilePhone" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Salutation == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Salutation" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.LastName == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Last name" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Street == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Street" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Postalcode == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Postal code" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Country == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Country" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Email == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Email" /><br/>
+            </apex:outputPanel>           
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+
+    <apex:pageBlock rendered="{! lead.RecordType.Name == 'Partner Acquisition' && lead.Country == 'USA'}" >
+        <apex:pageBlockSection columns="3" collapsible="true">
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Company == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Company" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Salutation == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Salutation" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Website == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Website" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Phone == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Phone" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.MobilePhone == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" MobilePhone" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.LastName == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Last name" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Street == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Street" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.PostalCode == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" PostalCode" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.City == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" City" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Country == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Country" /><br/>
+            </apex:outputPanel>
+            <apex:outputPanel >
+                <apex:image value="{!If(lead.Email == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Email" /><br/>
+            </apex:outputPanel>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+
+    <apex:pageBlock rendered="{! lead.RecordType.Name == 'Partner Acquisition' && lead.Country != 'USA'}" >
+        <apex:pageBlockSection columns="3" collapsible="true">
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.AwarenessSource__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" title="Awareness source" />
+                <apex:outputText value=" Awareness source" />
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.Company == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Company" />
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.Phone == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Phone" />
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.MobilePhone == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" MobilePhone" />
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.Salutation == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Salutation" />
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.LastName == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" LastName" />
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.Street == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Street" />
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.PostalCode == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Postal code" />
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.City == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" City" />
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row">
+                <apex:image value="{!If(lead.Country == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                <apex:outputText value=" Country" />
+            </apex:outputPanel>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:page>

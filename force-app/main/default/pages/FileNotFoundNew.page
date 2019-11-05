@@ -1,0 +1,96 @@
+<!--
+ - Created by l.martins on 28/06/2019.
+ -->
+<apex:page docType="html-5.0" showHeader="false" sidebar="false" standardStylesheets="false" applyHtmlTag="false">
+    <html>
+    <head>
+        <apex:slds />
+        <style>
+                @font-face{
+                    font-family: 'Brandon Text';
+                    src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Medium.ttf')}");
+                    font-weight: 500;
+                    font-style: normal;
+                }
+                @font-face{
+                    font-family: 'Brandon Text';
+                    src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Regular.ttf')}");
+                    font-weight: 400;
+                    font-style: normal;
+                }
+                @font-face{
+                    font-family: 'Brandon Text';
+                    src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-RegularItalic.ttf')}");
+                    font-weight: 400;
+                    font-style: italic;
+                }
+                @font-face{
+                    font-family: 'Brandon Text';
+                    src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Light.ttf')}");
+                    font-weight: 300;
+                    font-style: normal;
+                }
+                body{
+                    background-image: url("{!URLFOR($Resource.pageMaster, 'images/background.jpg')}");
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    margin: 0;
+                }
+            </style>
+        <apex:stylesheet value="{!URLFOR($Resource.pageMaster, 'css/master.css')}"/>
+    </head>
+    <body>
+    <div class="slds-scope">
+        <div class="slds-grid slds-p-around_medium slds-grid_frame slds-grid_vertical-align-center">
+            <div class="slds-container_x-large slds-container_center">
+                <div class="slds-grid">
+                    <div class=" slds-box box-black" style="background-color: black; border-color: black">
+                        <apex:image width="20%" height="20%" url="{!URLFOR($Resource.pageMaster, 'images/logo.svg')}"/>
+                    </div>
+                </div>
+                <div class="slds-grid slds-grid_vertical-stretch slds-wrap">
+                    <div class="slds-col slds-size_1-of-1 slds-small-size_2-of-2 slds-box slds-text-align_center box-white" style="background-color: white; border-color: white">
+                        <apex:outputText styleClass="title" value="{!$Label.site.page_not_found_detail}">
+                            <apex:param value="{!$Site.OriginalUrl}"/>
+                        </apex:outputText>
+                        <br/>
+                        <br/>
+                        <apex:outputText value="{!$Label.site.stay_tuned}"/>
+                        <apex:outputText escape="false" value=" {!$Label.site.get_in_touch}">
+                            <apex:param value="mailto:{!$Site.AdminEmailAddress}"/>
+                            <apex:param value="{!$Label.site.email_us}"/>
+                        </apex:outputText>
+                    </div>
+
+                </div>
+            </div>
+            <div class="slds-docked-form-footer footer_style">
+                &copy; sonnen GmbH
+            </div>
+        </div>
+    </div>
+    <script src="{!URLFOR($Resource.pageMaster, 'scripts/jQuery/jquery-3.2.1.min.js')}"></script>
+    <script>
+                var j$ = jQuery.noConflict();
+
+            //jQuery for floating select label
+                if(j$('[id$=select_list]').val() == '') {
+                    j$('[id$=select_label]').removeClass('float_select');
+                };
+
+                j$(document).ready(function(){
+
+                 //jQuery for floating select label
+                    j$('[id$=select_list]').change(function() {
+                        if(j$('[id$=select_list]').val() != '') {
+                            j$('[id$=select_label]').addClass('float_select');
+                        }
+                        else {
+                            j$('[id$=select_label]').removeClass('float_select');
+                        }
+                     });
+                });
+            </script>
+    </body>
+    </html>
+</apex:page>

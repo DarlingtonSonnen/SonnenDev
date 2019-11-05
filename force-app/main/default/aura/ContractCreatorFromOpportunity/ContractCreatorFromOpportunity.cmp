@@ -1,0 +1,229 @@
+<aura:component controller="ContractCreatorFromOpportunityCtrl"
+    implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+    description="creates Contract from Opportunity">
+
+    <aura:handler name="init" action="{!c.initCmp}" value="{!this}"/>
+
+    <aura:handler event="force:refreshView" action="{!c.refreshCmp}" />
+
+    <aura:attribute name="apexCtrl" type="ContractCreatorFromOpportunityCtrl"/>
+
+    <aura:attribute access="private" type="List" name="selection" default="[]"/>
+    <aura:attribute access="private" type="List" name="errors" default="[]"/>
+
+    <aura:attribute type="Boolean" name="nameAddressCheck" default="false" />
+
+    <div class="slds-align--absolute-center slds-box slds-theme--shade slds-theme--alert-texture" style="position:relative">
+        <div class="wrapper slds-form--compound">
+
+            <div class="slds-text-heading_large slds-text-align_center slds-p-bottom--medium">
+                {!$Label.c.ContractCreatorFromOpp_Title}
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="slds-hide" aura:id="main-container" id="main-container">
+
+                <aura:if isTrue="{! v.apexCtrl.opp.IsClosed &amp;&amp; !v.apexCtrl.contractCreated}">
+                    <div class="slds-text-heading_medium ">
+                        {!$Label.c.ContractCreatorFromOpp_OppClosed}
+                    </div>
+
+                    <aura:set attribute="else">
+
+                        <div class="slds-text-heading_small slds-p-bottom_x-small">
+                            {!$Label.c.ContractCreatorFromOpp_RelatedOrderInputDefVal}
+                        </div>
+
+                        <div class="clear"></div>
+
+                        <div class="slds-scrollable_y" style="height: 18rem">
+                            <table class="slds-table slds-table_fixed-layout slds-table_bordered">
+                                <thead>
+                                    <th class="slds-size_4-of-12" scope="col">
+                                        <div class="slds-truncate slds-text-heading_small" title="{!$Label.c.ContractCreatorFromOpp_RelatedOrderInputDefVal_Name}">
+                                            {!$Label.c.ContractCreatorFromOpp_RelatedOrderInputDefVal_Name}
+                                        </div>
+                                    </th>
+                                    <th class="slds-size_7-of-12" scope="col">
+                                        <div class="slds-truncate slds-text-heading_small" title="{!$Label.c.ContractCreatorFromOpp_RelatedOrderInputDefVal_Value}">
+                                            {!$Label.c.ContractCreatorFromOpp_RelatedOrderInputDefVal_Value}
+                                        </div>
+                                    </th>
+                                    <th class="slds-size_1-of-12" scope="col"/>
+                                </thead>
+                                <tbody>
+                                    <aura:iteration items="{!v.apexCtrl.orderInpDefVal}" var="oidv">
+                                        <tr>
+                                            <td data-label="Name">
+                                                <div class="slds-truncate" title="{!oidv.item.OrderInputDefinitionLabel__c}">
+                                                    {!oidv.item.OrderInputDefinitionLabel__c}
+                                                </div>
+                                            </td>
+                                            <td data-label="Value">
+                                                 <div class="slds-truncate" title="{!oidv.objValue.value}">
+                                                     <aura:if isTrue="{!oidv.type == 'BOOLEAN'}">
+                                                         <ui:inputCheckbox value="{!oidv.objValue.value}"
+                                                                           class="disabledBoolean"
+                                                                           disabled="{!or(v.apexCtrl.contractCreated, oidv.item.OrderInputDefinition__r.Visibility__c != v.apexCtrl.EDITABLE)}"/>
+                                                     </aura:if>
+                                                     <aura:if isTrue="{!or(oidv.type == 'STRING', oidv.type == 'REFERENCE')}">
+                                                         <ui:inputText value="{!oidv.objValue.value}" class="inline-input"
+                                                                       disabled="{!or(v.apexCtrl.contractCreated, oidv.item.OrderInputDefinition__r.Visibility__c != v.apexCtrl.EDITABLE)}"/>
+                                                     </aura:if>
+                                                     <aura:if isTrue="{!oidv.type == 'PICKLIST'}">
+                                                         <ui:inputSelect value="{!oidv.objValue.value}"
+                                                                         change="{!c.onChangePicklist}"
+                                                                         label="{!oidv.item.OrderInputDefinitionFieldId__c}"
+                                                                         labelClass="hidden-label"
+                                                                         disabled="{!or(v.apexCtrl.contractCreated, oidv.item.OrderInputDefinition__r.Visibility__c != v.apexCtrl.EDITABLE)}"
+                                                                         options="{!oidv.options}"/>
+                                                     </aura:if>
+                                                     <aura:if isTrue="{!oidv.type == 'MULTIPICKLIST'}">
+                                                         <ui:inputSelect value="{!oidv.objValue.value}"
+                                                                         disabled="{!or(v.apexCtrl.contractCreated, oidv.item.OrderInputDefinition__r.Visibility__c != v.apexCtrl.EDITABLE)}"
+                                                                         options="{!oidv.options}"
+                                                                         multiple="true"/>
+                                                     </aura:if>
+                                                     <aura:if isTrue="{!oidv.type == 'DATE'}">
+                                                         <ui:inputDate class="slds-input"
+                                                                       value="{!oidv.objValue.value}"
+                                                                       displayDatePicker="true"
+                                                                       disabled="{!or(v.apexCtrl.contractCreated, oidv.item.OrderInputDefinition__r.Visibility__c != v.apexCtrl.EDITABLE)}"/>
+                                                     </aura:if>
+                                                     <aura:if isTrue="{!oidv.type == 'DATETIME'}">
+                                                         <ui:inputDateTime class="slds-input"
+                                                                           value="{!oidv.objValue.value}"
+                                                                           displayDatePicker="true"
+                                                                           disabled="{!or(v.apexCtrl.contractCreated, oidv.item.OrderInputDefinition__r.Visibility__c != v.apexCtrl.EDITABLE)}"/>
+                                                     </aura:if>
+                                                     <aura:if isTrue="{!oidv.type == 'DOUBLE'}">
+                                                         <lightning:input type="number"
+                                                                          value="{!oidv.objValue.value}"
+                                                                          variant="label-hidden" step="0.01"
+                                                                          disabled="{!or(v.apexCtrl.contractCreated, oidv.item.OrderInputDefinition__r.Visibility__c != v.apexCtrl.EDITABLE)}"/>
+                                                     </aura:if>
+                                                     <aura:if isTrue="{!oidv.type == 'PERCENT'}">
+                                                         <lightning:input type="number"
+                                                                          value="{!oidv.objValue.value}"
+                                                                          formatter="percent-fixed"
+                                                                          step="0.1"
+                                                                          variant="label-hidden"
+                                                                          disabled="{!or(v.apexCtrl.contractCreated, oidv.item.OrderInputDefinition__r.Visibility__c != v.apexCtrl.EDITABLE)}"/>
+                                                     </aura:if>
+                                                     <aura:if isTrue="{!oidv.type == 'CURRENCY'}">
+                                                         <lightning:input type="number"
+                                                                          value="{!oidv.objValue.value}"
+                                                                          formatter="currency"
+                                                                          step="0.1"
+                                                                          variant="label-hidden"
+                                                                          disabled="{!or(v.apexCtrl.contractCreated, oidv.item.OrderInputDefinition__r.Visibility__c != v.apexCtrl.EDITABLE)}"/>
+                                                     </aura:if>
+                                                </div>
+                                            </td>
+                                            <td >
+                                                <aura:if isTrue="{!oidv.item.OriginalValue__c != oidv.item.Value__c}">
+                                                    <lightning:helptext iconName="utility:anchor" content="This value differs from the original one" />
+                                                </aura:if>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="clear"></div>
+                        <br/>
+
+                        <fieldset class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <lightning:button label="{!$Label.c.ContractCreatorFromOpp_ButtonSave}"
+                                                  class="slds-button_brand save-button"
+                                                  onclick="{!c.saveValuesAction}"
+                                                  disabled="{!v.apexCtrl.contractCreated}"/>
+                            </div>
+                        </fieldset>
+
+                        <div class="clear"></div>
+
+                        <div class="slds-text-heading_small slds-p-bottom_x-small">
+                            {!$Label.c.ContractCreatorFromOpp_HeaderContract}
+                        </div>
+
+                        <fieldset class="slds-form-element">
+                            <div class="slds-form-element__control">
+
+                                <aura:if isTrue="{! and(v.apexCtrl.isContractChange, !v.apexCtrl.contractCreated) }">
+
+                                    <p>
+                                        <aura:unescapedHtml value="{!$Label.c.ContractCreatorFromOpp_ContractChangeInfo}" />
+                                    </p>
+
+                                    <div class="slds-m-top--x-small">
+                                        <c:Lookup
+                                                aura:id="previousContract"
+                                                selection="{!v.selection}"
+                                                onSearch="{!c.onLookupPreviousContractSearch}"
+                                                onSelection="{!c.onLookupPreviousContractSelection}"
+                                                errors="{!v.errors}"
+                                                label="{!v.apexCtrl.mapLabels.Contract.ContractPrevious__c}"
+                                                placeholder="Contract Number, Customer Name, Lumenaza ID, ..."
+                                                isMultiEntry="false" />
+                                    </div>
+
+                                    <div class="slds-datepicker slds-m-top--xx-small">
+                                        <span class="slds-form-element__label">{!v.apexCtrl.mapLabels.Contract.MeterReadingValueStart__c}</span>
+                                        <ui:inputNumber class="slds-input"
+                                                        disabled="{!v.apexCtrl.contractCreated}"
+                                                        value="{!v.apexCtrl.newContract.MeterReadingValueStart__c}" />
+                                    </div>
+
+                                </aura:if>
+
+                                <div class="slds-m-top--xx-small">
+                                    <span class="slds-form-element__label">{!v.apexCtrl.mapLabels.Contract.StartDate}</span>
+                                    <ui:inputDate class="slds-input"
+                                                  disabled="{!v.apexCtrl.contractCreated}"
+                                                  displayDatePicker="true"
+                                                  value="{!v.apexCtrl.newContract.StartDate}" />
+                                </div>
+
+                                <div class="clear" id="footer-bar">
+
+                                    <div class="slds-checkbox slds-m-top--xx-small" style="float: left">
+                                        <label class="slds-checkbox" style="float: left">
+                                            <ui:inputCheckbox value="{!v.nameAddressCheck}" disabled="{!v.apexCtrl.contractCreated}"/>
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label">{!$Label.c.ContractCreatorFromOpp_NameAddressChecked}</span>
+                                        </label>
+                                        <label class="slds-checkbox" style="float: left">
+                                            <ui:inputCheckbox value="{!v.apexCtrl.opp.ContractDataApproved__c}" disabled="{!v.apexCtrl.contractCreated}"/>
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label">{!v.apexCtrl.mapLabels.Opportunity.ContractDataApproved__c}</span>
+                                        </label>
+                                    </div>
+
+                                    <lightning:button label="{!$Label.c.ContractCreatorFromOpp_Button}"
+                                                      class="slds-button_brand send-button"
+                                                      onclick="{!c.createContractAction}"
+                                                      disabled="{!(!v.apexCtrl.opp.ContractDataApproved__c || v.apexCtrl.contractCreated || !v.nameAddressCheck)}"/>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                    </aura:set>
+                </aura:if>
+
+            </div>
+        </div>
+
+        <div class="slds-spinner_container slds-hide" aura:id="spinner">
+            <div class="slds-spinner slds-spinner--medium" aria-hidden="false" role="alert">
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </div>
+
+
+</aura:component>

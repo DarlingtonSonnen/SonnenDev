@@ -1,0 +1,100 @@
+<!--
+ - Created by kevinkolditz on 14.09.17.
+ - Update German Template by Michael Muchow on 13.04.2018
+ - Update English Template by Michael Muchow on 17.04.2018
+ - Updated Italian Template by Alexey Yamaev on 14.06.2018
+ -->
+
+<apex:component id="CommunityWelcomeTextEmail" access="global">
+
+    <apex:attribute name="relatedUser" type="User" description="Contact for the email"   />
+
+    <apex:outputText rendered="{!relatedUser.Language__c == 'de'}">
+
+        Herzlich Willkommen im sonnen Partnerportal!
+
+        Wie bereits angekündigt wurde nun Ihr Zugang für das neue Partnerportal freigeschaltet. Alle Leads, die wir Ihnen bereits vermittelt haben, wurden selbstverständlich übertragen.
+
+            Ihr persönlicher Benutzername lautet: {!relatedUser.Username}
+
+        Um die zahlreichen Vorteile des neuen LeadPortals nutzen zu können, bitten wir Sie, Ihren Account zu aktivieren, indem Sie Ihr persönliches Passwort erstellen.
+
+        Das Partnerportal erreichen Sie unter folgendem Link: {!$Network.NetworkUrlForUserEmails}
+
+        Das Portal soll Ihnen als ganzheitliche Plattform dienen und beinhaltet unter anderem folgende Features:
+
+            •	Übersichtliche Dashboards: Sehen Sie alle wichtigen Informationen auf den ersten Blick
+            •	Umfangreiche Suche: Die Suchfunktion umfasst alle Bereiche des Portals
+            •	Verknüpfung mit der sonnen Cloud: Ohne Umwege direkter Zugriff zu unserer Dokumentenablage mit Marketingmaterialien
+            •	Direkte Kontaktaufnahme: Sie haben eine Frage an unseren SalesSupport? Stellen Sie Ihre Fragen direkt im Lead und erhalten Sie unsere Antwort an der gleichen Stelle
+            •	Implementierter Kalender: Verwalten Sie Ihre Termine direkt im Portal.
+
+        Direkten Zugang zu aktuellen Schulungen und Events erhalten Sie hier: https://sonnen.de/events/
+
+        Wir bedanken uns für Ihr Vertrauen und freuen uns mit dem neuen Partnerportal auf eine weiterhin gute und erfolgreiche Zusammenarbeit.
+
+        Sollten Sie Fragen zu Funktionen im Partnerportal haben, zögern Sie nicht, diese an leads@sonnenbatterie.de zu stellen.
+
+        Ihr sonnenTeam
+
+    </apex:outputText>
+
+    <apex:outputText rendered="{!relatedUser.Language__c == 'it'}">
+
+        Ciao {!relatedUser.FirstName},
+
+        Benvenuto nel nostro Leadportal!
+
+        Tutte le leads che verranno assegnate alla tua azienda verranno salvate automaticamente nel tuo account personale.
+
+        Il tuo account personale è: "{!$Network.Name}".
+
+        Per scoprire i vantaggi del nostro nuovo Leadportal ti chiediamo gentilmente di attivare il tuo account nel quale potrai creare la tua password personale.
+
+        Per attivare il tuo account clicca sul seguente link: {!$Network.NetworkUrlForUserEmails}
+
+        Il nostro Leadportal è una piattaforma multifunzionale nella quale potrai:
+
+        •	Verificare in ogni momento lo stato delle leads attraverso la lettura di diversi diagrammi;
+        •	Effettuare un import delle tue leads: hai sottomano una lista di potenziali contatti a cui proporre i nostri prodotti? Inoltraci la lista e saremmo lieti di effettuare un caricamento direttamente sul tuo portale;
+        •	Accedere alla documentazione di sonnen via owncloud;
+        •	Contattarci in qualsiasi momento tramite il format di contatto;
+        •	Implementare il tuo calendario di appuntamenti organizzando le tue visite direttamente dal portale.
+
+        Per ogni domanda o chiarimento in merito all’utilizzo del Leadportal puoi contattarci a leads@sonnenbatterie.it.
+
+        Ti ringraziamo per la fiducia nella nostra partnership e ti auguriamo un buon lavoro!
+
+        Il team di sonnen
+
+
+    </apex:outputText>
+    <apex:outputText rendered="{!relatedUser.Language__c != 'de' && relateduser.Language__c != 'it'}">
+
+        Welcome to the sonnen Partnerportal!
+
+        As previously announced, your access to the new Partnerportal has now been created.
+
+        Your personal username is: {!relatedUser.Username}
+
+        To take advantage of the many benefits of the new Partnerportal, we encourage you to activate your account by creating your personal password.
+
+        To start, please go to: {!$Network.NetworkUrlForUserEmails}
+
+        The Partnerportal is intended to serve you as an integrated platform and includes, among other things, the following features:
+
+        •	Clearly arranged dashboards: All the important information displayed on one location.
+        •	Extensive search: the search function covers all areas of the Partnerportal.
+        •	Assignment to the sonnen cloud: direct access to our documents.
+        •	Direct contact: you have a question to our SalesSupport? Ask your questions directly in the lead and get our answer at the same place.
+        •	Implemented calendar: manage your appointments directly in the Partnerportal.
+
+        
+        We would like to thank you for your trust and we look forward to a good and successful cooperation with the new Partnerportal.
+
+        If you have any questions regarding the Partnerportals functionality, please do not hesitate to contact w.bruehl@sonnen.de.
+
+        Your sonnenTeam!
+
+    </apex:outputText>
+</apex:component>

@@ -1,0 +1,179 @@
+.standardBackground {
+  background-color: #FFFFFF;
+}
+@page {
+  width: 100%;
+  margin-left: 0cm;
+  margin-right: 0cm;
+  margin-bottom: 0cm;
+}
+.table {
+  width: 100%;
+  padding-left: 1.5cm;
+  padding-right: 1.5cm;
+}
+.header {
+  font-size: 48px;
+  font-family: 'Arial Unicode MS';
+  text-align: left;
+  vertical-align: bottom;
+  width: 80%;
+}
+.logo {
+  vertical-align: top;
+  text-align: right;
+  width: 40%;
+}
+.top {
+  font-size: 16px;
+  font-family: 'Arial Unicode MS';
+  text-align: left;
+}
+div.bold {
+  font-weight: bold;
+  font-family: 'Arial Unicode MS';
+}
+.salu {
+  font-size: 16px;
+  font-family: 'Arial Unicode MS';
+  text-align: left;
+}
+.listUp {
+  font-size: 16px;
+  font-family: 'Arial Unicode MS';
+  text-align: left;
+}
+.list {
+  font-size: 16px;
+  font-family: 'Arial Unicode MS';
+  text-align: left;
+}
+ul.listMain {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+li.listMain {
+  padding-left: 2em; 
+  text-indent: -0.8em;
+  margin: 0.5em;
+}
+li.listMain::before {
+  content: "• ";
+  color:#4ccfef;
+  font-size: 20px;
+}
+ul.listMain2 {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+li.listMain2 {
+  padding-left: 2em;
+  text-indent: -0.8em;
+  margin: 0.1em;
+}
+li.listMain2::before {
+  content: "• ";
+  color:#4ccfef;
+  font-size: 20px;
+}
+ul.listPart {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+li.listPart {
+  padding-left: 2em; 
+  text-indent: -0.8em;
+  margin: 0.1em;
+}
+li.listPart::before {
+  content: "• ";
+  color:#4ccfef;
+  font-size: 20px;
+}
+.footText {
+  font-size: 12px;
+  font-family: 'Arial Unicode MS';
+  text-align: left;
+}
+ul.ListUS {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+li.ListUS {
+  padding-left: 2em; 
+  text-indent: -0.5em;
+  margin: 0.2em;
+}
+li.ListUS::before {
+  content: "• ";
+  color:#000000;
+  font-size: 12px;  
+}
+ul.ListIT {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+li.ListIT {
+  padding-left: 2em; 
+  text-indent: -0.5em;
+  margin: 0.2em;
+}
+li.ListIT::before {
+  content: "- ";
+  color:#000000;
+  font-size: 12px;  
+}
+.botText {
+  font-size: 10px;
+  font-family: 'Arial Unicode MS';
+  text-align: left;
+}
+.signature {
+  vertical-align: top;
+  text-align: right;
+  width: 50%;
+}
+.footer {
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  text-align: center;
+}
+.logoUS {
+  vertical-align: top;
+  text-align: right;
+  width: 40%;
+}
+.usHeader {
+  font-size: 48px;
+  font-family: 'Arial Unicode MS';
+  text-align: left;
+  vertical-align: bottom;
+  width: 80%;
+}
+.usNormal {
+  text-align: center;
+  font-size: 22px;
+  font-family: 'Arial Unicode MS';
+}
+.usBig {
+  text-align: center;
+  font-size: 30px;
+  font-family: 'Arial Unicode MS';  
+}
+.usSigLeft {
+  font-family: 'Arial Unicode MS';
+  vertical-align: bottom;
+  text-align: left;
+}
+.usSigRight {
+  font-family: 'Arial Unicode MS';
+  vertical-align: bottom;
+  text-align: right;
+}

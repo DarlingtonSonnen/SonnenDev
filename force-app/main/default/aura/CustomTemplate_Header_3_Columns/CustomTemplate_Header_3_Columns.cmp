@@ -1,0 +1,23 @@
+<!--
+ - Created by m.muchow on 25.03.2019.
+ -->
+
+<aura:component description="Header_3Columns_Custom" implements="lightning:recordHomeTemplate" access="global">
+    <aura:attribute name="header" type="Aura.Component[]"/>
+    <aura:attribute name="center" type="Aura.Component[]"/>
+    <aura:attribute name="left" type="Aura.Component[]"/>
+    <aura:attribute name="right" type="Aura.Component[]"/>
+
+    <span>{!v.header}</span>
+    <div class="slds-grid slds-wrap slds-m-top_medium">
+        <div class="slds-col slds-size_1-of-6 slds-p-right_medium">
+            <span>{!v.left}</span>
+        </div>
+        <div class="slds-col slds-size_3-of-6">
+            <span>{!v.center}</span>
+        </div>
+        <div class="slds-col slds-size_2-of-6 slds-p-left_medium">
+            <span>{!v.right}</span>
+        </div>
+    </div>
+</aura:component>

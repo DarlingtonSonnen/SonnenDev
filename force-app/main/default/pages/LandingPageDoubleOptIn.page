@@ -1,0 +1,183 @@
+<!--
+ - Created by m.muchow on 11.01.2019.
+ -->
+
+<apex:page id="LandingPageDoubleOptIn" docType="html-5.0" showHeader="false" sidebar="false" standardStylesheets="false" applyHtmlTag="false" controller="LandingPageDoubleOptInController" action="{!checkDoubleOptIn}">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <head>
+        <apex:slds />
+        <style>
+                @font-face{
+                    font-family: 'Brandon Text';
+                    src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Medium.ttf')}");
+                    font-weight: 500;
+                    font-style: normal;
+                }
+                @font-face{
+                    font-family: 'Brandon Text';
+                    src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Regular.ttf')}");
+                    font-weight: 400;
+                    font-style: normal;
+                }
+                @font-face{
+                    font-family: 'Brandon Text';
+                    src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-RegularItalic.ttf')}");
+                    font-weight: 400;
+                    font-style: italic;
+                }
+                @font-face{
+                    font-family: 'Brandon Text';
+                    src: url("{!URLFOR($Resource.pageMaster, 'fonts/brandontext/BrandonText-Light.ttf')}");
+                    font-weight: 300;
+                    font-style: normal;
+                }
+                @font-face{
+                    font-family: 'Open Sans';
+                    src: url("{!URLFOR($Resource.solarplanung, 'fonts/opensans/OpenSans-Regular.ttf')}");
+                    font-weight: 500;
+                    font-style: normal;
+                }
+                @font-face{
+                    font-family: 'Open Sans';
+                    src: url("{!URLFOR($Resource.solarplanung, 'fonts/opensans/OpenSans-Regular.ttf')}");
+                    font-weight: 400;
+                    font-style: normal;
+                }
+                @font-face{
+                    font-family: 'Open Sans';
+                    src: url("{!URLFOR($Resource.solarplanung, 'fonts/opensans/OpenSans-Italic.ttf')}");
+                    font-weight: 400;
+                    font-style: italic;
+                }
+                @font-face{
+                    font-family: 'Open Sans';
+                    src: url("{!URLFOR($Resource.solarplanung, 'fonts/opensans/OpenSans-Light.ttf')}");
+                    font-weight: 300;
+                    font-style: normal;
+                }
+                @font-face {
+                    font-family: 'fontello';
+                    src: url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.eot')}");
+                    src: url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.eot')}") format('embedded-opentype'),
+                         url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.woff')}") format('woff'),
+                         url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.ttf')}") format('truetype'),
+                         url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.svg#fontello')}") format('svg');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                body{
+                    background-image: url("{!URLFOR($Resource.pageMaster, 'images/background.jpg')}");
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                	margin: 0;
+                }
+            </style>
+        <apex:stylesheet value="{!URLFOR($Resource.pageMaster, 'css/master.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.solarplanung, 'css/solarplanung.css')}"/>
+    </head>
+    <body>
+        <div class="slds-scope">
+            <div class="slds-grid slds-p-around_medium slds-grid_frame slds-grid_vertical-align-center">
+                <div class="slds-container_center">
+                    <div class="slds-grid">
+                        <div id="son">
+                            <div class="slds-col slds-box box_black">
+                                <apex:image styleClass="sonnen_icon" url="{!URLFOR($Resource.pageMaster, 'images/logo.svg')}"/>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-box box_success box_white box_p_right">
+                                <div class="text_box">
+                                    <div class="slds-grid">
+                                        <div class="slds-col slds-p-right_large">
+                                            <div id="de">
+                                                <div class="slds-text-heading_large slds-text-align_center slds-p-bottom_small">
+                                                    Vielen Dank.
+                                                </div>
+                                                Sie haben Ihre Anfrage erfolgreich bestätigt.
+                                            </div>
+                                            <div id="it">
+                                                <div class="slds-text-heading_large slds-text-align_center slds-p-bottom_small">
+                                                    Grazie.
+                                                </div>
+                                                Hai confermato di voler ricevere ulteriori informazioni da sonnen.
+                                            </div>
+                                            <div id="en">
+                                                <div class="slds-text-heading_large slds-text-align_center slds-p-bottom_small">
+                                                    Thank you.
+                                                </div>
+                                                You have confirmed you are happy to receive further information from sonnen.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="sol">
+                            <div class="slds-col slds-box box_white_sol">
+                                <apex:image styleClass="sol_icon" url="{!URLFOR($Resource.solarplanung, "images/solarplanung_logo.png")}"/>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-box box_success box_grey_sol box_p_right">
+                                <div class="text_box text_box_sol">
+                                    <div class="slds-grid">
+                                        <div class="slds-col">
+                                            <div class="slds-text-heading_large slds-text-align_center slds-p-bottom_small">
+                                                Vielen Dank.
+                                            </div>
+                                            Sie haben Ihre Anfrage erfolgreich bestätigt.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-p-around_large slds-grid_align-space slds-docked-form-footer footer_style_sol">
+                <div class="slds-col copy_footer " id="son">
+                    &copy; {!$Label.masterPageCopyright}
+                </div>
+                <div class="slds-col copy_footer " id="sol">
+                    &copy; solarplanung.com All rights reserved
+                </div>
+            </div>
+        </div>
+        <script src="{!URLFOR($Resource.pageMaster, 'scripts/jQuery/jquery-3.2.1.min.js')}"></script>
+        <script>
+            let j$ = jQuery.noConflict();
+
+            var language = '{!$CurrentPage.parameters.lang}',
+                site = '{!$CurrentPage.parameters.site}';
+
+                j$('[id$=son]').hide();
+                j$('[id$=sol]').hide();
+                j$('[id$=de]').hide();
+                j$('[id$=it]').hide();
+                j$('[id$=en]').hide();
+
+                    switch(site) {
+                        case 'son':
+                            switch(language) {
+                            case 'de':
+                                j$('[id$=son]').show();
+                                j$('[id$=de]').show();
+                                break;
+                            case 'it':
+                                j$('[id$=son]').show();
+                                j$('[id$=it]').show();
+                                break;
+                            case 'en':
+                                j$('[id$=son]').show();
+                                j$('[id$=en]').show();
+                                break;
+                            default:
+                                j$('[id$=son]').show();
+                                j$('[id$=en]').show();
+                            };
+                            break;
+                        case 'sol':
+                            document.body.style.backgroundImage = 'url({!URLFOR($Resource.solarplanung, 'images/solarplanung_back.jpg')})';
+                            j$('[id$=sol]').show();
+                    };
+        </script>
+    </body>
+    </html>
+</apex:page>

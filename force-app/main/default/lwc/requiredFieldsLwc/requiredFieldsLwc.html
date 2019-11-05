@@ -1,0 +1,22 @@
+<!--
+ - Created by m.muchow on 18.03.2019.
+ -->
+
+<!-- Required Fields LWC -->
+<template>
+    <template if:true={recordTypeNameCustomer}>
+        <template if:true={targetCountryDACH}>
+            <template if:false={leadPartner}>
+                <c-required-fields-dach if:false={charger} record-id={recordId} object-api-name={objectApiName}></c-required-fields-dach>
+                <c-required-fields-dach-charger if:true={charger} record-id={recordId} object-api-name={objectApiName}></c-required-fields-dach-charger>
+            </template>
+        </template>
+            <c-required-fields-it if:true={targetCountryIT} record-id={recordId} object-api-name={objectApiName}></c-required-fields-it>
+            <c-required-fields-es if:true={targetCountryES} record-id={recordId} object-api-name={objectApiName}></c-required-fields-es>
+            <c-required-fields-au if:true={targetCountryAU} record-id={recordId} object-api-name={objectApiName}></c-required-fields-au>
+    </template>
+    <template if:false={recordTypeNameCustomer}>
+        <c-required-fields-partner if:false={countryCodeUS} record-id={recordId} object-api-name={objectApiName}></c-required-fields-partner>
+        <c-required-fields-partner-us if:true={countryCodeUS} record-id={recordId} object-api-name={objectApiName}></c-required-fields-partner-us>
+    </template>
+</template>

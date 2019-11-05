@@ -1,0 +1,44 @@
+.THIS {
+    background: white;
+    padding: 10px;
+}
+.THIS.wrapper {
+    margin: 0;
+    width: 100%;
+}
+.THIS .message {
+    word-wrap: break-word;
+}
+.THIS .save-button {
+    float: right;
+}
+.THIS .send-button {
+    float: right;
+}
+
+.THIS .clear {
+    clear: both;
+}
+.THIS .inline-input {
+    padding: 3px;
+    min-height: 0;
+    line-height: normal !important;
+}
+.THIS .mySpinner {
+  position: relative;
+  width: 200px;
+  height: 100px;
+}
+.THIS .disabledBoolean:disabled {
+    background-color: #bebebe !important;
+}
+.THIS #footer-bar {
+    margin-top: 15px;
+}
+.THIS input[type='checkbox'],
+.THIS label.slds-checkbox {
+    cursor: pointer;
+}
+.THIS .hidden-label {
+    display: none;
+}

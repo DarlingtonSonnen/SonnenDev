@@ -1,0 +1,9 @@
+<apex:page standardController="ConfiguratorSetup__c" recordSetVar="configs" >
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Congratulations</h1>
+  <apex:enhancedList height="200" type="ConfiguratorSetup__c" rowsPerPage="25"/>
+  <apex:dataTable value="{!configs}" var="config">
+  <apex:column value="{!config.name}"/>
+  </apex:dataTable>
+  <!-- End Default Content REMOVE THIS -->
+</apex:page>

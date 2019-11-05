@@ -1,0 +1,14 @@
+<aura:component >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:attribute name="items" type="List" required="true"/>
+    <aura:attribute name="element" type="String" required="true"/>
+    <aura:attribute name="condition" type="Boolean" />
+
+    <aura:handler name="change" value="{!v.items}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.element}" action="{!c.doInit}"/>
+
+    <aura:if isTrue="{!v.condition}">
+        {!v.body}
+    </aura:if>
+</aura:component>

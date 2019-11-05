@@ -1,0 +1,18 @@
+/**
+ * Created by m.muchow on 07.06.2019.
+ */
+.jsonText {
+    font-size: large;
+    color: green;
+}
+.jsonNoText {
+    font-size: large;
+    color: red;
+}
+.slaveText {
+    color: red;
+}
+.oldText {
+    font-weight: bold;
+    font-size: larger;
+}

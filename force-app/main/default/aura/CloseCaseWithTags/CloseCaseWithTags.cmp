@@ -1,0 +1,84 @@
+<aura:component controller="CloseCaseWithTagsCtrl"
+    implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:lightningQuickAction"
+    description="Allow to change the Case status, and in case we close it, we choose topics that were helpful, from related Knowledge articles.">
+
+    <aura:handler name="init" action="{!c.initCmp}" value="{!this}"/>
+    <aura:handler event="force:refreshView" action="{!c.refreshCmp}" />
+
+    <aura:attribute name="apexCtrl" type="CloseCaseWithTagsCtrl"/>
+    <aura:attribute name="oldStatus" type="String"/>
+    <!-- Workaround for defining of List type for AuraIfContains component -->
+    <aura:attribute name="closedStatusesList" type="List" default="{!v.apexCtrl.closedStatuses}"/>
+
+    <!-- Workaround for removing grey frame around the component -->
+    <aura:attribute name="cssStyle" type="String"/>
+    <aura:unescapedHtml value="{!v.cssStyle}"/>
+
+    <div class="wrapper" style="position:relative">
+
+        <label class="slds-form-element__label" for="status">{!v.apexCtrl.statusLabel}</label>
+        <ui:inputSelect
+            aura:id="status"
+            value="{!v.apexCtrl.caseRecord.Status}"
+            options="{!v.apexCtrl.statusOptions}"
+            change="{!c.onStatusChange}"
+        />
+
+        <div class="clear"></div>
+        <br/>
+
+        <label class="slds-form-element__label" for="reportingCategory">{!v.apexCtrl.reportingCategoryLabel}</label>
+        <ui:inputSelect
+            aura:id="reportingCategory"
+            value="{!v.apexCtrl.caseRecord.Reporting_Category__c}"
+            options="{!v.apexCtrl.reportingCategoryOptions}"
+        />
+
+        <aura:if isTrue="{!v.apexCtrl.caseRecord.Status != null}">
+
+            <div class="clear"></div>
+            <br/>
+
+            <aura:if isTrue="{! v.apexCtrl.isKnowledgeLinkageEnabled &amp;&amp; not(empty(v.apexCtrl.tags))}">
+                <c:AuraIfContains items="{!v.closedStatusesList}"  element="{!v.apexCtrl.caseRecord.Status}">
+
+                    <label for="tagsList">
+                        <span class="slds-form-element__label slds-m-bottom_x-small">{!$Label.c.CloseCaseWithTags_Topics}</span>
+                        <lightning:helptext content="{!$Label.c.CloseCaseWithTags_TopicsHelpText}" class="slds-m-bottom_x-small"/>
+                    </label>
+
+                    <div class="clear"></div>
+
+                    <aura:iteration items="{!v.apexCtrl.tags}" var="tag" aura:id="tagsList">
+
+                        <label class="slds-form-element__label slds-m-right_xx-small">
+                            <span class="{! 'slds-badge ' + if(tag.isChosen, 'slds-badge_inverse', 'slds-badge_lightest')}">
+                                {!tag.topic.Topic.Name}
+                            </span>
+                            <ui:inputCheckbox value="{!tag.isChosen}" class="slds-hidden"/>
+                        </label>
+
+                    </aura:iteration>
+
+                </c:AuraIfContains>
+            </aura:if>
+        </aura:if>
+
+        <div class="clear"></div>
+
+        <lightning:button label="Save"
+            class="slds-button_brand send-button"
+            onclick="{!c.saveData}"/>
+
+        <div class="clear"></div>
+
+        <div class="slds-spinner_container slds-hide" aura:id="spinner">
+            <div class="slds-spinner slds-spinner--medium" aria-hidden="false" role="alert">
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </div>
+
+
+</aura:component>

@@ -1,0 +1,11 @@
+<!--
+ - Created by m.muchow on 27.03.2019.
+ - Lightning Aura Component Shell for Lightning Web Component
+ - Necessary to refresh record after update of lead by LWC
+ -->
+
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" description="noAnswerComponentAuraShell">
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="sObjectName" type="String"/>
+    <c:noAnswerComponent onrecordChange="{!c.refreshView}" recordId="{!v.recordId}" objectApiName="{!v.sObjectName}"/>
+</aura:component>

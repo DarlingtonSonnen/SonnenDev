@@ -1,0 +1,26 @@
+<!--
+
+Information on contract synchronization
+
+E.g. useful to show Lumenaza or aWATTar hints
+
+@author Marko Schmalenbach <marko@die-interaktiven.de>
+@version 1.0.0-2017-08-14
+
+-->
+<apex:page showHeader="false" sidebar="false" standardController="Contract" standardStylesheets="true">
+
+    <apex:pageBlock >
+        <apex:pageMessage escape="false" summary="<b>ATTENTION</b>" strength="2" severity="warning" rendered="{!(Contract.Type__c = 'sonnenbatterieHome-AT' && Contract.AwattarApiSyncActivated__c && !ISBLANK(Contract.AwattarContractId__c))}">
+            <div style="padding-left: 8px;">
+                Contract has already an <em>aWATTar</em> ID assigned. Further changes won't be synchronized. (See field "<em>{!$ObjectType.Contract.fields.IsValidForAwattarSync__c.Label}</em>")
+            </div>
+        </apex:pageMessage>
+        <apex:pageMessage escape="false" summary="<b>NOTE</b>" strength="2" severity="info" rendered="{!(Contract.Type__c = 'sonnenbatterieHome-AT' && !Contract.AwattarApiSyncActivated__c && ISBLANK(Contract.AwattarContractId__c))}">
+            <div style="padding-left: 8px;">
+                Please check field <strong><em>{!$ObjectType.Contract.fields.AwattarApiSyncActivated__c.Label}</em></strong> to initialize push to <em>aWATTar</em>.
+            </div>
+        </apex:pageMessage>
+    </apex:pageBlock>
+
+</apex:page>

@@ -1,0 +1,85 @@
+<!-- 
+ * TrainingControls
+ *
+ * Lightning Component to execute actions from the Apex Class 'completeTraining'
+ *
+ * @see completeTraining
+ * @see modalCancelContent
+ * @see modalCancelFooter
+ *
+ * ___ Changelog ___
+ * v 1.0 Michael Muchow 2018-03-20
+ * v 1.1 Michael Muchow 2018-05-09 - added new label, hide label after creation
+ *
+ * @version 1.1
+-->
+
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" controller="completeTraining" description="Controll Panel for Training">
+    <aura:attribute name="train" type="Object" />
+    <aura:attribute name="trainFields" type="Object" />
+    <aura:attribute name="attListGenerated" type="Boolean" default="false"/>
+
+    <force:recordData aura:id="record"
+                      recordId="{!v.recordId}"
+                      targetRecord="{!v.train}"
+                      targetFields="{!v.trainFields}" 
+                      fields="Status__c, CompletedDate__c, CompletedUser__c, CertificationGenerateDate__c, CertificationGenerateUser__c, CertificateSendDate__c, CertificateSendUser__c"/>   
+    
+    <lightning:card >
+        <aura:set attribute="title">
+            Manage Training
+        </aura:set>
+
+        <p class="slds-p-horizontal_small">
+            <div class="slds-form-element slds-hide slds-m-top_large" aura:id="busySpinner">
+                <lightning:spinner variant="brand" size="large"/>
+            </div>
+            <p>
+                <aura:if isTrue="{!v.trainFields.Status__c != 'Cancelled'}">
+                    <aura:if isTrue="{!not(empty(v.trainFields.CompletedDate__c))}">
+                        Training completed on: <b><lightning:formattedDateTime value="{!v.trainFields.CompletedDate__c}" year="numeric" month="numeric" day="numeric" hour="2-digit" minute="2-digit"/></b> by <b>{!v.trainFields.CompletedUser__c}</b><br/>
+                    </aura:if>
+                    <aura:if isTrue="{!not(empty(v.trainFields.CertificationGenerateDate__c))}">
+                	    Certificates created on: <b><lightning:formattedDateTime value="{!v.trainFields.CertificationGenerateDate__c}" year="numeric" month="numeric" day="numeric" hour="2-digit" minute="2-digit"/></b> by <b>{!v.trainFields.CertificationGenerateUser__c}</b><br/>
+                    </aura:if>
+                    <aura:if isTrue="{!not(empty(v.trainFields.CertificateSendDate__c))}">
+                        Certificates send on: <b><lightning:formattedDateTime value="{!v.trainFields.CertificateSendDate__c}" year="numeric" month="numeric" day="numeric" hour="2-digit" minute="2-digit"/></b> by <b>{!v.trainFields.CertificateSendUser__c}</b>
+                    </aura:if>
+                </aura:if>
+                <aura:if isTrue="{!v.trainFields.Status__c == 'Cancelled'}">
+                	Training cancelled on: <b><lightning:formattedDateTime value="{!v.trainFields.CompletedDate__c}" year="numeric" month="numeric" day="numeric" hour="2-digit" minute="2-digit"/></b> by <b>{!v.trainFields.CompletedUser__c}</b>
+            	</aura:if>
+            </p>
+            <div class="slds-m-top_xx-small"></div>
+            <lightning:buttonGroup >
+                <lightning:button label="Attendance List" onclick="{!c.attList}"/>
+                <lightning:button disabled="{!or(v.trainFields.Status__c == 'Training Completed', v.trainFields.Status__c == 'Cancelled')}" label="Training completed" onclick="{!c.training}"/>
+                <aura:if isTrue="{!and(v.trainFields.Status__c == 'Training Completed', v.trainFields.CertificationGenerateDate__c == NULL)}">
+                	<lightning:button label="Generate Certificates" onclick="{!c.generate}"/>
+            	</aura:if>
+                <aura:if isTrue="{!and(v.trainFields.Status__c == 'Training Completed', v.trainFields.CertificationGenerateDate__c != NULL)}">
+                    <lightning:button label="Send Certifcate Emails" onclick="{!c.sendMail}"/>
+                </aura:if>
+                <aura:if isTrue="{!v.trainFields.Status__c != 'Training Completed'}">
+                	<lightning:button disabled="{!v.trainFields.Status__c == 'Training Completed'}" label="Cancel Training" onclick="{!c.cancelModal}"/>
+                </aura:if>
+            </lightning:buttonGroup>
+        </p>
+    </lightning:card>
+    <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="Modalbox" class="slds-modal">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                	Cancel Training
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <lightning:icon size="medium" iconName="action:close" alternativeText="Cancel" />    
+   			 		Are you sure you want wo cancel the training?<br/>
+                </div>
+                <div class="slds-modal__footer slds-modal__footer_directional">
+                    <lightning:button name="cancel" label="Close" onclick="{!c.close}"/>
+                    <lightning:button name="ok" label="Cancel Training" variant="destructive" onclick="{!c.cancel}"/>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop " aura:id="Modalbackdrop"></div>
+</aura:component>

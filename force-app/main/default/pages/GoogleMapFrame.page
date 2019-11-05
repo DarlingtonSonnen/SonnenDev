@@ -1,0 +1,164 @@
+<apex:page showHeader="false" 
+sidebar="false" 
+apiVersion="40.0" 
+applyHtmlTag="false" 
+contentType="text/html" 
+docType="HTML-5.0"
+>
+	
+	<html>
+		<head>
+			<title>GoogleMaps</title>
+
+			<style>
+				body, html, #map {
+					width: 100%;
+					height: 100%;
+				}
+			</style>
+
+			<apex:remoteObjects >
+				<apex:remoteObjectModel name="Opportunity" fields="Id, AccountId"/>
+				<apex:remoteObjectModel name="Account" fields="Id, BillingStreet, BillingPostalCode, BillingCity"/>
+			</apex:remoteObjects>
+		</head>
+
+		<body>
+
+			<div id="map"></div>
+
+			
+
+			<script async="true" defer="true" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADtcqFXCcqyFsN9FpEiVNRQVBkBzoysDM&callback=App.init"></script>
+
+			<script type="text/javascript">
+
+				var App = (function(){
+
+					var service = {},
+						pageParams = {},
+						map,
+						geocoder
+					;
+
+					var Opportunities = new SObjectModel.Opportunity(),
+						Accounts = new SObjectModel.Account()
+					;
+
+					service.init = function() {
+						// map url params
+						location.search.substr(1).split("&").forEach(function(item) {pageParams[item.split("=")[0]] = item.split("=")[1]});
+
+						pageParams.height && (document.getElementById('map').style.height = pageParams.height);
+
+						initGoogleMap();
+						fetchData();
+					}
+
+					/**
+					 * Tries to load a given address from the page param.
+					 * 
+					 * Throws exception if address is malformed or param not available.
+					 */
+					function fetchData() {
+
+						// check availability
+						if(!pageParams.id || pageParams.id.length === 0) {
+							throw new Error('Invalid param!');
+						}
+
+						var opportunity;
+
+						// fetch opportunity
+						Opportunities.retrieve({
+							where: {Id: {eq: pageParams.id}}
+						}, function(err, result) {
+
+							if(err || !result){
+								throw new Error('Invalid Object or Error!', err.message);
+							}
+
+							Accounts.retrieve({
+								where: {Id: {eq: result[0].get('AccountId')}}
+							}, function(err2, accountResult) {
+								
+								if(err2 || !accountResult) {
+									throw new Error('Invalid Object or Error!', err.message);
+								}
+
+								var account = accountResult[0];
+
+								setLocation(
+									account.get('BillingStreet') + ', '
+									+ account.get('BillingPostalCode') + ' '
+									+ account.get('BillingCity')
+								);
+							});
+						});
+					}
+
+					function setLocation(address) {
+
+						// var mapIcon = {
+						// 	url: 'http://www.g-s.co.uk/site/modules/page/view/common/images/logos-icons/icon_marker-mini.png',
+						// 	size: new google.maps.Size(32, 32),
+						// 	origin: new google.maps.Point(0, 0),
+						// 	anchor: new google.maps.Point(16, 32)
+						// }
+						// 
+						var mapIcon = null;
+
+						if(pageParams.marker && pageParams.marker.length > 10) {
+
+							// try to decode param
+							try {
+								var mapParam = JSON.parse(window.atob(pageParams.marker));
+
+								mapIcon = {
+									url: mapParam.url,
+									size: new google.maps.Size(mapParam.size[0], mapParam.size[1]),
+									origin: new google.maps.Point(0,0),
+									anchor: new google.maps.Point(mapParam.anchor[0], mapParam.anchor[1])
+								};
+								
+							} catch(e) {
+								console.error('Invalid marker params received!', e);
+							}
+						}
+
+						geocoder.geocode({'address': address}, function(results, status) {
+							if (status === 'OK') {
+								map.setCenter(results[0].geometry.location);
+
+								var marker = new google.maps.Marker({
+									map: map,
+									icon: mapIcon,
+									position: results[0].geometry.location
+								});
+
+							} else {
+								alert('Geocode was not successful for the following reason: ' + status);
+							}
+						});
+					}
+
+					function initGoogleMap() {
+						map = new google.maps.Map(document.getElementById('map'), {
+							zoom: 20,
+							center: {lat: -34.397, lng: 150.644},
+							mapTypeId: 'satellite'
+						});
+
+						geocoder = new google.maps.Geocoder();
+					}
+
+					return service;
+				})();
+
+			</script>
+
+		</body>
+	</html>
+
+
+</apex:page>

@@ -1,0 +1,451 @@
+<apex:page docType="html-5.0" language="{!language}" controller="CustomLoginController" showHeader="false" sidebar="false" standardStylesheets="false" applyHtmlTag="false">
+<html lang="{!language}">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#181a27" />
+    <title>{!$Label.Customer_Login_Page_Title}</title>
+    <style>
+        @font-face {
+            font-family: 'Brandon Text';
+            src: url("{!URLFOR($Resource.loginPage, 'fonts/brandontext/BrandonText-Medium.ttf')}");
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Brandon Text';
+            src: url("{!URLFOR($Resource.loginPage, 'fonts/brandontext/BrandonText-Regular.ttf')}");
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Brandon Text';
+            src: url("{!URLFOR($Resource.loginPage, 'fonts/brandontext/BrandonText-RegularItalic.ttf')}");
+            font-weight: 400;
+            font-style: italic;
+        }
+        @font-face {
+            font-family: 'Brandon Text';
+            src: url("{!URLFOR($Resource.loginPage, 'fonts/brandontext/BrandonText-Light.ttf')}");
+            font-weight: 300;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'fontello';
+            src: url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.eot')}");
+            src: url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.eot')}") format('embedded-opentype'),
+                 url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.woff')}") format('woff'),
+                 url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.ttf')}") format('truetype'),
+                 url("{!URLFOR($Resource.loginPage, 'fonts/fontello/fontello.svg#fontello')}") format('svg');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            background-image: url("{!URLFOR($Resource.loginPage, 'images/background.jpg')}");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .form__alert span {
+            color: inherit!important;
+        }
+        .c-form__input[value]:not([value=""]) ~ .c-form__label {
+          font-size: 14px;
+          color: #181a27;
+          font-weight: 500;
+          line-height: 20px;
+          -webkit-transform: translate(0, 0);
+          -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
+        }
+    </style>
+    <apex:stylesheet value="{!URLFOR($Resource.loginPage, 'css/master.css')}" />
+</head>
+<body>
+    <div class="o-onboard-container">
+        <div class="o-onboard-container__content">
+            <div class="c-onboard-box o-grid o-grid--wide">
+                <div class="c-onboard-box__header js-header">
+                    <div class="c-onboard-box__logo">
+                        <apex:image url="{!URLFOR($Resource.loginPage, 'images/logo.svg')}" />
+                    </div>
+                </div>
+                <div class="o-grid__content js-screen-wrapper">
+                  <div class="o-grid__column o-grid__column--sm-60 js-registration-section">
+                      <div class="c-onboard-box__content c-onboard-box__content--white">
+                          <div class="c-onboard-box__top-content">
+                              <div class="c-onboard-box__title-wrapper">
+                                  <p class="c-onboard-box__title"><apex:outputText value="{!$Label.Customer_Login_Register_Title}" escape="false" /></p>
+                                  <div class="c-onboard-box__subtitle">
+                                      <apex:outputText value="{!$Label.Customer_Login_Register_Subtitle}" escape="false" /> 
+                                      <div class="c-tooltip">
+                                          <button class="c-tooltip__trigger" type="button">sonnenID</button>
+                                          <div class="c-tooltip__content">
+                                              <div class="c-tooltip__content-inner"><apex:outputText value="{!$Label.Customer_Login_Popup_Description}" escape="false" /></div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <span class="c-onboard-box__icon icon-create-account"></span>
+                                  <p class="c-onboard-box__icon-description">
+                                    <apex:outputText value="{!$Label.Customer_Login_Register_Description}" escape="false" />
+                                  </p>
+                              </div>
+                              <div class="c-onboard-box__center">
+                                  <div class="c-onboard-box__button-wrapper">
+                                      <a class="c-button c-button--call-to-action" href="http://my.sonnen.de/onboarding" data-item="link">{!$Label.Customer_Login_Register_Button}</a>
+                                      <div class="c-onboard-box__side-label">
+                                          <!--
+                                          <button class="c-link-button">{!$Label.Customer_Login_Why_SonnenID_Button}</button>
+                                          -->
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="c-onboard-box__bottom-text visible-xs">
+                              <p class="c-onboard-box__paragraph">
+                                  {!$Label.Customer_Login_Login} <button class="c-onboard-box__link js-login-screen-link" type="button">{!$Label.Customer_Login_Button}</button>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="o-grid__column o-grid__column--sm-40">
+                      <div class="c-onboard-box__content c-onboard-box__content--gray">
+                          <div class="c-onboard-box__top-content">
+                              <div class="c-onboard-box__title-wrapper">
+                                  <p class="c-onboard-box__title"><apex:outputText value="{!$Label.Customer_Login_Title}" escape="false" /></p>
+                                  <div class="c-onboard-box__subtitle">
+                                      <apex:outputText value="{!$Label.Customer_Login_Subtitle}" escape="false" />
+                                      <div class="c-tooltip">
+                                          <button class="c-tooltip__trigger" type="button">sonnenID</button>
+                                          <div class="c-tooltip__content">
+                                              <div class="c-tooltip__content-inner"><apex:outputText value="{!$Label.Customer_Login_Popup_Description}" escape="false" /></div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <apex:form styleClass="c-form js-form">
+                                  <div id="hidden-inputs">
+                                      <apex:inputHidden value="{!username}" id="username" />
+                                      <apex:inputHidden value="{!password}" id="password" />
+                                  </div>
+                                  <div class="c-form__item">
+                                      <input type="email" name="loginUsername" id="loginUsername" class="c-form__input js-field-username" required="true" onkeyup="this.setAttribute('value', this.value);" value="" />
+                                      <label for="loginUsername" class="c-form__label">{!$Label.Customer_Login_Email}</label>
+                                  </div>
+                                  <div class="c-form__item">
+                                      <input type="password" name="loginPassword" id="loginPassword" class="c-form__input js-field-password" required="true" onkeyup="this.setAttribute('value', this.value);" value="" />
+                                      <label for="loginPassword" class="c-form__label">{!$Label.Customer_Login_Password}</label>
+                                      <span id="showPasswordIcon" class="c-form__show-password-icon icon-eye"></span>
+                                  </div>
+                                  <div id="legend" class="c-form__alert c-form__alert--danger js-login-alert">
+                                      <apex:pageMessages ></apex:pageMessages>
+                                  </div>
+                                  <div class="c-form__submit-wrapper">
+                                      <div class="c-form__submit">
+                                          <apex:commandButton action="{!login}" styleClass="c-button c-button--secondary js-button-login" value="{!$Label.Customer_Login_Button}" />
+                                          <div class="c-form__side">
+                                              <a class="c-form__link" href="https://my.sonnen.de/forgot-password" data-item="link">{!$Label.Customer_Login_Forgot_PW}</a>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </apex:form>
+                          </div>
+                          <div class="c-onboard-box__bottom-text visible-xs">
+                              <p class="c-onboard-box__paragraph js-registration-link">
+                                  {!$Label.Customer_Login_Create_Account} <button class="c-onboard-box__link js-register-screen-link" type="button">{!$Label.Customer_Login_Create_Account_Link}</button>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="c-footer c-footer--onboard-page js-footer">
+            <div class="c-footer__content">
+                <div class="c-footer__cpr c-footer__cpr--onboard-page">
+                    &copy; {!$Label.Customer_Login_Copyrights}
+                </div>
+                <div class="c-footer__links-wrapper">
+                    <div class="c-footer__social">
+                        <a class="c-footer__social-item c-footer__social-item--onboard-page c-footer__social-item--tw" href="https://twitter.com/sonnenCommunity" target="_blank" rel="noopener noreferrer"><span class="icon-twitter" /></a>
+                        <a class="c-footer__social-item c-footer__social-item--onboard-page c-footer__social-item--fb" href="https://www.facebook.com/sonnende/" target="_blank" rel="noopener noreferrer"><span class="icon-facebook" /></a>
+                        <a class="c-footer__social-item c-footer__social-item--onboard-page c-footer__social-item--yt" href="https://www.youtube.com/user/Sonnenbatterie" target="_blank" rel="noopener noreferrer"><span class="icon-youtube" /></a>
+                    </div>
+                    <ul class="c-footer__nav">
+                        <li class="c-footer__nav-item">
+                            <div class="c-footer__langs dropdown js-footer-dropdown">
+                                <button class="c-footer__langs-btn c-footer__nav-link dropdown__arrow-container dropdown__active-link js-footer-dropdown-trigger">
+                                    <img class="c-footer__langs-flag-icon" src="{!URLFOR($Resource.loginPage, 'images/flags/usa.svg')}" alt="flag icon" />English (US)
+                                </button>
+                                <div class="c-footer__langs-dropdown-content dropdown__content">
+                                    <ul class="c-footer__langs-nav">
+                                        <li class="c-footer__langs-nav-item">
+                                            <a class="c-footer__langs-nav-link js-link-english" data-lang="en" href=""><img class="c-footer__langs-flag-icon" src="{!URLFOR($Resource.loginPage, 'images/flags/usa.svg')}" alt="flag icon" />English (US)</a>
+                                        </li>
+                                        <li class="c-footer__langs-nav-item">
+                                            <a class="c-footer__langs-nav-link js-link-german" data-lang="de" href=""><img class="c-footer__langs-flag-icon" src="{!URLFOR($Resource.loginPage, 'images/flags/germany.svg')}" alt="flag icon" />Deutsch</a>
+                                        </li>
+                                        <li class="c-footer__langs-nav-item">
+                                            <a class="c-footer__langs-nav-link js-link-italian" data-lang="it" href=""><img class="c-footer__langs-flag-icon" src="{!URLFOR($Resource.loginPage, 'images/flags/italy.svg')}" alt="flag icon" />Italiano</a>
+                                        </li>
+                                        <!--
+                                        <li class="c-footer__langs-nav-item">
+                                            <a class="c-footer__langs-nav-link js-link-french" data-lang="fr" href=""><img class="c-footer__langs-flag-icon" src="{!URLFOR($Resource.loginPage, 'images/flags/france.svg')}" alt="flag icon" />Français</a>
+                                        </li>
+                                        -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="c-footer__nav-item">
+                            <a class="c-footer__nav-link" href="http://my.sonnen.de/info/imprint" target="_blank" rel="noopener noreferrer" data-item="link">{!$Label.Customer_Login_Imprint_Label}</a>
+                        </li>
+                        <li class="c-footer__nav-item">
+                            <a class="c-footer__nav-link" href="http://my.sonnen.de/info/privacy" target="_blank" rel="noopener noreferrer" data-item="link">{!$Label.Customer_Login_Privacy_Policy_Label}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{!URLFOR($Resource.loginPage, 'scripts/jQuery/jquery-3.2.1.min.js')}"></script>
+    <script>
+// Boilerplate for communication and action handling
+var MobileApp = (function () {
+  var isMobileApp = navigator.userAgent.toLowerCase().indexOf('sonnencharger') >= 0;
+  if (!isMobileApp) {
+    return null;
+  }
+  var ACTION_ERROR = 'error';
+  
+  var handlers = {};
+  var $ = jQuery.noConflict();
+  $('body').append('<div class="mobile-app-debug" style="background: white; position: absolute; left: 0; right:0; top:0; z-index: 9999"></div>');
+  var mobileAppLog = $('.mobile-app-debug');
+  
+  function log(text, color){
+      mobileAppLog.append('<p'+(color?' style="background:'+color+'"':'')+'>'+text+'</p>');
+  }
+  
+  function getPostMessageFunction(){
+      var Bridge = window.ReactNativeWebView;
+      return Bridge && Bridge.postMessage && Bridge.postMessage.bind(Bridge) ||
+        (!window.originalPostMessage ? undefined : window.postMessage);
+  }
+    
+  function sendAction(action, retry) {
+    if(retry && retry>=40){
+      return log('Failed to send an action.');
+    }
+    var post = getPostMessageFunction();
+    if (!post) {
+      log('Waiting for react to bind.');
+      return setTimeout(function () {
+        sendAction(action, retry !== undefined? retry + 1 : 1);
+      }, 250);
+    }
+    var message = JSON.stringify(action);
+    log('Sending: '+message);
+    post(message);
+  }
+
+  function handleMessageEvents(event) {
+    if (!event || !event.data) return;
+    var data = event.data;
+    var action;
+    log('Received: ' + data);
+    try {
+      action = JSON.parse(data);
+    } catch (error) {
+      log('Error: '+error.message);
+    }
+    if (!action.type) {
+      return;
+    }
+    var handler = handlers[action.type];
+    if (!handler) {
+      throw new Error('Handler is missing for action, data: ' + data);
+    }
+    log('Handling action: ' + data);
+    handler(action);
+  }
+
+  window.addEventListener('message', handleMessageEvents);
+  document.addEventListener('message', handleMessageEvents);
+
+  function handleError(error, message) {
+    sendAction({
+      type: ACTION_ERROR,
+      error: (message ? message : '') + '\n' + error.message + '\n' + error.stack,
+    });
+  }
+
+  window.addEventListener('error', function (event) {
+    handleError(event.error);
+  });
+    
+  log('Supported '+navigator.userAgent+' found.', 'red');
+    
+  return {
+    originalPostMessage: window.postMessage,
+    send: sendAction,
+    on: function (actionType, handlerFunction) {
+      handlers[actionType] = handlerFunction;
+    },
+    log: log,
+  };
+})();
+    </script>
+    <script>
+        var j$ = jQuery.noConflict();
+        var form = j$(".js-form"),
+            hiddenUsername = j$("#hidden-inputs input[id*='username']"),
+            hiddenPassword = j$("#hidden-inputs input[id*='password']"),
+            inputUsername = j$("input[id='loginUsername']"),
+            inputPassword = j$("input[id='loginPassword']"),
+            passwordIcon = j$("#showPasswordIcon"),
+            
+            screenWrapper = j$(".js-screen-wrapper"),
+            screenLinkLogin = j$(".js-login-screen-link"),
+            screenLinkRegister = j$(".js-register-screen-link"),
+            
+            footerDropdown = j$(".js-footer-dropdown"),
+            footerDropdownTrigger = j$(".js-footer-dropdown-trigger"),
+            
+            linkEnglish = j$(".js-link-english"),
+            linkGerman = j$(".js-link-german"),
+            linkItalian = j$(".js-link-italian"),
+            linkFrench = j$(".js-link-french"),
+            
+            currentLanguageCode = j$("html").attr("lang"),
+            defaultLanguageCode = "de",
+            
+            header = j$('.js-header'),
+            registration = j$('.js-registration-section'),
+            registrationLink = j$('.js-registration-link'),
+            footer = j$('.js-footer');
+        
+        // reload with language parameter when there is none
+        if(MobileApp){
+            currentLanguageCode = defaultLanguageCode;
+        }
+        if(!currentLanguageCode) {
+            var _lang = localStorage.getItem("lang") ? localStorage.getItem("lang") : defaultLanguageCode;
+            j$(location).attr("href").replace(/[?&]language=[^&;]*/, "");
+            j$(location).attr("href", j$(location).attr("href") + "&language=" + _lang);
+            j$(location).reload();
+        } else {
+            localStorage.setItem("lang", currentLanguageCode );
+        }
+    
+        j$.setActiveScreen = function() {
+            if (localStorage.getItem("activeScreen") && localStorage.getItem("activeScreen") == "login") {
+                screenWrapper.addClass("is-translated");
+            }
+        }
+        
+        j$.hotjar = function() {
+            (function(h,o,t,j,a,r){
+                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                h._hjSettings={hjid:765991,hjsv:6};
+                a=o.getElementsByTagName('head')[0];
+                r=o.createElement('script');r.async=1;
+                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+        }
+        
+        j$(document).ready(function() {
+            j$.setActiveScreen();
+            j$.hotjar();
+            
+            // display email after verification error
+            if (hiddenUsername.val()) {
+                inputUsername.val(hiddenUsername.val());
+            };
+            
+            // on submit paste content from hidden inputs to visible ones
+            form.on("submit", function(e) {
+                hiddenUsername.val(inputUsername.val());
+                hiddenPassword.val(inputPassword.val());
+            });
+            
+            // toggle screens
+            screenLinkLogin.on("click", function() {
+                screenWrapper.addClass("is-translated");
+                localStorage.setItem("activeScreen", "login");
+            });
+            
+            screenLinkRegister.on("click", function() {
+                screenWrapper.removeClass("is-translated");
+                localStorage.setItem("activeScreen", "register");
+            });            
+            
+            // show passwordIcon when password input is not empty
+            inputPassword.on("change paste keyup", function() {
+                if (j$(this).val()) passwordIcon.addClass("is-visible");
+                else passwordIcon.removeClass("is-visible");
+            });
+        
+            // change password input type
+            passwordIcon.on("click", function() {
+                if (j$(this).hasClass("is-active")) {
+                    inputPassword.attr("type", "password");
+                    j$(this).removeClass("is-active");
+                } else {
+                    inputPassword.attr("type", "text");
+                    j$(this).addClass("is-active");
+                }
+            });
+    
+            // toggle footer dropdown
+            footerDropdownTrigger.on("click", function() {
+                footerDropdown.addClass("dropdown--active");
+            });
+    
+            // close footer dropdown when clicked outside of it
+            j$(document).on("click", function (e) {
+                if (j$(e.target).closest(".js-footer-dropdown").length === 0) {
+                    footerDropdown.removeClass("dropdown--active");
+                }
+            });
+            
+            // set language URLs
+            var thisURL = j$(location).attr("href").replace(/&language=[^&;]*/, "");
+            linkGerman.attr("href", thisURL + "&language=de");
+            linkEnglish.attr("href", thisURL + "&language=en");
+            linkItalian.attr("href", thisURL + "&language=it");
+            linkFrench.attr("href", thisURL + "&language=fr");
+            
+            // add parameter to links
+            j$("[data-item='link']").each(function() {
+                var link = j$(this).attr("href").replace(/&lang=[^&;]*/, "");
+                j$(this).attr("href", link + "?lang=" + currentLanguageCode);
+            });
+            
+            // paste current language in footerDropdownTrigger
+            footerDropdownTrigger.html(j$("[data-lang=" + currentLanguageCode + "]").html());
+            
+            if(MobileApp){
+                j$('.js-login-alert .messageText span').remove();
+                var errorText = jQuery('.js-login-alert .messageText').text();
+                if (errorText) {
+                    MobileApp.send({type: 'error', error: errorText});
+                } else {
+                    MobileApp.on('login', function (action) {
+                      j$('.js-login-screen-link').click();
+                      j$('.js-field-username').val(action.username);
+                      j$('.js-field-password').val(action.password);
+                      j$('.js-button-login').click();
+                    });
+                    MobileApp.send({type: 'ready'});
+                }
+            }
+            
+            // Reload page every 5 min to get rid of SF 'approval process' error.
+            setInterval(function() {
+                window.location.replace('http://my.sonnen.de');
+            }, 1000 * 60 * 5);
+        });
+    </script>
+</body>
+</html>
+</apex:page>

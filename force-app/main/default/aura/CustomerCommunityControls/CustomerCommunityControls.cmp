@@ -1,0 +1,88 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" controller="CustomerCommunityControlsCtr" description="Service controls for the customer community user">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="user" type="User" />
+    <aura:attribute name="password" type="String"/>
+    <aura:attribute name="currentUser" type="User" />
+    <aura:attribute name="account" type="Account" />
+    <aura:attribute name="contact" type="Contact" />
+    <aura:attribute name="accountFields" type="Object" />
+    <aura:attribute name="contactFields" type="Object" />
+    <aura:attribute name="isPasswordMode" type="Boolean"/>
+
+    <force:recordData recordId="{!v.recordId}"
+                      fields="Email"
+                      targetRecord="{!v.contact}"
+                      targetFields="{!v.contactFields}"
+                      recordUpdated="{!c.doInit}"/>
+
+    <force:recordData recordId="{!v.recordId}"
+                      fields="PersonEmail"
+                      targetRecord="{!v.account}"
+                      targetFields="{!v.accountFields}"
+                      recordUpdated="{!c.doInit}"/>
+
+    <lightning:card >
+
+        <aura:set attribute="title">
+            Manage Portal Customer
+        </aura:set>
+
+        <p class="slds-p-horizontal--small">
+            <div class="slds-form-element slds-hide slds-m-top_large" aura:id="busySpinner">
+                <lightning:spinner variant="brand" size="large"/>
+            </div> 
+            <aura:if isTrue="{!v.isPasswordMode}">
+                <lightning:input class="slds-m-bottom--x-small" value="{!v.password}" name="password" label="Password" minlength="5" messageWhenBadInput="Your entry must be at least 5 characters." />
+                <lightning:button class="slds-m-right--x-small" label="Cancel" onclick="{!c.togglePasswordInput}"/>
+                <lightning:button label="Save Password" onclick="{!c.setNewUserPassword}"/>
+            </aura:if>
+
+            <aura:if isTrue="{!and(v.user != null, !v.isPasswordMode)}">
+                <a class="slds-text-link" href="javascript:void(0);" onclick="{!c.navigateToUser}">
+                    <p class="slds-p-bottom--small" >
+                        <lightning:avatar class="slds-m-right--small" fallbackIconName="standard:user" alternativeText="User"/>
+                        {!v.user.Email}
+                    </p>
+                </a>
+               
+                <p> 
+                    <aura:if isTrue="{!v.user.LastLoginDate != null}">
+                        Last login date: 
+                        <b><ui:outputDate value="{!v.user.LastLoginDate}"/></b>
+                    </aura:if>
+                    <aura:if isTrue="{!v.currentUser.Customer_Portal_Admin__c}">
+                        <p class="slds-m-bottom--small">
+                            <lightning:button label="Admin Login" onclick="{!c.openPortalAdminPage}"/>
+                            <lightning:button label="Set New Password" onclick="{!c.togglePasswordInput}"/>
+                        </p>
+                    </aura:if>
+                </p>
+
+                <p class="slds-text-body_regular slds-m-bottom--x-small">
+                    Trigger portal related emails manually with the buttons below.
+                </p>
+
+                <lightning:buttonGroup >
+                    <lightning:button disabled="{!v.user.LastLoginDate != null}" label="Welcome" onclick="{!c.sendPortalWelcome}"/>
+                    <lightning:button disabled="{!v.user.LastLoginDate != null}" label="Invite" onclick="{!c.sendPortalInvitation}"/>
+                    <lightning:button label="PW Reset" onclick="{!c.sendPasswordReset}"/>
+                    <lightning:button label="Email Change" onclick="{!c.sendEmailChangeConfirmation}"/>
+                </lightning:buttonGroup>
+
+                <aura:set attribute="else">
+                    <aura:if isTrue="{!v.contactFields.Email != null || v.accountFields.PersonEmail != null}">
+                        <lightning:button label="Create User" onclick="{!c.createUser}"/>
+                        <aura:set attribute="else">
+                            <aura:if isTrue="{! !v.isPasswordMode}">
+                                <p class="slds-text-body_regular slds-m-bottom--x-small">
+                                    Portal user requires person account with email.
+                                </p>
+                            </aura:if>                                                        
+                        </aura:set>
+                    </aura:if>
+                </aura:set>
+            </aura:if>
+        </p>
+    </lightning:card>
+
+</aura:component>

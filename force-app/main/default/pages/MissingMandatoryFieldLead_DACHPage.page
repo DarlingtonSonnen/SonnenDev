@@ -1,0 +1,107 @@
+<apex:page showHeader="false" sidebar="false" standardController="Lead" standardStylesheets="false" lightningStylesheets="true" docType="html-5.0">
+    <html>
+        <head>
+            <style>
+                .table {
+                    display: table;
+                    margin: auto;
+                    border-collapse: separate;
+                    table-layout:fixed;
+                    border-spacing: 1em;
+                }
+                .row {
+                    display: table-row;
+                }
+                .cell {
+                    display: table-cell;
+                }
+            </style>
+        </head>
+        <div class="table">
+            <div class="row">
+                <div class="cell">
+                    <apex:image value="{!If(lead.AwarenessSource__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" title="Awareness source" />
+                    <apex:outputText value=" Awareness source" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.NumberOfResidents__c == null && (lead.EnergyConsumption__c == null || lead.EnergyConsumption__c == 0), "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Number of residents" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.Phone == null && lead.MobilePhone == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Phone / Mobile Phone" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.Salutation == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Salutation" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.LastName == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Last name" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell">
+                    <apex:image value="{!If(lead.Street == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Street" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.Postalcode == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Postal code" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.City == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" City" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.Country == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Country" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.Email == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Email" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell">
+                    <apex:image value="{!If(lead.ProductInterest__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Product interest" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.PurchasingTimeframe__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Purchasing time frame" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.IsHomeOwner__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Is home owner?" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.HasPvPlant__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Has PV plant?" />
+                </div>
+                <div class="cell" style="{!IF(lead.HasPvPlant__c == 'Yes', 'display:block', 'display:none')}">
+                    <apex:image value="{!If(lead.PvPlantInstallationDate__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" rendered="{! If(lead.HasPvPlant__c == 'Yes', true, false)}" />
+                    <apex:outputText value=" PV plant installation date" rendered="{! If(lead.HasPvPlant__c == 'Yes', true, false)}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell">
+                    <apex:image value="{!If(lead.PowerPvPlant__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Power PV plant" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.Motivation__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Motivation" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.OtherOffersAvailable__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" />
+                    <apex:outputText value=" Other offers available?" />
+                </div>
+                <div class="cell">
+                    <apex:image value="{!If(lead.OtherOffersDetails__c == null, "/img/msg_icons/warning16.png", "/img/msg_icons/confirm16.png")}" rendered="{! If(lead.OtherOffersAvailable__c == 'Yes', true, false)}" />
+                    <apex:outputText value=" Other offers details" rendered="{! If(lead.OtherOffersAvailable__c == 'Yes', true, false)}" />
+                </div>
+            </div>
+        </div>
+    </html>
+</apex:page>

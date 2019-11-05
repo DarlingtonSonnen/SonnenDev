@@ -1,0 +1,40 @@
+/* LPOAUD */
+a {
+    color: #4ccfef !important;
+}
+.table {
+    display: table;
+    margin: 0 2em;
+    border-collapse: collapse;
+    table-layout:fixed;
+}
+.table_line {
+    display: flex;
+    margin: 0 -10px;
+    border-collapse: separate;
+    table-layout:fixed;
+}
+.table_checkbox {
+    display: table;
+    border-collapse: separate;
+    table-layout:fixed;
+}
+.row {
+    display: table-row;
+}
+.cell {
+    display: table-cell;
+}
+.cell_spacing {
+    width: 5em;
+}
+.row_line {
+    border-bottom: 1px solid lightgray;
+}
+.row_spacing {
+    height: 1em;
+}
+.caption {
+    display: table-caption;
+    caption-side: bottom;
+}
